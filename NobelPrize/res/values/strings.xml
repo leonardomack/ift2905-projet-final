@@ -4,5 +4,28 @@
     <string name="app_name">NobelPrize</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    
+    	<string name="searchNameHint">Enter a name or surname</string>
+	<string name="searchDateHint">Enter a year</string>
+	<string name="searchButton">Search</string>
+	<string name="searchViewNameString">Test</string>
+	
+	
+	<string name="fieldPrompt">Please choose a field</string>
+	<string-array name="fieldArray">
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Medicine</item>
+        <item>Literature</item>
+        <item>Peace</item>
+        <item>Economic Sciences</item>
+    </string-array>
+    
+	<string name="genderPrompt">Please choose a gender</string>
+	<string-array name="genderArray">
+        <item>Femme</item>
+        <item>Homme</item>
+        <item>Organisme</item>
+    </string-array>
 
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:id="@+id/searchListView" >
+    
+    	    <ImageView
+	        android:id="@+id/picture"
+	        android:layout_width="72dp"
+	        android:layout_height="72dp"
+	        android:layout_marginRight="5dp"
+	        android:contentDescription="@drawable/einstein" />
+    	    
+    	   <TextView
+	        android:id="@+id/searchViewName"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/picture"
+	        android:layout_marginBottom="2dp"
+	        android:text="@string/searchViewNameString"
+	        android:textSize="30sp"
+	        android:textColor="#000" />
+    
+
+</RelativeLayout>
