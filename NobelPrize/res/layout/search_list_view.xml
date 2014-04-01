@@ -12,14 +12,23 @@
 	        android:contentDescription="@drawable/einstein" />
     	    
     	   <TextView
-	        android:id="@+id/searchViewName"
+	        android:id="@+id/searchViewFirstname"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@+id/picture"
 	        android:layout_marginBottom="2dp"
 	        android:text="@string/searchViewNameString"
-	        android:textSize="30sp"
+	        android:textSize="20sp"
 	        android:textColor="#000" />
     
+    	    <TextView
+	        android:id="@+id/searchViewSurname"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/searchViewFirstname"
+	        android:layout_marginBottom="2dp"
+	        android:text="@string/searchViewNameString"
+	        android:textSize="20sp"
+	        android:textColor="#000" />
 
 </RelativeLayout>

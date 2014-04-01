@@ -54,6 +54,11 @@ public class SearchLaureateAPI {
 		
 		Log.d(TAG, "Starting request with param" + nameSearched + " "+year+" "+ category+" "+gender);
 		
+		if(!hasYear && !hasName && !hasGender && !hasCategory){
+			searchURL = laureateURL;
+			getLaureatesFromLaureatesList(searchURL);
+		}
+		
 		if(needToMakePrizeRequest){
 			numberOfRequestSent++;
 			searchURL = prizeURL+"?";
@@ -85,7 +90,6 @@ public class SearchLaureateAPI {
 		if(numberOfRequestSent>1){
 			Log.w(TAG, "Had 2 request to web page ");
 			int key1 = 0;
-			int key2 = 0;
 			SparseArray<Laureate> bigArray = new SparseArray<Laureate>();
 			SparseArray<Laureate> smallArray = new SparseArray<Laureate>();
 			if(laureatesL.size() >= laureatesP.size()){
@@ -197,6 +201,10 @@ public class SearchLaureateAPI {
 		} catch (JSONException e) {
 			erreur = "Erreur JSON :"+e.getMessage();
 		}
+	}
+	
+	public SparseArray<Laureate> getFinalArray(){
+		return finalArray;
 	}
 		
 		/*

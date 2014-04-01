@@ -3,9 +3,14 @@ package com.example.nobelprize;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.nobelobjects.Laureate;
+
 import android.app.Activity;
+import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +33,8 @@ public class SearchActivity extends Activity {
 	private String gender;
 	private ListView mainList;
 	private SimpleAdapter mainAdapter;
+	private String TAG;
+	ArrayList<HashMap<String,Object>> items;
 	
 	private class SearchListOnItemClick implements OnItemClickListener
 	{
@@ -46,28 +53,31 @@ public class SearchActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_activity);
 		
-		ArrayList<HashMap<String,Object>> items = new ArrayList<HashMap<String,Object>>();
+		TAG = "SearchActivity";
+		items = new ArrayList<HashMap<String,Object>>();
 		
 		HashMap<String, Object> element = new HashMap<String, Object>();
-		element.put("name", "Albert Einstein");
+		element.put("firstname", "Albert");
+		element.put("surname", "Einstein");
 		element.put("picture", R.drawable.einstein);
 		items.add(element);
 		HashMap<String, Object> element2 = new HashMap<String, Object>();
-		element2.put("name", "Test McTest");
+		element2.put("firstname", "Test");
+		element2.put("surname", "McTest");
 		element2.put("picture", R.drawable.ic_launcher);
 		items.add(element2);
 		HashMap<String, Object> element3 = new HashMap<String, Object>();
-		element3.put("name", "Test McTest");
+		element3.put("firstname", "Test");
+		element3.put("surname", "McTest");
 		element3.put("picture", R.drawable.einstein);
 		items.add(element3);
-
+		
 		
 		mainAdapter = new SimpleAdapter(getApplicationContext(), items, R.layout.search_list_view,
-				new String[] { "picture", "name"},
-				new int[]  { R.id.picture, R.id.searchViewName });
+				new String[] { "picture", "firstname", "surname"},
+				new int[]  { R.id.picture, R.id.searchViewFirstname, R.id.searchViewSurname });
 		
 		mainAdapter.setViewBinder(VIEW_BINDER);
-		
 		mainList = (ListView)findViewById(R.id.mainList);
 		mainList.setAdapter(mainAdapter);
 		mainList.setOnItemClickListener(new SearchListOnItemClick());
@@ -108,6 +118,8 @@ public class SearchActivity extends Activity {
 		gender = genderSpinner.getSelectedItem().toString();
 		Toast.makeText(this.getApplicationContext(), name + "|"+year+"|"+category+"|"+gender, Toast.LENGTH_SHORT).show();
 		new SendRequestForNobelPrize().execute();
+		//mainList.invalidateViews();
+		//mainAdapter.notifyDataSetChanged();
 	}
 	
 	private static final ViewBinder VIEW_BINDER = new ViewBinder() {
@@ -120,7 +132,8 @@ public class SearchActivity extends Activity {
 			
 			switch(view.getId())
 			{
-			case R.id.searchViewName:
+			case R.id.searchViewFirstname:
+			case R.id.searchViewSurname:
 				((TextView)view).setText((String)data);
 				break;
 			case R.id.picture:
@@ -136,17 +149,40 @@ public class SearchActivity extends Activity {
 	};
 	
 	class SendRequestForNobelPrize extends AsyncTask<String, Integer, String>{
-
+		SearchLaureateAPI api;
 		@Override
 		protected String doInBackground(String... params) {
 			try{
-				SearchLaureateAPI api = new SearchLaureateAPI(name, year, gender, category);
+				api = new SearchLaureateAPI(name, year, gender, category);
 				return "Worked";
 			}catch(Exception e){
 				e.printStackTrace();
 				return "Failed";
 			}
 		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			SparseArray<Laureate> array = new SparseArray<Laureate>();
+			array = api.getFinalArray();
+			items = new ArrayList<HashMap<String,Object>>();
+			int key=0;
+			for(int i=0; i<array.size();i++){
+				HashMap<String, Object> element = new HashMap<String, Object>();
+				key = array.keyAt(i);
+				Laureate l = array.get(key);
+				//element.put("id", l.getId());
+				element.put("firstname", l.getFirstname());
+				element.put("surname", l.getSurname());
+				Log.d(TAG, "added laureate #"+l.getId()+" : " + l.toString());
+				items.add(element);
+				mainAdapter.notifyDataSetChanged();
+			}
+			
+		}
+		
+		
 		
 	}
 
