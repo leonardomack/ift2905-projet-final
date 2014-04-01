@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- ======Generale====== -->
     <string name="app_name">NobelPrize</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    
+    <string name="action_settings">Settings</string>  
     <string name="searchNameHint">Enter a name or surname</string>
-	<string name="searchDateHint">Enter a year</string>
-	<string name="searchButton">Search</string>
-	<string name="searchViewNameString">Test</string>
-	
-	
-	<string name="fieldPrompt">Please choose a field</string>
-	<string-array name="fieldArray">
+    <string name="searchDateHint">Enter a year</string>
+    <string name="searchButton">Search</string>
+    <string name="searchViewNameString">Test</string>
+    <string name="fieldPrompt">Please choose a field</string>
+    <!-- ======Generale====== -->
+
+
+    <!-- ======MainActivity====== -->
+    <string name="MainActivity_button_chercher">Chercher</string>
+    <string name="MainActivity_button_jouer">Jouer</string>
+    <string name="MainActivity_toast_sortir">Appuyez retour pour sortir</string>
+    <!-- ======MainActivity====== -->
+
+
+    <!-- ======SearchActivity====== -->
+    <string-array name="fieldArray">
         <item>all</item>
         <item>physics</item>
         <item>chemistry</item>
@@ -21,13 +29,20 @@
         <item>peace</item>
         <item>economics</item>
     </string-array>
-    
-	<string name="genderPrompt">Please choose a gender</string>
-	<string-array name="genderArray">
+
+    <string name="genderPrompt">Please choose a gender</string>
+
+    <string-array name="genderArray">
         <item>all</item>
         <item>female</item>
         <item>male</item>
         <item>organization</item>
     </string-array>
+    <!-- ======SearchActivity====== -->
+
+
+    <!-- ======SplashScreen====== -->
+    <string name="title_activity_splash_screen">NobelPrize</string>
+    <!-- ======SplashScreen====== -->
 
 </resources>
