@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +24,7 @@ public class SearchActivity extends Activity {
 
 	private String name;
 	private int year;
-	private String field;
+	private String category;
 	private String gender;
 	private ListView mainList;
 	private SimpleAdapter mainAdapter;
@@ -98,14 +99,15 @@ public class SearchActivity extends Activity {
 		edit = (EditText)findViewById(R.id.dateSearch);
 		String yearString = edit.getText().toString();
 		if(yearString.length() != 4)
-			year = 0;
+			year = -1;
 		else
 			year = Integer.parseInt(yearString);
-		Spinner fieldSpinner = (Spinner)findViewById(R.id.fieldSearch);
+		Spinner categorySpinner = (Spinner)findViewById(R.id.fieldSearch);
 		Spinner genderSpinner = (Spinner)findViewById(R.id.genderSearch);
-		field = fieldSpinner.getSelectedItem().toString();
+		category = categorySpinner.getSelectedItem().toString();
 		gender = genderSpinner.getSelectedItem().toString();
-		Toast.makeText(this.getApplicationContext(), name + "|"+year+"|"+field+"|"+gender, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this.getApplicationContext(), name + "|"+year+"|"+category+"|"+gender, Toast.LENGTH_SHORT).show();
+		new SendRequestForNobelPrize().execute();
 	}
 	
 	private static final ViewBinder VIEW_BINDER = new ViewBinder() {
@@ -132,5 +134,20 @@ public class SearchActivity extends Activity {
 		}
 		
 	};
+	
+	class SendRequestForNobelPrize extends AsyncTask<String, Integer, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			try{
+				SearchLaureateAPI api = new SearchLaureateAPI(name, year, gender, category);
+				return "Worked";
+			}catch(Exception e){
+				e.printStackTrace();
+				return "Failed";
+			}
+		}
+		
+	}
 
 }
