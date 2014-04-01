@@ -3,7 +3,7 @@
 
     <!-- ======Generale====== -->
     <string name="app_name">NobelPrize</string>
-    <string name="action_settings">Settings</string>  
+    <string name="action_settings">Settings</string>
     <string name="searchNameHint">Enter a name or surname</string>
     <string name="searchDateHint">Enter a year</string>
     <string name="searchButton">Search</string>
@@ -43,6 +43,7 @@
 
     <!-- ======SplashScreen====== -->
     <string name="title_activity_splash_screen">NobelPrize</string>
+    <string name="SplashScreen_logo_description"></string>
     <!-- ======SplashScreen====== -->
 
 </resources>

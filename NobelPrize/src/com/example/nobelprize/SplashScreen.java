@@ -5,31 +5,38 @@ import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.Window;
 
-public class SplashScreen extends Activity {
+public class SplashScreen extends Activity
+{
 
 	private boolean backButtonPressed;
-	
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
-	
+
+		// Cacher la ActionBar et faire la reference a l'actionbar correcte
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.activity_splash_screen);
+
 		Handler handlerNewPage = new Handler();
 		handlerNewPage.postDelayed(new Runnable()
 		{
 			@Override
 			public void run()
-			{				
+			{
 				if (!backButtonPressed)
-				{					
+				{
 					Intent intent = new Intent(SplashScreen.this, MainActivity.class);
 					SplashScreen.this.startActivity(intent);
 				}
 				finish();
 			}
 
-		}, 3000);//The waiting time in miliseconds
+		}, 3000);// The waiting time in miliseconds
 	}
 
 	@Override
