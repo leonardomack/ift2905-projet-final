@@ -54,6 +54,7 @@ public class SearchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		setProgressBarIndeterminateVisibility(false);
 		setContentView(R.layout.search_activity);
 		setProgressBarIndeterminateVisibility(false);
 		TAG = "SearchActivity";
