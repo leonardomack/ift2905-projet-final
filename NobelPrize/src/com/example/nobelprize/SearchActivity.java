@@ -7,6 +7,7 @@ import com.example.nobelobjects.Laureate;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -36,6 +38,7 @@ public class SearchActivity extends Activity {
 	private ArrayAdapter<String> arrayAdapter;
 	private String TAG;
 	ArrayList<String> items;
+	SparseArray<Laureate> arrayOfLaureates;
 	
 	private class SearchListOnItemClick implements OnItemClickListener
 	{
@@ -43,8 +46,14 @@ public class SearchActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			// TODO Auto-generated method stub
+			int key = 0;
+			key = arrayOfLaureates.keyAt(position);
+			Laureate l = arrayOfLaureates.get(key);
+			Log.d(TAG, "Laureate Clicked is :  " + l.toString());
 			
+			Intent showDetailIntent = new Intent(getApplicationContext(), LaureateDetailActivity.class);
+			showDetailIntent.putExtra("id", l.getId());
+			startActivity(showDetailIntent);
 		}
 		
 	}
@@ -52,13 +61,10 @@ public class SearchActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.search_activity);
-		
 		TAG = "SearchActivity";
 		items = new ArrayList<String>();
-		items.add("Albert" + " " + "Einstein");
-		items.add("Test"+ " " + "McTest");
-		items.add("Test"+ " " + "McTest");
 		
 		
 		arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.search_list_view2, items);
@@ -101,7 +107,6 @@ public class SearchActivity extends Activity {
 		Spinner genderSpinner = (Spinner)findViewById(R.id.genderSearch);
 		category = categorySpinner.getSelectedItem().toString();
 		gender = genderSpinner.getSelectedItem().toString();
-		Toast.makeText(this.getApplicationContext(), name + "|"+year+"|"+category+"|"+gender, Toast.LENGTH_SHORT).show();
 		new SendRequestForNobelPrize().execute();
 		//mainList.invalidateViews();
 		//mainAdapter.notifyDataSetChanged();
@@ -146,24 +151,30 @@ public class SearchActivity extends Activity {
 				return "Failed";
 			}
 		}
+		
+		@Override
+		protected void onPreExecute() {
+			setProgressBarIndeterminateVisibility(true);
+		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			SparseArray<Laureate> array = new SparseArray<Laureate>();
-			array = api.getFinalArray();
+			//super.onPostExecute(result);
+			arrayOfLaureates = new SparseArray<Laureate>();
+			arrayOfLaureates = api.getFinalArray();
 			items.clear();
 			int key=0;
-			for(int i=0; i<array.size();i++){
+			for(int i=0; i<arrayOfLaureates.size();i++){
 				//HashMap<String, Object> element = new HashMap<String, Object>();
-				key = array.keyAt(i);
-				Laureate l = array.get(key);
+				key = arrayOfLaureates.keyAt(i);
+				Laureate l = arrayOfLaureates.get(key);
 				//element.put("id", l.getId());
 				//element.put("firstname", l.getFirstname());
 				//element.put("surname", l.getSurname());
 				Log.d(TAG, "added laureate #"+l.getId()+" : " + l.toString());
 				items.add(l.getFirstname() + " " + l.getSurname());
 			}
+			setProgressBarIndeterminateVisibility(false);
 			arrayAdapter.notifyDataSetChanged();
 			
 		}

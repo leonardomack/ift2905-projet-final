@@ -30,6 +30,8 @@
         </activity>
         <activity android:name="com.example.nobelprize.SearchActivity" >
         </activity>
+        <activity android:name="com.example.nobelprize.LaureateDetailActivity" >
+        </activity>
     </application>
 
 </manifest>
