@@ -1,7 +1,6 @@
 package com.example.nobelprize;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,11 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.nobelobjects.Laureate;
-
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.SparseArray;
+
+import com.example.nobelobjects.Laureate;
 
 public class SearchLaureateAPI {
 	public SparseArray<Laureate> laureatesL;
@@ -208,7 +206,7 @@ public class SearchLaureateAPI {
 	}
 		
 		/*
-		 * Méthodes de MeteoWebAPI
+		 * Méthode de MeteoWebAPI
 		 * 
 		 */
 		private HttpEntity getHttp(String url) throws ClientProtocolException, IOException {
@@ -216,11 +214,5 @@ public class SearchLaureateAPI {
 			HttpGet http = new HttpGet(url);
 			HttpResponse response = httpClient.execute(http);
 			return response.getEntity();    		
-		}
-		
-		private Drawable loadHttpImage(String url) throws ClientProtocolException, IOException {
-			InputStream is = getHttp(url).getContent();
-			Drawable d = Drawable.createFromStream(is, "src");
-			return d;
 		}
 }
