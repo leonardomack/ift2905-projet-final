@@ -35,7 +35,7 @@ public final class R {
         public static final int references_links=0x7f020004;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000c;
+        public static final int action_settings=0x7f09000e;
         public static final int buttonChercher=0x7f090000;
         public static final int buttonJouer=0x7f090001;
         public static final int container=0x7f090003;
@@ -47,13 +47,16 @@ public final class R {
         public static final int nameSearch=0x7f090004;
         public static final int picture=0x7f09000a;
         public static final int searchListView=0x7f090009;
-        public static final int searchViewName=0x7f09000b;
+        public static final int searchListViewFinal=0x7f09000d;
+        public static final int searchViewFirstname=0x7f09000b;
+        public static final int searchViewSurname=0x7f09000c;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_splash_screen=0x7f030001;
         public static final int search_activity=0x7f030002;
         public static final int search_list_view=0x7f030003;
+        public static final int search_list_view2=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f080000;

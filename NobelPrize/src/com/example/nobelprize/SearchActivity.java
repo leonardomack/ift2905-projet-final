@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,9 +33,9 @@ public class SearchActivity extends Activity {
 	private String category;
 	private String gender;
 	private ListView mainList;
-	private SimpleAdapter mainAdapter;
+	private ArrayAdapter<String> arrayAdapter;
 	private String TAG;
-	ArrayList<HashMap<String,Object>> items;
+	ArrayList<String> items;
 	
 	private class SearchListOnItemClick implements OnItemClickListener
 	{
@@ -54,32 +55,16 @@ public class SearchActivity extends Activity {
 		setContentView(R.layout.search_activity);
 		
 		TAG = "SearchActivity";
-		items = new ArrayList<HashMap<String,Object>>();
-		
-		HashMap<String, Object> element = new HashMap<String, Object>();
-		element.put("firstname", "Albert");
-		element.put("surname", "Einstein");
-		element.put("picture", R.drawable.einstein);
-		items.add(element);
-		HashMap<String, Object> element2 = new HashMap<String, Object>();
-		element2.put("firstname", "Test");
-		element2.put("surname", "McTest");
-		element2.put("picture", R.drawable.ic_launcher);
-		items.add(element2);
-		HashMap<String, Object> element3 = new HashMap<String, Object>();
-		element3.put("firstname", "Test");
-		element3.put("surname", "McTest");
-		element3.put("picture", R.drawable.einstein);
-		items.add(element3);
+		items = new ArrayList<String>();
+		items.add("Albert" + " " + "Einstein");
+		items.add("Test"+ " " + "McTest");
+		items.add("Test"+ " " + "McTest");
 		
 		
-		mainAdapter = new SimpleAdapter(getApplicationContext(), items, R.layout.search_list_view,
-				new String[] { "picture", "firstname", "surname"},
-				new int[]  { R.id.picture, R.id.searchViewFirstname, R.id.searchViewSurname });
-		
-		mainAdapter.setViewBinder(VIEW_BINDER);
+		arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.search_list_view2, items);
+		arrayAdapter.setNotifyOnChange(true);
 		mainList = (ListView)findViewById(R.id.mainList);
-		mainList.setAdapter(mainAdapter);
+		mainList.setAdapter(arrayAdapter);
 		mainList.setOnItemClickListener(new SearchListOnItemClick());
 	}
 
@@ -122,6 +107,7 @@ public class SearchActivity extends Activity {
 		//mainAdapter.notifyDataSetChanged();
 	}
 	
+	/*
 	private static final ViewBinder VIEW_BINDER = new ViewBinder() {
 
 		@Override
@@ -147,7 +133,7 @@ public class SearchActivity extends Activity {
 		}
 		
 	};
-	
+	*/
 	class SendRequestForNobelPrize extends AsyncTask<String, Integer, String>{
 		SearchLaureateAPI api;
 		@Override
@@ -166,19 +152,19 @@ public class SearchActivity extends Activity {
 			super.onPostExecute(result);
 			SparseArray<Laureate> array = new SparseArray<Laureate>();
 			array = api.getFinalArray();
-			items = new ArrayList<HashMap<String,Object>>();
+			items.clear();
 			int key=0;
 			for(int i=0; i<array.size();i++){
-				HashMap<String, Object> element = new HashMap<String, Object>();
+				//HashMap<String, Object> element = new HashMap<String, Object>();
 				key = array.keyAt(i);
 				Laureate l = array.get(key);
 				//element.put("id", l.getId());
-				element.put("firstname", l.getFirstname());
-				element.put("surname", l.getSurname());
+				//element.put("firstname", l.getFirstname());
+				//element.put("surname", l.getSurname());
 				Log.d(TAG, "added laureate #"+l.getId()+" : " + l.toString());
-				items.add(element);
-				mainAdapter.notifyDataSetChanged();
+				items.add(l.getFirstname() + " " + l.getSurname());
 			}
+			arrayAdapter.notifyDataSetChanged();
 			
 		}
 		
