@@ -1,12 +1,18 @@
 package com.example.nobelprize;
 
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nobelobjects.Laureate;
+import com.example.nobelobjects.Prize;
+import com.example.tools.DownloadImagesTask;
 
 public class MainActivity extends Activity
 {
@@ -20,6 +26,23 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		// Get the components references
+		ImageView imgView = (ImageView) findViewById(R.id.activity_main_image_winner);
+		TextView winnerName = (TextView) findViewById(R.id.activity_main_name_winner);
+		TextView descriptionName = (TextView) findViewById(R.id.activity_main_description_winner);
+
+		// Load the Random Winner
+		Laureate laureate = new Laureate(0, "First name", "surname");
+		Prize prize = new Prize(2007, "physics", null);
+
+		String winnerImageUrl = laureate.getImageUrl(prize);
+
+		imgView.setTag(winnerImageUrl);
+		new DownloadImagesTask().execute(imgView);
+		winnerName.setText(laureate.getFirstname() + " " + laureate.getSurname());
+
+		descriptionName.setText("Nome do cara asdf asdf asdf ");
 	}
 
 	public void buttonChercherClick(View view)
@@ -70,4 +93,5 @@ public class MainActivity extends Activity
 			finish();
 		}
 	}
+
 }
