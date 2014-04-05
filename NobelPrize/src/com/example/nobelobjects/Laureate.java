@@ -1,6 +1,6 @@
 package com.example.nobelobjects;
 
-import com.example.tools.DownloadHtmlPageTask;
+import com.example.tasks.DownloadHtmlPageTask;
 
 public class Laureate
 {

@@ -1,5 +1,10 @@
 package com.example.nobelobjects;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import android.util.SparseArray;
 
 public class Prize
@@ -58,5 +63,19 @@ public class Prize
 	public void removeLaureate(int id)
 	{
 		this.laureates.remove(id);
+	}
+
+	public enum PrizeCategories
+	{
+		physics, chemistry, medicine, literature, peace, economics;
+
+		private static final List<PrizeCategories> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+		private static final int SIZE = VALUES.size();
+		private static final Random RANDOM = new Random();
+
+		public static PrizeCategories getRandomCategory()
+		{
+			return VALUES.get(RANDOM.nextInt(SIZE));
+		}
 	}
 }

@@ -1,9 +1,13 @@
 package com.example.nobelprize;
 
+import java.util.Calendar;
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
-import com.example.tools.DownloadImagesTask;
+import com.example.nobelobjects.Prize.PrizeCategories;
+import com.example.tasks.DownloadImagesTask;
+import com.example.tasks.DownloadWinnersTask;
 
 public class MainActivity extends Activity
 {
@@ -33,16 +39,36 @@ public class MainActivity extends Activity
 		TextView descriptionName = (TextView) findViewById(R.id.activity_main_description_winner);
 
 		// Load the Random Winner
-		Laureate laureate = new Laureate(0, "First name", "surname");
-		Prize prize = new Prize(2007, "physics", null);
+		Random r = new Random();
+		int startPrizeYear = 1901;
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		int randomYearPrize = r.nextInt(currentYear - startPrizeYear) + startPrizeYear;
 
-		String winnerImageUrl = laureate.getImageUrl(prize);
+		PrizeCategories randomCategory = PrizeCategories.getRandomCategory();
+
+		Prize prize = new Prize(randomYearPrize, randomCategory.toString(), null);
+		Laureate selectedLaureate = new Laureate(0, "Laureate non trouvé", "");
+		try
+		{
+
+			SparseArray<Laureate> arrayOfLaureates = new DownloadWinnersTask().execute(prize).get();
+
+			int selectedIndex = r.nextInt(arrayOfLaureates.size());
+
+			selectedLaureate = arrayOfLaureates.valueAt(selectedIndex);
+		}
+		catch (Exception e)
+		{
+
+		}
+
+		String winnerImageUrl = selectedLaureate.getImageUrl(prize);
 
 		imgView.setTag(winnerImageUrl);
 		new DownloadImagesTask().execute(imgView);
-		winnerName.setText(laureate.getFirstname() + " " + laureate.getSurname());
+		winnerName.setText(selectedLaureate.getFirstname() + " " + selectedLaureate.getSurname());
 
-		descriptionName.setText("Nome do cara asdf asdf asdf ");
+		descriptionName.setText("Category : " + randomCategory + " - Year : " + randomYearPrize);
 	}
 
 	public void buttonChercherClick(View view)
