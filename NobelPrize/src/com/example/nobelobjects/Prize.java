@@ -11,6 +11,7 @@ public class Prize
 {
 	private int year;
 	private String category;
+	private String motivation;
 	private SparseArray<Laureate> laureates;
 
 	/*
@@ -23,6 +24,18 @@ public class Prize
 		this.year = year;
 		this.category = category;
 		this.laureates = laureates;
+
+		motivation = "";
+	}
+
+	public String getMotivation()
+	{
+		return motivation;
+	}
+
+	public void setMotivation(String motivation)
+	{
+		this.motivation = motivation;
 	}
 
 	public int getYear()

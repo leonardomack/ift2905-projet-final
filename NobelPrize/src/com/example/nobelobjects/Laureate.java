@@ -1,5 +1,8 @@
 package com.example.nobelobjects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.tasks.DownloadHtmlPageTask;
 
 public class Laureate
@@ -9,17 +12,34 @@ public class Laureate
 	private String surname;
 	private String motivation;
 	private int share;
+	private List<Prize> prizes;
+
+	public Laureate()
+	{
+	}
 
 	public Laureate(int id, String firstname, String surname)
 	{
 		this.id = id;
 		this.firstname = firstname;
 		this.surname = surname;
+
+		prizes = new ArrayList<Prize>();
 	}
 
 	public int getId()
 	{
 		return id;
+	}
+
+	public List<Prize> getPrizes()
+	{
+		return prizes;
+	}
+
+	public void setPrizes(List<Prize> prizes)
+	{
+		this.prizes = prizes;
 	}
 
 	public void setId(int id)
@@ -72,6 +92,9 @@ public class Laureate
 		return "id:" + id + " name: " + firstname + " " + surname;
 	}
 
+	/*
+	 * The Prize parameter must indicate the year and category
+	 */
 	public String getImageUrl(Prize prize)
 	{
 		// Build the url from default pattern

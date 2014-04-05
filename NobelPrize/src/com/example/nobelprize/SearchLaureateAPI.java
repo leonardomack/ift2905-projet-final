@@ -1,6 +1,8 @@
 package com.example.nobelprize;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.example.nobelobjects.Laureate;
+import com.example.nobelobjects.Prize;
 
 public class SearchLaureateAPI
 {
@@ -26,7 +29,7 @@ public class SearchLaureateAPI
 	public SparseArray<Laureate> laureatesP;
 	SparseArray<Laureate> finalArray;
 	public int numberOfRequestSent;
-	final String TAG;
+	final String TAG = "SearchLaureateAPI";
 	public String prizeURL;
 	public String laureateURL;
 
@@ -34,7 +37,6 @@ public class SearchLaureateAPI
 
 	public SearchLaureateAPI(String nameSearched, int year, String gender, String category)
 	{
-		TAG = "SearchLaureateAPI";
 		laureatesL = new SparseArray<Laureate>();
 		laureatesP = new SparseArray<Laureate>();
 		finalArray = new SparseArray<Laureate>();
@@ -147,6 +149,24 @@ public class SearchLaureateAPI
 
 	}
 
+	public SearchLaureateAPI(int id)
+	{
+		laureatesL = new SparseArray<Laureate>();
+		laureatesP = new SparseArray<Laureate>();
+		finalArray = new SparseArray<Laureate>();
+		erreur = null;
+
+		getLaureatesFromLaureatesList("http://api.nobelprize.org/v1/laureate.json?id=" + id);
+
+		int key = 0;
+		for (int i = 0; i < laureatesL.size(); i++)
+		{
+			key = laureatesL.keyAt(i);
+			Laureate l = laureatesL.get(key);
+			finalArray.put(l.getId(), l);
+		}
+	}
+
 	private void getLaureatesFromPrizeList(String searchURL)
 	{
 		try
@@ -206,13 +226,55 @@ public class SearchLaureateAPI
 				int id = -1;
 				String firstname = "";
 				String surname = "";
+				List<Prize> prizes = new ArrayList<Prize>();
+
 				if (laureate.has("id"))
+				{
 					id = laureate.getInt("id");
+				}
 				if (laureate.has("firstname"))
+				{
 					firstname = laureate.getString("firstname");
+				}
 				if (laureate.has("surname"))
+				{
 					surname = laureate.getString("surname");
+				}
+				if (laureate.has("prizes"))
+				{
+					JSONArray prizesArray = laureate.getJSONArray("prizes");
+
+					for (int j = 0; j < prizesArray.length(); j++)
+					{
+						JSONObject prize = prizesArray.getJSONObject(j);
+
+						int year = 0;
+						String category = "";
+						String motivation = "";
+
+						if (prize.has("year"))
+						{
+							year = prize.getInt("year");
+						}
+						if (prize.has("category"))
+						{
+							category = prize.getString("category");
+						}
+						if (prize.has("motivation"))
+						{
+							motivation = prize.getString("motivation");
+						}
+
+						Prize prizeTemp = new Prize(year, category, null);
+						prizeTemp.setMotivation(motivation);
+
+						prizes.add(prizeTemp);
+					}
+				}
+
 				Laureate l = new Laureate(id, firstname, surname);
+				l.setPrizes(prizes);
+
 				laureatesL.put(id, l);
 			}
 
