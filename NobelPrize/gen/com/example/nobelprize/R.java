@@ -9,7 +9,7 @@ package com.example.nobelprize;
 
 public final class R {
     public static final class array {
-        /**  ======MainActivity====== 
+        /**  ======LaureateDetailActivity====== 
  ======SearchActivity====== 
          */
         public static final int fieldArray=0x7f060000;
@@ -36,25 +36,27 @@ public final class R {
         public static final int references_links=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f090012;
+        public static final int action_settings=0x7f090014;
         public static final int activity_main_buttonChercher=0x7f090004;
         public static final int activity_main_buttonJouer=0x7f090005;
         public static final int activity_main_description_winner=0x7f090003;
         public static final int activity_main_image_winner=0x7f090001;
         public static final int activity_main_name_winner=0x7f090002;
-        public static final int container=0x7f090007;
-        public static final int dateSearch=0x7f090009;
-        public static final int fieldSearch=0x7f09000a;
-        public static final int genderSearch=0x7f09000b;
+        public static final int container=0x7f090009;
+        public static final int dateSearch=0x7f09000b;
+        public static final int fieldSearch=0x7f09000c;
+        public static final int genderSearch=0x7f09000d;
         public static final int img_splash_screen_logo=0x7f090006;
+        public static final int laureate_detail_image_winner=0x7f090007;
+        public static final int laureate_detail_name_winner=0x7f090008;
         public static final int linearLayout123=0x7f090000;
-        public static final int mainList=0x7f09000c;
-        public static final int nameSearch=0x7f090008;
-        public static final int picture=0x7f09000e;
-        public static final int searchListView=0x7f09000d;
-        public static final int searchListViewFinal=0x7f090011;
-        public static final int searchViewFirstname=0x7f09000f;
-        public static final int searchViewSurname=0x7f090010;
+        public static final int mainList=0x7f09000e;
+        public static final int nameSearch=0x7f09000a;
+        public static final int picture=0x7f090010;
+        public static final int searchListView=0x7f09000f;
+        public static final int searchListViewFinal=0x7f090013;
+        public static final int searchViewFirstname=0x7f090011;
+        public static final int searchViewSurname=0x7f090012;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -69,6 +71,10 @@ public final class R {
         public static final int splash_screen=0x7f080001;
     }
     public static final class string {
+        /**  ======MainActivity====== 
+ ======LaureateDetailActivity====== 
+         */
+        public static final int LaureateDetail_image_winner_description=0x7f05000b;
         /**  ======Generale====== 
  ======MainActivity====== 
          */
@@ -76,13 +82,13 @@ public final class R {
         public static final int MainActivity_button_chercher=0x7f050008;
         public static final int MainActivity_button_jouer=0x7f050009;
         public static final int MainActivity_toast_sortir=0x7f05000a;
-        public static final int SplashScreen_logo_description=0x7f05000d;
+        public static final int SplashScreen_logo_description=0x7f05000e;
         public static final int action_settings=0x7f050001;
         /**  ======Generale====== 
          */
         public static final int app_name=0x7f050000;
         public static final int fieldPrompt=0x7f050006;
-        public static final int genderPrompt=0x7f05000b;
+        public static final int genderPrompt=0x7f05000c;
         public static final int searchButton=0x7f050004;
         public static final int searchDateHint=0x7f050003;
         public static final int searchNameHint=0x7f050002;
@@ -90,7 +96,7 @@ public final class R {
         /**  ======SearchActivity====== 
  ======SplashScreen====== 
          */
-        public static final int title_activity_splash_screen=0x7f05000c;
+        public static final int title_activity_splash_screen=0x7f05000d;
     }
     public static final class style {
         /** 

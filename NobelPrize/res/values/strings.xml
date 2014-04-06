@@ -20,6 +20,11 @@
     <!-- ======MainActivity====== -->
 
 
+    <!-- ======LaureateDetailActivity====== -->
+    <string name="LaureateDetail_image_winner_description"></string>
+    <!-- ======LaureateDetailActivity====== -->
+
+
     <!-- ======SearchActivity====== -->
     <string-array name="fieldArray">
         <item>all</item>

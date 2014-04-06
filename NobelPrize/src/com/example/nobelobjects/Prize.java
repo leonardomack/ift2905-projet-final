@@ -19,6 +19,10 @@ public class Prize
 	 * sparseArray.keyAt(i); Object obj = sparseArray.get(key); }
 	 */
 
+	public Prize()
+	{
+	}
+
 	public Prize(int year, String category, SparseArray<Laureate> laureates)
 	{
 		this.year = year;

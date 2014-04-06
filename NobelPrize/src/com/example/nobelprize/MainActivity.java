@@ -50,7 +50,6 @@ public class MainActivity extends Activity
 		Laureate selectedLaureate = new Laureate(0, "Laureate non trouvé", "");
 		try
 		{
-
 			SparseArray<Laureate> arrayOfLaureates = new DownloadWinnersTask().execute(prize).get();
 
 			int selectedIndex = r.nextInt(arrayOfLaureates.size());

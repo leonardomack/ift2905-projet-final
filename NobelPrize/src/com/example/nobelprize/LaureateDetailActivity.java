@@ -3,8 +3,12 @@ package com.example.nobelprize;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.nobelobjects.Laureate;
+import com.example.nobelobjects.Prize;
+import com.example.tasks.DownloadImagesTask;
 import com.example.tasks.DownloadLaureateTask;
 
 public class LaureateDetailActivity extends Activity
@@ -26,9 +30,21 @@ public class LaureateDetailActivity extends Activity
 
 		try
 		{
-			Laureate testL = new DownloadLaureateTask().execute(id).get();
+			Laureate selectedLaureate = new DownloadLaureateTask().execute(id).get();
+			Prize prize = new Prize();
+			if (selectedLaureate.getPrizes().size() > 0)
+			{
+				prize = selectedLaureate.getPrizes().get(0);
+			}
 
-			Log.d(TAG, "Laureate firstname is : " + testL.getFirstname());
+			// Get the components references
+			ImageView imgView = (ImageView) findViewById(R.id.laureate_detail_image_winner);
+			TextView winnerName = (TextView) findViewById(R.id.laureate_detail_name_winner);
+
+			// Set the values
+			String laureateImageUrl = selectedLaureate.getImageUrl(prize);
+			imgView.setTag(laureateImageUrl);
+			new DownloadImagesTask().execute(imgView);
 		}
 		catch (Exception e)
 		{
