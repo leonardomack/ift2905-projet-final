@@ -13,10 +13,18 @@
 
 
     <!-- ======MainActivity====== -->
+    <string name="MainActivity__image_winner_description"></string>
     <string name="MainActivity_button_chercher">Chercher</string>
     <string name="MainActivity_button_jouer">Jouer</string>
     <string name="MainActivity_toast_sortir">Appuyez retour pour sortir</string>
     <!-- ======MainActivity====== -->
+
+
+    <!-- ======LaureateDetailActivity====== -->
+    <string name="LaureateDetail_image_winner_description"></string>
+    <string name="LaureateDetail_textview_biography">Biography</string>
+    <string name="LaureateDetail_textview_prize">Prize</string>
+    <!-- ======LaureateDetailActivity====== -->
 
 
     <!-- ======SearchActivity====== -->

@@ -1,11 +1,10 @@
 package com.example.nobelprize;
 
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
-import android.view.Window;
 
 public class SplashScreen extends Activity
 {
@@ -19,8 +18,8 @@ public class SplashScreen extends Activity
 		setContentView(R.layout.activity_splash_screen);
 
 		// Cacher la ActionBar et faire la reference a l'actionbar correcte
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//setContentView(R.layout.activity_splash_screen);
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// setContentView(R.layout.activity_splash_screen);
 
 		Handler handlerNewPage = new Handler();
 		handlerNewPage.postDelayed(new Runnable()
@@ -36,7 +35,7 @@ public class SplashScreen extends Activity
 				finish();
 			}
 
-		}, 3000);// The waiting time in miliseconds
+		}, 100);// The waiting time in miliseconds
 	}
 
 	@Override

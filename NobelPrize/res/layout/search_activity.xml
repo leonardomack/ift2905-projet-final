@@ -3,56 +3,54 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="5dp"
     android:orientation="vertical"
     tools:context="com.example.nobelprize.SearchActivity"
     tools:ignore="MergeRootFrame" >
-    
-    <EditText
 
+    <EditText
         android:id="@+id/nameSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/searchNameHint"
-        android:inputType="text"
         android:layout_margin="5dp"
-        />
-   <EditText
+        android:hint="@string/searchNameHint"
+        android:inputType="text" />
 
+    <EditText
         android:id="@+id/dateSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/searchDateHint"
-        android:inputType="number"
         android:layout_margin="5dp"
-        />
-   
-   <Spinner
-       android:id="@+id/fieldSearch"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:entries="@array/fieldArray"
-       android:prompt="@string/fieldPrompt"
-       android:layout_margin="5dp"/>
-    
-   <Spinner
-       android:id="@+id/genderSearch"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:entries="@array/genderArray"
-       android:prompt="@string/genderPrompt"
-       android:layout_margin="5dp"/>
-   
-   <Button 
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="@string/searchButton"
-       android:onClick="searchLaureates"/>
-   
-       <ListView
+        android:hint="@string/searchDateHint"
+        android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/fieldSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:entries="@array/fieldArray"
+        android:prompt="@string/fieldPrompt" />
+
+    <Spinner
+        android:id="@+id/genderSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:entries="@array/genderArray"
+        android:prompt="@string/genderPrompt" />
+
+    <Button
+        android:id="@+id/search_activity_buttonSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="searchLaureates"
+        android:text="@string/searchButton" />
+
+    <ListView
         android:id="@+id/mainList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
-   
-</LinearLayout>
 
+</LinearLayout>
