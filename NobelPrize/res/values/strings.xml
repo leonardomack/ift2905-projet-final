@@ -22,6 +22,8 @@
 
     <!-- ======LaureateDetailActivity====== -->
     <string name="LaureateDetail_image_winner_description"></string>
+    <string name="LaureateDetail_textview_biography">Biography</string>
+    <string name="LaureateDetail_textview_prize">Prize</string>
     <!-- ======LaureateDetailActivity====== -->
 
 

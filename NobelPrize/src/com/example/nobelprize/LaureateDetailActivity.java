@@ -42,9 +42,13 @@ public class LaureateDetailActivity extends Activity
 			TextView winnerName = (TextView) findViewById(R.id.laureate_detail_name_winner);
 
 			// Set the values
+			// Set the image
 			String laureateImageUrl = selectedLaureate.getImageUrl(prize);
 			imgView.setTag(laureateImageUrl);
 			new DownloadImagesTask().execute(imgView);
+
+			// Set the name of the winner
+			winnerName.setText(selectedLaureate.getFirstname() + " " + selectedLaureate.getSurname());
 		}
 		catch (Exception e)
 		{
