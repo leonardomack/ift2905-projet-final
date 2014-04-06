@@ -2,6 +2,7 @@ package com.example.nobelprize;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -26,8 +27,10 @@ public class TrueFalseGameAPI {
 	private String laureateURL;
 	private ArrayList<TrueFalseQuestion> questions;
 	private String erreur;
+	private final int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896;
 	private int questionNumber;
+	private final String TAG = "TrueFalseGameAPI";
 	
 	public TrueFalseGameAPI(){
 		prizeURL = "http://api.nobelprize.org/v1/prize.json";
@@ -35,6 +38,10 @@ public class TrueFalseGameAPI {
 		questions = new ArrayList<TrueFalseQuestion>();
 		erreur = null;
 		questionNumber=1;
+		
+		while(questions.size()<AMOUNT_OF_QUESTIONS){
+			getInfoForQuestionType1();
+		}
 	}
 	
 	private void getInfoForQuestionType1(){
@@ -54,10 +61,18 @@ public class TrueFalseGameAPI {
 				String category = prize.getString("category");
 				boolean answer = true;
 				int chooseAField = 0;
+				chooseAField=randomMinMax(0,1);
 				switch(chooseAField){
 				case 0:
 					if(randomFiftyPercentChance()){
-						
+						category = fetchRandomCategory();
+						answer=false;
+					}
+					break;
+				case 1:
+					if(randomFiftyPercentChance()){
+						year = fetchRandomYear();
+						answer=false;
 					}
 					break;
 				default:
@@ -65,6 +80,7 @@ public class TrueFalseGameAPI {
 				}
 				TrueFalseQuestion q = new TrueFalseQuestion().newTrueFalseQuestionType1(questionNumber, 
 						name,year,category, answer);
+				questions.add(q);
 			}
 			
 		} catch (ClientProtocolException e) {
@@ -78,6 +94,10 @@ public class TrueFalseGameAPI {
 		}
 	}
 	
+	public ArrayList<TrueFalseQuestion> getQuestions() {
+		return questions;
+	}
+
 	/*
 	 * Méthode de MeteoWebAPI
 	 * 
@@ -97,5 +117,39 @@ public class TrueFalseGameAPI {
 	private boolean randomFiftyPercentChance()
 	{   
 	   return Math.random() < 0.50;
+	}
+	
+	private String fetchRandomCategory(){
+		int i = randomMinMax(0, 5);
+		String cat = null;
+		switch(i){
+		case 0:
+			cat = "Economics";
+			break;
+		case 1:
+			cat = "Peace";
+			break;
+		case 2:
+			cat = "Literature";
+			break;
+		case 3:
+			cat = "Medicine";
+			break;
+		case 4:
+			cat = "Chemistry";
+			break;
+		case 5:
+			cat = "Physics";
+			break;
+		}
+		return cat;
+	}
+	
+	private int fetchRandomYear(){
+		int year = -1;
+		int firstYearOfNobelPrize = 1901;
+		int thisYear = (Calendar.getInstance().get(Calendar.YEAR)) -1;
+		year = randomMinMax(firstYearOfNobelPrize, thisYear);
+		return year;
 	}
 }

@@ -72,7 +72,8 @@ public class MainActivity extends Activity
 
 	public void buttonChercherClick(View view)
 	{
-		Intent intentChercher = new Intent(getApplicationContext(), SearchActivity.class);
+		//Intent intentChercher = new Intent(getApplicationContext(), SearchActivity.class);
+		Intent intentChercher = new Intent(getApplicationContext(), TrueFalseGameActivity.class);
 		startActivity(intentChercher);
 	}
 

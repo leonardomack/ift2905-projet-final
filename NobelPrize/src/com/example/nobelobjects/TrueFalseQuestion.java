@@ -27,7 +27,7 @@ public class TrueFalseQuestion {
 		return this;
 	}
 
-	public boolean isAnswer() {
+	public boolean getAnswer() {
 		return answer;
 	}
 
@@ -70,6 +70,10 @@ public class TrueFalseQuestion {
 	boolean randomFiftyPercentChance()
 	{   
 	   return Math.random() < 0.50;
+	}
+	
+	public String toString(){
+		return questionString;
 	}
 	
 }

@@ -32,7 +32,8 @@
         android:layout_marginRight="20dp"
         android:layout_above="@id/TextViewTrueFalse_QNumber"
         android:text="@string/TrueFalseGame_False"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:onClick="clickedFalse"/>
     
     <Button 
         android:id="@+id/ButtonTrueFalseGame_True"
@@ -44,7 +45,7 @@
         android:layout_above="@id/ButtonTrueFalseGame_False"
         android:text="@string/TrueFalseGame_True"
         android:textSize="30sp"
-        android:onClick="clickedFalse"/>
+        android:onClick="clickedTrue"/>
     
 
 
