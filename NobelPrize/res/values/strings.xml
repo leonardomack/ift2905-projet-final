@@ -45,5 +45,12 @@
     <string name="title_activity_splash_screen">NobelPrize</string>
     <string name="SplashScreen_logo_description"></string>
     <!-- ======SplashScreen====== -->
+    
+    <!-- ======TrueFalseGame====== -->
+    <string name="TrueFalseGame_Question">Is Question really a question?</string>
+    <string name="TrueFalseGame_True">True</string>
+    <string name="TrueFalseGame_False">False</string>
+    <string name="TrueFalseGame_QuestionNumber">Question #1 of 5</string>
+    <!-- ======TrueFalseGame====== -->
 
 </resources>
