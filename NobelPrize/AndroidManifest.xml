@@ -32,7 +32,8 @@
         </activity>
         <activity android:name="com.example.nobelprize.LaureateDetailActivity" >
         </activity>
-        <activity android:name="com.example.nobelprize.TrueFalseGameActivity" >
+        <activity android:name="com.example.nobelprize.TrueFalseGameActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" >
         </activity>
     </application>
 

@@ -174,7 +174,6 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		Log.d(TAG, "i am flinging");
 		try {
 			if(e1.getX() < e2.getX()){
 				goLeft();
