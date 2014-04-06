@@ -55,10 +55,12 @@
     <!-- ======SplashScreen====== -->
     
     <!-- ======TrueFalseGame====== -->
-    <string name="TrueFalseGame_Question">Is Question really a question?</string>
+    <string name="TrueFalseGame_Question">Loading Question</string>
     <string name="TrueFalseGame_True">True</string>
     <string name="TrueFalseGame_False">False</string>
     <string name="TrueFalseGame_QuestionNumber">Question #1 of 5</string>
+    <string name="TrueFalseGame_RightAnswerToast">Right Answer!</string>
+    <string name="TrueFalseGame_WrongAnswerToast">Wrong Answer!</string>
     <!-- ======TrueFalseGame====== -->
 
 </resources>

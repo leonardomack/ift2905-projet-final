@@ -3,6 +3,7 @@ package com.example.nobelprize;
 import java.util.ArrayList;
 
 import android.gesture.*;
+import android.graphics.Color;
 
 import com.example.nobelobjects.TrueFalseQuestion;
 
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TrueFalseGameActivity extends Activity implements OnGestureListener{
 	
@@ -47,54 +49,62 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 	private void updateQuestion(){
 		currentQuestion = questions.get(questionNumber-1);
 		questionNumberTextView.setText("Question #"+questionNumber+" of "+questions.size());
+		if(currentQuestion.isAnswered && currentQuestion.isAnsweredCorrectly)
+			questionNumberTextView.setTextColor(Color.GREEN);
+		else if(currentQuestion.isAnswered && !currentQuestion.isAnsweredCorrectly)
+			questionNumberTextView.setTextColor(Color.RED);
+		else
+			questionNumberTextView.setTextColor(Color.BLACK);
 		questionTextView.setText(currentQuestion.getQuestionString());
 	}
 	
+	public void clickedTrue(View view){
+		handleAnswerClick(true);
+	}
+	
 	public void clickedFalse(View view){
-		currentQuestion.setAnswered(true);
-		if(currentQuestion.getAnswer() == false){
-			Log.d(TAG, "Answered correctly");
-			currentQuestion.setAnsweredCorrectly(true);
-		}
-		else{
-			Log.d(TAG, "Answered wrongly");
-			currentQuestion.setAnsweredCorrectly(false);
-		}
-		if(questionNumber<questions.size()){
-			questionNumber++;
+		handleAnswerClick(false);
+	}
+	
+	public void handleAnswerClick(boolean answer){
+		if(!currentQuestion.isAnswered){
+			currentQuestion.setAnswered(true);
+			if(currentQuestion.getAnswer() == answer){
+				Log.d(TAG, "Answered correctly");
+				currentQuestion.setAnsweredCorrectly(true);
+				score++;
+				//update database
+				Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
+			}
+			else{
+				Log.d(TAG, "Answered wrongly");
+				currentQuestion.setAnsweredCorrectly(false);
+				//update database
+				Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
+			}
 			updateQuestion();
 		}
-		else{
+		int nbQuestionsAnswered = 0;
+		for(int i=0; i<questions.size(); i++){
+			if(questions.get(i).isAnswered)
+				nbQuestionsAnswered++;
+		}
+		
+		if(nbQuestionsAnswered==questions.size()){
+			Toast.makeText(getApplicationContext(), "Complete : " + score + "/" + questions.size(), Toast.LENGTH_SHORT).show();
 			//Intent retourPageJeux = new Intent(getApplicationContext(), ???????.class);
 			//startActivity(retourPageJeux);
 		}
-		
+		else if(questionNumber< questions.size()){
+			questionNumber++;
+			updateQuestion();
+		}
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		this.mDetector.onTouchEvent(event);
 		return super.onTouchEvent(event);
-	}
-
-	public void clickedTrue(View view){
-		currentQuestion.setAnswered(true);
-		if(currentQuestion.getAnswer() == true){
-			Log.d(TAG, "Answered correctly");
-			currentQuestion.setAnsweredCorrectly(true);
-		}
-		else{
-			Log.d(TAG, "Answered wrongly");
-			currentQuestion.setAnsweredCorrectly(false);
-		}
-		if(questionNumber<questions.size()){
-			questionNumber++;
-			updateQuestion();
-		}
-		else{
-			//Intent retourPageJeux = new Intent(getApplicationContext(), ???????.class);
-			//startActivity(retourPageJeux);
-		}
 	}
 	
 	class sendRequestForQuestions extends AsyncTask<String, Integer, String>
