@@ -12,8 +12,10 @@ public class Laureate
 	private int id;
 	private String firstname;
 	private String surname;
-	private String motivation;
-	private int share;
+	private String bornCountry;
+	private String bornCity;
+	private String dateBorn;
+	private String dateDied;
 	private List<Prize> prizes;
 
 	public Laureate()
@@ -27,6 +29,46 @@ public class Laureate
 		this.surname = surname;
 
 		prizes = new ArrayList<Prize>();
+	}
+
+	public String getDateBorn()
+	{
+		return dateBorn;
+	}
+
+	public void setDateBorn(String dateBorn)
+	{
+		this.dateBorn = dateBorn;
+	}
+
+	public String getDateDied()
+	{
+		return dateDied;
+	}
+
+	public void setDateDied(String dateDied)
+	{
+		this.dateDied = dateDied;
+	}
+
+	public String getBornCountry()
+	{
+		return bornCountry;
+	}
+
+	public void setBornCountry(String bornCountry)
+	{
+		this.bornCountry = bornCountry;
+	}
+
+	public String getBornCity()
+	{
+		return bornCity;
+	}
+
+	public void setBornCity(String bornCity)
+	{
+		this.bornCity = bornCity;
 	}
 
 	public int getId()
@@ -67,26 +109,6 @@ public class Laureate
 	public void setSurname(String surname)
 	{
 		this.surname = surname;
-	}
-
-	public String getMotivation()
-	{
-		return motivation;
-	}
-
-	public void setMotivation(String motivation)
-	{
-		this.motivation = motivation;
-	}
-
-	public int getShare()
-	{
-		return share;
-	}
-
-	public void setShare(int share)
-	{
-		this.share = share;
 	}
 
 	public String toString()
