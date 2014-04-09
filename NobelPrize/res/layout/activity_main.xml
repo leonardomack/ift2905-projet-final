@@ -25,7 +25,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
         android:layout_weight="30"
         android:orientation="vertical" >
 
@@ -33,12 +34,14 @@
             android:id="@+id/activity_main_name_winner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/activity_main_description_winner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout

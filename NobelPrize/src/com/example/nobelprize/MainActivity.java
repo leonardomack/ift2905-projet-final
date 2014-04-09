@@ -38,23 +38,31 @@ public class MainActivity extends Activity
 		TextView winnerName = (TextView) findViewById(R.id.activity_main_name_winner);
 		TextView descriptionName = (TextView) findViewById(R.id.activity_main_description_winner);
 
-		// Load the Random Winner
+		// Setting the random winner
 		Random r = new Random();
 		int startPrizeYear = 1901;
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		int randomYearPrize = r.nextInt(currentYear - startPrizeYear) + startPrizeYear;
 
-		PrizeCategories randomCategory = PrizeCategories.getRandomCategory();
-
-		Prize prize = new Prize(randomYearPrize, randomCategory.toString(), null);
-		Laureate selectedLaureate = new Laureate(0, "Laureate non trouvé", "");
+		Prize prize = new Prize(0, "", null);
+		Laureate selectedLaureate = new Laureate(0, "", "");
 		try
 		{
-			SparseArray<Laureate> arrayOfLaureates = new DownloadWinnersTask().execute(prize).get();
+			// Try to find some Random Winner
+			PrizeCategories randomCategory = PrizeCategories.getRandomCategory();
+			int randomYearPrize = 0;
 
-			int selectedIndex = r.nextInt(arrayOfLaureates.size());
+			while (selectedLaureate.getId() == 0)
+			{
+				randomYearPrize = r.nextInt(currentYear - startPrizeYear) + startPrizeYear;
+				prize = new Prize(randomYearPrize, randomCategory.toString(), null);
 
-			selectedLaureate = arrayOfLaureates.valueAt(selectedIndex);
+				SparseArray<Laureate> arrayOfLaureates = new DownloadWinnersTask().execute(prize).get();
+				int selectedIndex = r.nextInt(arrayOfLaureates.size());
+				selectedLaureate = arrayOfLaureates.valueAt(selectedIndex);
+			}
+
+			winnerName.setText(selectedLaureate.getFirstname() + " " + selectedLaureate.getSurname());
+			descriptionName.setText("Category : " + randomCategory + " - Year : " + randomYearPrize);
 		}
 		catch (Exception e)
 		{
@@ -75,9 +83,6 @@ public class MainActivity extends Activity
 		imgView.setTag(winnerImageUrl);
 		new DownloadImagesTask().execute(imgView);
 
-		winnerName.setText(selectedLaureate.getFirstname() + " " + selectedLaureate.getSurname());
-
-		descriptionName.setText("Category : " + randomCategory + " - Year : " + randomYearPrize);
 	}
 
 	public void buttonChercherClick(View view)
