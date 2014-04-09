@@ -61,7 +61,16 @@ public class MainActivity extends Activity
 
 		}
 
-		String winnerImageUrl = selectedLaureate.getImageUrl(prize);
+		String winnerImageUrl = "";
+
+		try
+		{
+			winnerImageUrl = selectedLaureate.getImageUrl(selectedLaureate);
+		}
+		catch (Exception e)
+		{
+
+		}
 
 		imgView.setTag(winnerImageUrl);
 		new DownloadImagesTask().execute(imgView);
@@ -78,7 +87,8 @@ public class MainActivity extends Activity
 
 	public void buttonJouerClick(View view)
 	{
-		//Intent intentJouer = new Intent(getApplicationContext(), MainActivity.class);
+		// Intent intentJouer = new Intent(getApplicationContext(),
+		// MainActivity.class);
 		Intent intentJouer = new Intent(getApplicationContext(), TrueFalseGameActivity.class);
 		startActivity(intentJouer);
 	}

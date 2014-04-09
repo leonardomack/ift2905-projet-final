@@ -36,7 +36,11 @@ public final class R {
         public static final int references_links=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f090015;
+        public static final int ButtonTrueFalseGame_False=0x7f090017;
+        public static final int ButtonTrueFalseGame_True=0x7f090018;
+        public static final int TextViewTrueFalse_QNumber=0x7f090016;
+        public static final int TextViewTrueFalse_Question=0x7f090015;
+        public static final int action_settings=0x7f090019;
         public static final int activity_main_buttonChercher=0x7f090004;
         public static final int activity_main_buttonJouer=0x7f090005;
         public static final int activity_main_description_winner=0x7f090003;
@@ -66,6 +70,7 @@ public final class R {
         public static final int search_activity=0x7f030003;
         public static final int search_list_view=0x7f030004;
         public static final int search_list_view2=0x7f030005;
+        public static final int true_false_game_layout=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -86,6 +91,15 @@ public final class R {
         public static final int MainActivity_button_jouer=0x7f050009;
         public static final int MainActivity_toast_sortir=0x7f05000a;
         public static final int SplashScreen_logo_description=0x7f050010;
+        public static final int TrueFalseGame_False=0x7f050013;
+        /**  ======SplashScreen====== 
+ ======TrueFalseGame====== 
+         */
+        public static final int TrueFalseGame_Question=0x7f050011;
+        public static final int TrueFalseGame_QuestionNumber=0x7f050014;
+        public static final int TrueFalseGame_RightAnswerToast=0x7f050015;
+        public static final int TrueFalseGame_True=0x7f050012;
+        public static final int TrueFalseGame_WrongAnswerToast=0x7f050016;
         public static final int action_settings=0x7f050001;
         /**  ======Generale====== 
          */

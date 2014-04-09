@@ -2,8 +2,10 @@ package com.example.nobelobjects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import com.example.tasks.DownloadHtmlPageTask;
+import com.example.tasks.DownloadLaureateTask;
 
 public class Laureate
 {
@@ -95,36 +97,73 @@ public class Laureate
 	/*
 	 * The Prize parameter must indicate the year and category
 	 */
-	public String getImageUrl(Prize prize)
+	public String getImageUrl(Laureate laureate) throws InterruptedException, ExecutionException
 	{
+		// Find the laureate and his prizes
+		Laureate laureateSearch = new DownloadLaureateTask().execute(laureate.getId()).get();
+		List<Prize> prizes = laureateSearch.getPrizes();
+
 		// Build the url from default pattern
-		String htmlToDownload = "http://www.nobelprize.org/nobel_prizes/" + prize.getCategory() + "/laureates/" + prize.getYear() + "/";// "http://www.nobelprize.org/nobel_prizes/physics/laureates/2012/"
+		String htmlToDownload = "http://www.nobelprize.org/nobel_prizes/" + prizes.get(0).getCategory() + "/laureates/" + prizes.get(0).getYear() + "/";// "http://www.nobelprize.org/nobel_prizes/physics/laureates/2012/"
 		String winnerImageUrl = "";
 		try
 		{
-			String htmlResult = new DownloadHtmlPageTask().execute(htmlToDownload).get();
+			String htmlResult = new DownloadHtmlPageTask().execute(htmlToDownload).get().toLowerCase();
 
 			if (htmlResult.equals("") == false)
 			{
-				int divPrizeWrapperStart = htmlResult.indexOf("<div class=\"prize_wrapper\">");
+				List<String> imageHtmls = new ArrayList<String>();
+
 				int divPrizeWrapperEnd = 0;
 				String divPrizeWrapper = "";
-				String imgSrc = "";
 
-				divPrizeWrapper = htmlResult.substring(divPrizeWrapperStart);
+				// Getting just the html that have image urls
+				// Start html part = <div class=\"prize_wrapper\">
+				divPrizeWrapper = htmlResult.substring(htmlResult.indexOf("<div class=\"prize_wrapper\">"));
+
+				// End html part = <div style=\"clear:both;\"></div>
 				divPrizeWrapperEnd = divPrizeWrapper.indexOf("<div style=\"clear:both;\"></div>");
+
+				// Just the html that contais all image urls
 				divPrizeWrapper = divPrizeWrapper.substring(0, divPrizeWrapperEnd);
 
-				int imgStart = divPrizeWrapper.indexOf("<img src=\"") + 10;
+				// Getting all the urls in divPrizeWrapper
+				int imgStart = divPrizeWrapper.indexOf("<img src=\"");
 				int imgEnd = 0;
 
-				imgSrc = divPrizeWrapper.substring(imgStart);
-				imgEnd = imgSrc.indexOf("\" alt=\"");
-				imgSrc = imgSrc.substring(0, imgEnd);
+				while (imgStart != -1)
+				{
+					String imageUrlTemp = "";
 
-				imgSrc = imgSrc.replace(".jpg", "_postcard.jpg");
+					imgStart += 10;
+					imageUrlTemp = divPrizeWrapper.substring(imgStart);
+					imgEnd = imageUrlTemp.indexOf("border=\"0\"></a>");
+					imageUrlTemp = imageUrlTemp.substring(0, imgEnd);
+					imageHtmls.add(imageUrlTemp);
 
-				winnerImageUrl = imgSrc;
+					divPrizeWrapper = divPrizeWrapper.substring(imgStart + imgEnd);
+
+					imgStart = divPrizeWrapper.indexOf("<img src=\"");
+				}
+
+				// Need to check if the URL contains laureate's name
+				String finalImageUrl = "";
+				for (String url : imageHtmls)
+				{
+					if (url.contains(laureateSearch.getFirstname().toLowerCase()))
+					{
+						// We found the good url
+						finalImageUrl = url;
+
+						// Removing alt attribute
+						finalImageUrl = finalImageUrl.substring(0, finalImageUrl.indexOf("\" alt=\""));
+
+						// Replacing with a bigger image
+						finalImageUrl = finalImageUrl.replace(".jpg", "_postcard.jpg");
+					}
+				}
+
+				winnerImageUrl = finalImageUrl;
 			}
 		}
 		catch (Exception e)

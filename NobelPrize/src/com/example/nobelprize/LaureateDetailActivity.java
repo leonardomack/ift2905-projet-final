@@ -43,7 +43,7 @@ public class LaureateDetailActivity extends Activity
 
 			// Set the values
 			// Set the image
-			String laureateImageUrl = selectedLaureate.getImageUrl(prize);
+			String laureateImageUrl = selectedLaureate.getImageUrl(selectedLaureate);
 			imgView.setTag(laureateImageUrl);
 			new DownloadImagesTask().execute(imgView);
 
