@@ -1,9 +1,14 @@
 package com.example.nobelprize;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.nobelobjects.Laureate;
@@ -14,6 +19,7 @@ import com.example.tasks.DownloadLaureateTask;
 public class LaureateDetailActivity extends Activity
 {
 	private String TAG;
+	private ArrayAdapter<String> arrayAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +46,8 @@ public class LaureateDetailActivity extends Activity
 			// Get the components references
 			ImageView imgView = (ImageView) findViewById(R.id.laureate_detail_image_winner);
 			TextView winnerName = (TextView) findViewById(R.id.laureate_detail_name_winner);
+			TextView winnerBorn = (TextView) findViewById(R.id.laureate_detail_textview_born);
+			ListView winnerPrizes = (ListView) findViewById(R.id.laureate_detail_listview_prizes);
 
 			// Set the values
 			// Set the image
@@ -47,13 +55,25 @@ public class LaureateDetailActivity extends Activity
 			imgView.setTag(laureateImageUrl);
 			new DownloadImagesTask().execute(imgView);
 
-			// Set the name of the winner
+			// Set winner's informations
 			winnerName.setText(selectedLaureate.getFirstname() + " " + selectedLaureate.getSurname());
+			winnerBorn.setText("Born: " + selectedLaureate.getDateBorn() + ", " + selectedLaureate.getBornCity() + ", " + selectedLaureate.getBornCountry());
+
+			List<String> list = new ArrayList<String>();
+
+			for (Prize p : selectedLaureate.getPrizes())
+			{
+				list.add(p.getCategory() + " " + p.getYear());
+			}
+
+			arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.laureate_details_prizes_listview, list);
+			arrayAdapter.setNotifyOnChange(true);
+			winnerPrizes.setAdapter(arrayAdapter);
+
 		}
 		catch (Exception e)
 		{
 
 		}
 	}
-
 }

@@ -5,6 +5,7 @@
     android:layout_margin="5dp"
     android:gravity="fill"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     android:weightSum="100" >
 
     <LinearLayout
@@ -37,23 +38,39 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/LaureateDetail_textview_biography"
             android:textSize="30sp" />
 
         <TextView
+            android:id="@+id/laureate_detail_textview_born"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:text="@string/LaureateDetail_textview_born"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/LaureateDetail_textview_prize"
             android:textSize="30sp" />
+
+        <ListView
+            android:id="@+id/laureate_detail_listview_prizes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" >
+        </ListView>
     </LinearLayout>
 
 </LinearLayout>
