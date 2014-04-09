@@ -3,33 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    android:orientation="vertical" >
+    android:gravity="fill"
+    android:orientation="vertical"
+    android:weightSum="100" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/laureate_detail_image_winner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/LaureateDetail_image_winner_description"
-            android:scaleType="matrix"
-            android:src="@drawable/empty_user" >
-        </ImageView>
-
-        <TextView
-            android:id="@+id/laureate_detail_name_winner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAlignment="center" />
+            android:contentDescription="@string/LaureateDetail_image_winner_description"
+            android:src="@drawable/empty_user" >
+        </ImageView>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/laureate_detail_name_winner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="wrap_content"

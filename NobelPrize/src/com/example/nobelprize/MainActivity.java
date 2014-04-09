@@ -74,6 +74,7 @@ public class MainActivity extends Activity
 
 		imgView.setTag(winnerImageUrl);
 		new DownloadImagesTask().execute(imgView);
+
 		winnerName.setText(selectedLaureate.getFirstname() + " " + selectedLaureate.getSurname());
 
 		descriptionName.setText("Category : " + randomCategory + " - Year : " + randomYearPrize);
