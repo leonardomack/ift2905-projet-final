@@ -23,7 +23,8 @@
     <!-- ======LaureateDetailActivity====== -->
     <string name="LaureateDetail_image_winner_description"></string>
     <string name="LaureateDetail_textview_biography">Biography</string>
-    <string name="LaureateDetail_textview_prize">Prize</string>
+    <string name="LaureateDetail_textview_prize">Prizes</string>
+    <string name="LaureateDetail_textview_born"></string>
     <!-- ======LaureateDetailActivity====== -->
 
 
@@ -53,7 +54,8 @@
     <string name="title_activity_splash_screen">NobelPrize</string>
     <string name="SplashScreen_logo_description"></string>
     <!-- ======SplashScreen====== -->
-    
+
+
     <!-- ======TrueFalseGame====== -->
     <string name="TrueFalseGame_Question">Loading Question</string>
     <string name="TrueFalseGame_True">True</string>
