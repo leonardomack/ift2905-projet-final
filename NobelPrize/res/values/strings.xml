@@ -64,5 +64,11 @@
     <string name="TrueFalseGame_RightAnswerToast">Right Answer!</string>
     <string name="TrueFalseGame_WrongAnswerToast">Wrong Answer!</string>
     <!-- ======TrueFalseGame====== -->
+    
+    
+     <!-- ======MenuGame====== -->
+    <string name="MenuGame_button_MCQGame">MCQ</string>    
+    <string name="MenuGame_button_TrueFalseGame">True or False</string>
+    <!-- ======MenuGame====== -->
 
 </resources>

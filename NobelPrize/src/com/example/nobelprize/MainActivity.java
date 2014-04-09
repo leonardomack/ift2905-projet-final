@@ -31,7 +31,7 @@ public class MainActivity extends Activity
 {
 
 	// Le button pour conmpter la quantite de fois que le button retour a ete
-	// appuyé
+	// appuyï¿½
 	private Integer exitCounter = 0;
 
 	// Shake sensor - From:
@@ -119,7 +119,7 @@ public class MainActivity extends Activity
 	{
 		// Intent intentJouer = new Intent(getApplicationContext(),
 		// MainActivity.class);
-		Intent intentJouer = new Intent(getApplicationContext(), TrueFalseGameActivity.class);
+		Intent intentJouer = new Intent(getApplicationContext(), MenuGameActivity.class);
 		startActivity(intentJouer);
 	}
 
