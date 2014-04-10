@@ -3,7 +3,6 @@ package com.example.nobelprize;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.Random;
 
 import org.apache.http.HttpEntity;
@@ -143,25 +142,25 @@ public class TrueFalseGameAPI {
 			int i = randomMinMax(0, 5);
 			switch(i){
 			case 0:
-				cat = "Economics";
+				cat = "economics";
 				break;
 			case 1:
-				cat = "Peace";
+				cat = "peace";
 				break;
 			case 2:
-				cat = "Literature";
+				cat = "literature";
 				break;
 			case 3:
-				cat = "Medicine";
+				cat = "medicine";
 				break;
 			case 4:
-				cat = "Chemistry";
+				cat = "chemistry";
 				break;
 			case 5:
-				cat = "Physics";
+				cat = "physics";
 				break;
 			}
-		}while(!(cat.equals(category)));
+		}while(cat.equals(category));
 		return cat;
 	}
 	
@@ -171,7 +170,7 @@ public class TrueFalseGameAPI {
 		int thisYear = (Calendar.getInstance().get(Calendar.YEAR)) -1;
 		do{
 			year = randomMinMax(firstYearOfNobelPrize, thisYear);
-		}while(year != rightYear);
+		}while(year == rightYear);
 		return year;
 	}
 }
