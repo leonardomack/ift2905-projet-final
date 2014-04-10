@@ -2,14 +2,15 @@ package com.example.nobelprize;
 
 import java.util.ArrayList;
 
-import android.gesture.*;
 import android.graphics.Color;
 
 import com.example.nobelobjects.TrueFalseQuestion;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
@@ -27,9 +28,11 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 	private ArrayList<TrueFalseQuestion> questions;
 	private TrueFalseQuestion currentQuestion;
 	private TrueFalseGameAPI api;
+	private boolean finishedLoading;
 	
 	private TextView questionTextView;
 	private TextView questionNumberTextView;
+	private Vibrator vib;
 	
 	private GestureDetectorCompat mDetector;
 	
@@ -44,6 +47,8 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 		questionTextView = (TextView) findViewById(R.id.TextViewTrueFalse_Question);
 		questionNumberTextView = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
 		mDetector = new GestureDetectorCompat(this, this);
+		vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+		finishedLoading = false;
 	}
 	
 	private void updateQuestion(){
@@ -59,11 +64,13 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 	}
 	
 	public void clickedTrue(View view){
-		handleAnswerClick(true);
+		if(finishedLoading)
+			handleAnswerClick(true);
 	}
 	
 	public void clickedFalse(View view){
-		handleAnswerClick(false);
+		if(finishedLoading)
+			handleAnswerClick(false);
 	}
 	
 	public void handleAnswerClick(boolean answer){
@@ -74,13 +81,14 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 				currentQuestion.setAnsweredCorrectly(true);
 				score++;
 				//update database
-				Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
 			}
 			else{
 				Log.d(TAG, "Answered wrongly");
 				currentQuestion.setAnsweredCorrectly(false);
+				vib.vibrate(500);
 				//update database
-				Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
 			}
 			updateQuestion();
 		}
@@ -136,6 +144,7 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 			setProgressBarIndeterminateVisibility(false);
 			questions=api.getQuestions();
 			updateQuestion();
+			finishedLoading=true;
 		}
 
 	}
