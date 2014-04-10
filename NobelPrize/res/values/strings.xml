@@ -70,5 +70,15 @@
     <string name="MenuGame_button_MCQGame">MCQ</string>    
     <string name="MenuGame_button_TrueFalseGame">True or False</string>
     <!-- ======MenuGame====== -->
+    
+    <!-- ======Preferences====== -->
+    <string name="PrefScreen_UsernameTitle">Your username</string>
+    <string name="PrefScreen_UsernameDescription">The username is used to store your scores</string>
+    <string name="PrefScreen_VibrateTitle">Activate or deactivate Vibration</string>
+    <string name="PrefScreen_VibrateDescription">The phone vibrates when your answer is incorrect</string>
+    
+    <string name="PrefMenu_titleMenu">Preferences</string>
+    <string name="PrefMenu_titleMenuCondensed">Pref</string>
+    <!-- ======Preferences====== -->
 
 </resources>

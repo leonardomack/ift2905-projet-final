@@ -90,13 +90,13 @@ public class TrueFalseGameAPI {
 		switch(chooseAField){
 		case 0:
 			if(randomFiftyPercentChance()){
-				category = fetchRandomCategory();
+				category = fetchRandomCategory(category);
 				answer=false;
 			}
 			break;
 		case 1:
 			if(randomFiftyPercentChance()){
-				year = fetchRandomYear();
+				year = fetchRandomYear(year);
 				answer=false;
 			}
 			break;
@@ -137,37 +137,41 @@ public class TrueFalseGameAPI {
 	   return Math.random() < 0.50;
 	}
 	
-	private String fetchRandomCategory(){
-		int i = randomMinMax(0, 5);
+	private String fetchRandomCategory(String category){
 		String cat = null;
-		switch(i){
-		case 0:
-			cat = "Economics";
-			break;
-		case 1:
-			cat = "Peace";
-			break;
-		case 2:
-			cat = "Literature";
-			break;
-		case 3:
-			cat = "Medicine";
-			break;
-		case 4:
-			cat = "Chemistry";
-			break;
-		case 5:
-			cat = "Physics";
-			break;
-		}
+		do{
+			int i = randomMinMax(0, 5);
+			switch(i){
+			case 0:
+				cat = "Economics";
+				break;
+			case 1:
+				cat = "Peace";
+				break;
+			case 2:
+				cat = "Literature";
+				break;
+			case 3:
+				cat = "Medicine";
+				break;
+			case 4:
+				cat = "Chemistry";
+				break;
+			case 5:
+				cat = "Physics";
+				break;
+			}
+		}while(!(cat.equals(category)));
 		return cat;
 	}
 	
-	private int fetchRandomYear(){
+	private int fetchRandomYear(int rightYear){
 		int year = -1;
 		int firstYearOfNobelPrize = 1901;
 		int thisYear = (Calendar.getInstance().get(Calendar.YEAR)) -1;
-		year = randomMinMax(firstYearOfNobelPrize, thisYear);
+		do{
+			year = randomMinMax(firstYearOfNobelPrize, thisYear);
+		}while(year != rightYear);
 		return year;
 	}
 }

@@ -8,19 +8,26 @@ import com.example.nobelobjects.TrueFalseQuestion;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TrueFalseGameActivity extends Activity implements OnGestureListener{
+public class TrueFalseGameActivity extends Activity implements OnGestureListener, OnSharedPreferenceChangeListener{
 	
 	private int score;
 	private int questionNumber;
@@ -33,6 +40,8 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 	private TextView questionTextView;
 	private TextView questionNumberTextView;
 	private Vibrator vib;
+	
+	private SharedPreferences prefs;
 	
 	private GestureDetectorCompat mDetector;
 	
@@ -49,6 +58,29 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 		mDetector = new GestureDetectorCompat(this, this);
 		vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 		finishedLoading = false;
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
+	}
+	
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.itemPrefs:
+			startActivity(new Intent(this, PreferencesActivity.class));
+		break;
+		}
+		return true;
 	}
 	
 	private void updateQuestion(){
@@ -81,14 +113,15 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 				currentQuestion.setAnsweredCorrectly(true);
 				score++;
 				//update database
-				//Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
 			}
 			else{
 				Log.d(TAG, "Answered wrongly");
 				currentQuestion.setAnsweredCorrectly(false);
-				vib.vibrate(500);
+				if(prefs.getBoolean("vibrate", true))
+					vib.vibrate(500);
 				//update database
-				//Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
 			}
 			updateQuestion();
 		}
@@ -211,6 +244,12 @@ public class TrueFalseGameActivity extends Activity implements OnGestureListener
 			questionNumber++;
 			updateQuestion();
 		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		//Do nothing
 	}
 
 }

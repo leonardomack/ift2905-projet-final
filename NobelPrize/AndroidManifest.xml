@@ -40,6 +40,8 @@
         </activity>           
         <activity android:name="com.example.nobelprize.MultipleChoiceQuestionActivity" >
         </activity>
+        <activity android:name="com.example.nobelprize.PreferencesActivity" >
+        </activity>
     </application>
 
 </manifest>
