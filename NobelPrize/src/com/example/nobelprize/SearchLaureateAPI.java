@@ -226,6 +226,11 @@ public class SearchLaureateAPI
 				int id = -1;
 				String firstname = "";
 				String surname = "";
+				String bornCountry = "";
+				String bornCity = "";
+				String dateBorn = "";
+				String dateDied = "";
+
 				List<Prize> prizes = new ArrayList<Prize>();
 
 				if (laureate.has("id"))
@@ -240,6 +245,23 @@ public class SearchLaureateAPI
 				{
 					surname = laureate.getString("surname");
 				}
+				if (laureate.has("bornCountry"))
+				{
+					bornCountry = laureate.getString("bornCountry");
+				}
+				if (laureate.has("bornCity"))
+				{
+					bornCity = laureate.getString("bornCity");
+				}
+				if (laureate.has("born"))
+				{
+					dateBorn = laureate.getString("born");
+				}
+				if (laureate.has("died"))
+				{
+					dateDied = laureate.getString("died");
+				}
+
 				if (laureate.has("prizes"))
 				{
 					JSONArray prizesArray = laureate.getJSONArray("prizes");
@@ -274,6 +296,10 @@ public class SearchLaureateAPI
 
 				Laureate l = new Laureate(id, firstname, surname);
 				l.setPrizes(prizes);
+				l.setBornCountry(bornCountry);
+				l.setBornCity(bornCity);
+				l.setDateBorn(dateBorn);
+				l.setDateDied(dateDied);
 
 				laureatesL.put(id, l);
 			}
