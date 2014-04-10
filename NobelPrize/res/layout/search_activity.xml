@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="@string/searchNameHint"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/dateSearch"
@@ -22,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="@string/searchDateHint"
-        android:inputType="number" />
+        android:inputType="number"
+        android:textSize="20sp" />
 
     <Spinner
         android:id="@+id/fieldSearch"
@@ -30,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:entries="@array/fieldArray"
-        android:prompt="@string/fieldPrompt" />
+        android:prompt="@string/fieldPrompt"
+        android:textSize="20sp" />
 
     <Spinner
         android:id="@+id/genderSearch"
@@ -38,19 +41,24 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:entries="@array/genderArray"
-        android:prompt="@string/genderPrompt" />
+        android:prompt="@string/genderPrompt"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/search_activity_buttonSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:onClick="searchLaureates"
-        android:text="@string/searchButton" />
+        android:text="@string/searchButton"
+        android:textSize="40sp" />
 
     <ListView
         android:id="@+id/mainList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" >
     </ListView>
 
 </LinearLayout>

@@ -1,32 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayout123"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="5dp"
     android:gravity="fill"
     android:orientation="vertical"
     android:weightSum="100" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
-        android:orientation="horizontal" >
+        android:layout_weight="50"
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/activity_main_image_winner"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@string/MainActivity__image_winner_description"
-            android:scaleType="matrix"
             android:src="@drawable/empty_user" >
         </ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="30"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/activity_main_name_winner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/activity_main_description_winner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:textAlignment="center"/>
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,22 +50,11 @@
         android:layout_weight="20"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/activity_main_description_winner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="50"
-        android:orientation="vertical" >
-
         <Button
             android:id="@+id/activity_main_buttonChercher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:onClick="buttonChercherClick"
             android:text="@string/MainActivity_button_chercher" />
 
@@ -58,6 +62,7 @@
             android:id="@+id/activity_main_buttonJouer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:onClick="buttonJouerClick"
             android:text="@string/MainActivity_button_jouer" />
     </LinearLayout>

@@ -9,6 +9,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -34,6 +35,10 @@
         </activity>
         <activity android:name="com.example.nobelprize.TrueFalseGameActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" >
+        </activity>        
+        <activity android:name="com.example.nobelprize.MenuGameActivity" >
+        </activity>           
+        <activity android:name="com.example.nobelprize.MultipleChoiceQuestionActivity" >
         </activity>
     </application>
 

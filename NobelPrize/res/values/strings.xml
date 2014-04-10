@@ -14,16 +14,17 @@
 
     <!-- ======MainActivity====== -->
     <string name="MainActivity__image_winner_description"></string>
-    <string name="MainActivity_button_chercher">Chercher</string>
-    <string name="MainActivity_button_jouer">Jouer</string>
-    <string name="MainActivity_toast_sortir">Appuyez retour pour sortir</string>
+    <string name="MainActivity_button_chercher">Search</string>
+    <string name="MainActivity_button_jouer">Play</string>
+    <string name="MainActivity_toast_sortir">Press back to exit</string>
     <!-- ======MainActivity====== -->
 
 
     <!-- ======LaureateDetailActivity====== -->
     <string name="LaureateDetail_image_winner_description"></string>
     <string name="LaureateDetail_textview_biography">Biography</string>
-    <string name="LaureateDetail_textview_prize">Prize</string>
+    <string name="LaureateDetail_textview_prize">Prizes</string>
+    <string name="LaureateDetail_textview_born"></string>
     <!-- ======LaureateDetailActivity====== -->
 
 
@@ -53,7 +54,8 @@
     <string name="title_activity_splash_screen">NobelPrize</string>
     <string name="SplashScreen_logo_description"></string>
     <!-- ======SplashScreen====== -->
-    
+
+
     <!-- ======TrueFalseGame====== -->
     <string name="TrueFalseGame_Question">Loading Question</string>
     <string name="TrueFalseGame_True">True</string>
@@ -62,5 +64,11 @@
     <string name="TrueFalseGame_RightAnswerToast">Right Answer!</string>
     <string name="TrueFalseGame_WrongAnswerToast">Wrong Answer!</string>
     <!-- ======TrueFalseGame====== -->
+    
+    
+     <!-- ======MenuGame====== -->
+    <string name="MenuGame_button_MCQGame">MCQ</string>    
+    <string name="MenuGame_button_TrueFalseGame">True or False</string>
+    <!-- ======MenuGame====== -->
 
 </resources>
