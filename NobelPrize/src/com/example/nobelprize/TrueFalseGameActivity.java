@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nobelobjects.Player;
 import com.example.nobelobjects.TrueFalseQuestion;
 
 public class TrueFalseGameActivity extends Activity implements OnSharedPreferenceChangeListener{
@@ -143,7 +144,6 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			Button falseButton = (Button)layout.findViewById(R.id.ButtonTrueFalseGame_False);
 			trueButton.setOnClickListener(this);
 			falseButton.setOnClickListener(this);
-			Log.d(TAG, questions.get(position).getQuestionString());
 			question.setText(questions.get(position).getQuestionString());
 			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
 			
@@ -211,6 +211,12 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				}
 				if(j==questions.size()){
 					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
+					String playerName = prefs.getString("username", "");
+					Log.d(TAG, "Player name is :" +playerName);
+					Player player = new Player(getApplicationContext(),prefs.getString("username", ""));
+					Log.d(TAG, "player score was : "+player.toString());
+					player.addScoreTrueFalse(score, questions.size());
+					Log.d(TAG, "player score is now : "+player.toString());
 					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
 					startActivity(goBackToGameMenu);
 				}

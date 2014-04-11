@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <EditTextPreference android:key="username" android:title="@string/PrefScreen_UsernameTitle" android:summary="@string/PrefScreen_UsernameDescription"/>
+    <EditTextPreference android:key="username" android:title="@string/PrefScreen_UsernameTitle" android:summary="@string/PrefScreen_UsernameDescription" android:defaultValue="Player1"/>
     <CheckBoxPreference android:key="vibrate" android:title="@string/PrefScreen_VibrateTitle" android:summary="@string/PrefScreen_VibrateDescription" android:defaultValue="true"/>
     
 </PreferenceScreen>
