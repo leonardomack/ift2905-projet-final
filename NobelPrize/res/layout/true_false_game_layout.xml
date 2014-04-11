@@ -4,49 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    
-    <TextView 
-        android:id="@+id/TextViewTrueFalse_Question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="@string/TrueFalseGame_Question"
-        android:textSize="24sp"/>
-    
-	<TextView 
-        android:id="@+id/TextViewTrueFalse_QNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:text="@string/TrueFalseGame_QuestionNumber"
-        android:textSize="20sp"/>
-    
-    <Button 
-        android:id="@+id/ButtonTrueFalseGame_False"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_above="@id/TextViewTrueFalse_QNumber"
-        android:text="@string/TrueFalseGame_False"
-        android:textSize="30sp"
-        android:onClick="clickedFalse"/>
-    
-    <Button 
-        android:id="@+id/ButtonTrueFalseGame_True"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_above="@id/ButtonTrueFalseGame_False"
-        android:text="@string/TrueFalseGame_True"
-        android:textSize="30sp"
-        android:onClick="clickedTrue"/>
-    
 
-
+    <android.support.v4.view.ViewPager
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/true_false_pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+    
 </RelativeLayout>

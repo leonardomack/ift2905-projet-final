@@ -26,7 +26,7 @@ public class TrueFalseGameAPI {
 	private String laureateURL;
 	private ArrayList<TrueFalseQuestion> questions;
 	private String erreur;
-	private final int AMOUNT_OF_QUESTIONS = 5;
+	private final static int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private int questionNumber;
 	private final String TAG = "TrueFalseGameAPI";
@@ -41,6 +41,10 @@ public class TrueFalseGameAPI {
 		while(questions.size()<AMOUNT_OF_QUESTIONS){
 			getInfoForQuestionType1();
 		}
+	}
+	
+	public static int getAmountOfQuestion(){
+		return AMOUNT_OF_QUESTIONS;
 	}
 	
 	/**
