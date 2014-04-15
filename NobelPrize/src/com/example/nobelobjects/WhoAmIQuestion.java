@@ -155,7 +155,7 @@ public class WhoAmIQuestion {
 
 
 	public String toString(){
-		return "La question est : "+ questionString 
+		return "\n\nLa question n°"+questionNumber+" est : "+ questionString 
 				+"\nLes réponses affichées sont : "+ printedAnswers.toString()
 				+"\nLes réponses correctes sont : "+ rightAnswers.toString();
 	}

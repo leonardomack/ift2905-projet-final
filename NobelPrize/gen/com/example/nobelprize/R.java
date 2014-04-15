@@ -36,38 +36,39 @@ public final class R {
         public static final int references_links=0x7f020005;
     }
     public static final class id {
-        public static final int ButtonTrueFalseGame_False=0x7f0a001c;
-        public static final int ButtonTrueFalseGame_True=0x7f0a001d;
-        public static final int TextViewTrueFalse_QNumber=0x7f0a001b;
-        public static final int TextViewTrueFalse_Question=0x7f0a001a;
-        public static final int action_settings=0x7f0a001e;
+        public static final int ButtonTrueFalseGame_False=0x7f0a001d;
+        public static final int ButtonTrueFalseGame_True=0x7f0a001e;
+        public static final int TextViewTrueFalse_QNumber=0x7f0a001c;
+        public static final int TextViewTrueFalse_Question=0x7f0a001b;
+        public static final int action_settings=0x7f0a001f;
         public static final int activity_main_buttonChercher=0x7f0a0003;
         public static final int activity_main_buttonJouer=0x7f0a0004;
         public static final int activity_main_buttonMCQGame=0x7f0a000b;
         public static final int activity_main_buttonTrueFalseGame=0x7f0a000c;
+        public static final int activity_main_buttonWhoAmIGame=0x7f0a000d;
         public static final int activity_main_description_winner=0x7f0a0002;
         public static final int activity_main_image_winner=0x7f0a0000;
         public static final int activity_main_name_winner=0x7f0a0001;
-        public static final int container=0x7f0a000d;
-        public static final int dateSearch=0x7f0a000f;
-        public static final int fieldSearch=0x7f0a0010;
-        public static final int genderSearch=0x7f0a0011;
+        public static final int container=0x7f0a000e;
+        public static final int dateSearch=0x7f0a0010;
+        public static final int fieldSearch=0x7f0a0011;
+        public static final int genderSearch=0x7f0a0012;
         public static final int img_splash_screen_logo=0x7f0a0005;
-        public static final int itemPrefs=0x7f0a001f;
+        public static final int itemPrefs=0x7f0a0020;
         public static final int laureate_detail_image_winner=0x7f0a0006;
         public static final int laureate_detail_listview_prizes=0x7f0a0009;
         public static final int laureate_detail_name_winner=0x7f0a0007;
         public static final int laureate_detail_textview_born=0x7f0a0008;
         public static final int laureate_details_prizes_listview_textview_prizename=0x7f0a000a;
-        public static final int mainList=0x7f0a0013;
-        public static final int nameSearch=0x7f0a000e;
-        public static final int picture=0x7f0a0015;
-        public static final int searchListView=0x7f0a0014;
-        public static final int searchListViewFinal=0x7f0a0018;
-        public static final int searchViewFirstname=0x7f0a0016;
-        public static final int searchViewSurname=0x7f0a0017;
-        public static final int search_activity_buttonSearch=0x7f0a0012;
-        public static final int true_false_pager=0x7f0a0019;
+        public static final int mainList=0x7f0a0014;
+        public static final int nameSearch=0x7f0a000f;
+        public static final int picture=0x7f0a0016;
+        public static final int searchListView=0x7f0a0015;
+        public static final int searchListViewFinal=0x7f0a0019;
+        public static final int searchViewFirstname=0x7f0a0017;
+        public static final int searchViewSurname=0x7f0a0018;
+        public static final int search_activity_buttonSearch=0x7f0a0013;
+        public static final int true_false_pager=0x7f0a001a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -81,6 +82,7 @@ public final class R {
         public static final int search_list_view2=0x7f030008;
         public static final int true_false_game_layout=0x7f030009;
         public static final int true_false_game_layout_page=0x7f03000a;
+        public static final int who_am_i_game_layout=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -107,15 +109,16 @@ public final class R {
          */
         public static final int MenuGame_button_MCQGame=0x7f060018;
         public static final int MenuGame_button_TrueFalseGame=0x7f060019;
-        public static final int PrefMenu_titleMenu=0x7f06001e;
-        public static final int PrefMenu_titleMenuCondensed=0x7f06001f;
-        public static final int PrefScreen_UsernameDescription=0x7f06001b;
+        public static final int MenuGame_button_WhoAmIGame=0x7f06001a;
+        public static final int PrefMenu_titleMenu=0x7f06001f;
+        public static final int PrefMenu_titleMenuCondensed=0x7f060020;
+        public static final int PrefScreen_UsernameDescription=0x7f06001c;
         /**  ======MenuGame====== 
  ======Preferences====== 
          */
-        public static final int PrefScreen_UsernameTitle=0x7f06001a;
-        public static final int PrefScreen_VibrateDescription=0x7f06001d;
-        public static final int PrefScreen_VibrateTitle=0x7f06001c;
+        public static final int PrefScreen_UsernameTitle=0x7f06001b;
+        public static final int PrefScreen_VibrateDescription=0x7f06001e;
+        public static final int PrefScreen_VibrateTitle=0x7f06001d;
         public static final int SplashScreen_logo_description=0x7f060011;
         public static final int TrueFalseGame_False=0x7f060014;
         /**  ======SplashScreen====== 

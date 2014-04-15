@@ -33,17 +33,6 @@ import com.example.tasks.DownloadLaureateTask;
  */
 
 public class WhoAmIGameAPI {
-
-public static void testMain() {
-	// TODO Auto-generated method stub
-	WhoAmIGameAPI game = new WhoAmIGameAPI();
-
-	ArrayList<WhoAmIQuestion> questions = game.getQuestions();
-	
-	Log.d(TAG,questions.toString());
-}
-	
-	
 	private String prizeURL;
 	private String laureateURL;
 	private ArrayList<WhoAmIQuestion> questions;
@@ -53,7 +42,7 @@ public static void testMain() {
 	private int questionNumber;
 	private final static String TAG = "WhoAmIAPI";
 
-	public WhoAmIGameAPI(){
+	public WhoAmIGameAPI(){		
 		prizeURL = "http://api.nobelprize.org/v1/prize.json";
 		laureateURL = "http://api.nobelprize.org/v1/laureate.json";
 		questions = new ArrayList<WhoAmIQuestion>();
@@ -63,6 +52,8 @@ public static void testMain() {
 		while(questions.size()<AMOUNT_OF_QUESTIONS){
 			WhoAmIQuestion questionElement = computeRandomQuestion(questionNumber);
 			if(questionElement != null){
+
+				Log.v(TAG,questionElement.toString());
 				questions.add(computeRandomQuestion(questionNumber));
 				questionNumber++;}
 		}
@@ -72,10 +63,11 @@ public static void testMain() {
 	 *  en attribut et comparer apres chque creation de quqestion avec la liste de questions deja générées =
 	 * attention à bien redéfinir le equals dans ce type de question, 2 questions sont égales si meme type 
 	 * et si meme rightAnswers... (égalité ArrayList rend true si dans le même ORDRE !! ?? ok I guess)
-	 * @param questionMumber
+	 * @param questionNumber
 	 * @return
 	 */
-	private WhoAmIQuestion computeRandomQuestion(int questionMumber) {
+	private WhoAmIQuestion computeRandomQuestion(int questionNumber) {
+
 		Laureate laureate = fetchRandomLaureate();		
 
 		ArrayList<String> randomAnswers = new ArrayList<String>();
