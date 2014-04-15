@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
 import com.example.nobelobjects.TrueFalseQuestion;
@@ -28,7 +31,19 @@ import com.example.tasks.DownloadLaureateTask;
  * @author locust
  *
  */
+
 public class WhoAmIGameAPI {
+
+public static void testMain() {
+	// TODO Auto-generated method stub
+	WhoAmIGameAPI game = new WhoAmIGameAPI();
+
+	ArrayList<WhoAmIQuestion> questions = game.getQuestions();
+	
+	Log.d(TAG,questions.toString());
+}
+	
+	
 	private String prizeURL;
 	private String laureateURL;
 	private ArrayList<WhoAmIQuestion> questions;
@@ -36,56 +51,69 @@ public class WhoAmIGameAPI {
 	private final static int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896; //dernier laur�at de la liste r�pertori� Avril 2014
 	private int questionNumber;
-	private final String TAG = "WhoAmIAPI";
+	private final static String TAG = "WhoAmIAPI";
 
 	public WhoAmIGameAPI(){
 		prizeURL = "http://api.nobelprize.org/v1/prize.json";
 		laureateURL = "http://api.nobelprize.org/v1/laureate.json";
 		questions = new ArrayList<WhoAmIQuestion>();
 		erreur = null;
-		//champ utile ?
 		questionNumber=1;
 
 		while(questions.size()<AMOUNT_OF_QUESTIONS){
-			questions.add(computeRandomQuestion(questionNumber));
-			questionNumber++;
+			WhoAmIQuestion questionElement = computeRandomQuestion(questionNumber);
+			if(questionElement != null){
+				questions.add(computeRandomQuestion(questionNumber));
+				questionNumber++;}
 		}
 	}
-/**
- * en théorie on peut générer des doubles de questions... mauvais, ou alors mettre la liste de qquestions
- *  en attribut et comparer apres chque creation de quqestion avec la liste de questions deja générées =
- * attention à bien redéfinir le equals dans ce type de question, 2 questions sont égales si meme type 
- * et si meme rightAnswers... (égalité ArrayList rend true si dans le même ORDRE !! ?? ok I guess)
- * @param questionMumber
- * @return
- */
+	/**
+	 * en théorie on peut générer des doubles de questions... mauvais, ou alors mettre la liste de qquestions
+	 *  en attribut et comparer apres chque creation de quqestion avec la liste de questions deja générées =
+	 * attention à bien redéfinir le equals dans ce type de question, 2 questions sont égales si meme type 
+	 * et si meme rightAnswers... (égalité ArrayList rend true si dans le même ORDRE !! ?? ok I guess)
+	 * @param questionMumber
+	 * @return
+	 */
 	private WhoAmIQuestion computeRandomQuestion(int questionMumber) {
 		Laureate laureate = fetchRandomLaureate();		
-		//3 fake answer
 
-		ArrayList<String> answers = new ArrayList<String>(); //vérifier qu'elles sont différenetes 
-		//de la right answer, et différenetes des prizes des autres
-		ArrayList<String> rightAnswers ;//on ajoute 1 right answer
-		//dans la printed answer a la fin, lors de la creation de la question
+		ArrayList<String> randomAnswers = new ArrayList<String>();
+		ArrayList<String> rightAnswers = new ArrayList<String>();
 
 		//on choisit l'un des deux types de question
 		boolean type = randomFiftyPercentChance();
 		if(type){
 			rightAnswers=getCategoriesWon(laureate);
-			answers=fetchRandomCategories();
+			randomAnswers=fetchRandomCategories();
 		}
 		else{
-			rightAnswers = new ArrayList<String>();
 			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
-			answers =fetchRandomNames(laureate);
+			randomAnswers =fetchRandomNames(laureate);
 		}
 
 		ArrayList<String> answersToPrint = new ArrayList<String>();
-		answersToPrint.addAll(answers);
+		answersToPrint.addAll(randomAnswers);
+		//on ajoute une des reponses possibles au champ
 		answersToPrint.add(rightAnswers.get(randomMinMax(0, rightAnswers.size()-1)));
 
-		WhoAmIQuestion question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers);	
+		WhoAmIQuestion question= null;
+		
+		try {
+			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,laureate.getImageUrl(laureate));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 
+
+		//si on a déjà créé cette question, alors on n'en veut pas
+		if(questions.contains(question)){
+			return null;
+		}
 		return question;
 	}
 
@@ -185,17 +213,6 @@ public class WhoAmIGameAPI {
 
 	public ArrayList<WhoAmIQuestion> getQuestions() {
 		return questions;
-	}
-
-	/*
-	 * M�thode de MeteoWebAPI
-	 * 
-	 */
-	private HttpEntity getHttp(String url) throws ClientProtocolException, IOException {
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet http = new HttpGet(url);
-		HttpResponse response = httpClient.execute(http);
-		return response.getEntity();    		
 	}
 
 	/*

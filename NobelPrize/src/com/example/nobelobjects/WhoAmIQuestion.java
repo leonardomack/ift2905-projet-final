@@ -11,6 +11,7 @@ public class WhoAmIQuestion {
 
 	/**
 	 * il faudra les shuffler pour l'affichage
+	 * il faudra aussi afficher l'image...
 	 */
 	public ArrayList<String> printedAnswers;
 
@@ -23,6 +24,8 @@ public class WhoAmIQuestion {
 	public String questionString;
 	public int questionNumber;
 
+	private String urlImage;
+	
 	public boolean type;
 	/**
 	 * remplacer boolean type par un enum... pour l'instant 2 type de questions
@@ -33,7 +36,7 @@ public class WhoAmIQuestion {
 	 * @param category
 	 * @param answer
 	 */
-	public WhoAmIQuestion(int questionNumber,boolean typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers) {
+	public WhoAmIQuestion(int questionNumber,boolean typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers,String urlImage) {
 		super();
 
 		//ou passer 3 autres string...
@@ -48,10 +51,32 @@ public class WhoAmIQuestion {
 		if(typeQuestion)
 			this.questionString = "Quel prix nobel ai-je gagné ?";
 		else
-			this.questionString = "Qui-suis-je ?";
+			this.questionString = "Qui-suis-je ?";//ton père
 
 		this.isAnswered=false;
 		this.isAnsweredCorrectly=false;
+	}
+
+/**
+ * on considère deux quqestions egales si elles sont du même type et si elles ont les mêmes réponses (dans le même ordre)
+ Non testé... easy coder ^^
+ */
+	@Override
+	public boolean equals(Object o) {
+
+		if(o instanceof WhoAmIQuestion && 
+				(		
+						(((WhoAmIQuestion)o).isType() &&  this.isType()) 
+						||  (!((WhoAmIQuestion)o).isType() &&  !this.isType()) 
+						)
+						&& ((WhoAmIQuestion)o).getRightAnswers().equals(this.getRightAnswers()) 
+				)
+		{
+			return true;
+		} else 
+		{
+			return false;
+		}
 	}
 
 
@@ -130,6 +155,8 @@ public class WhoAmIQuestion {
 
 
 	public String toString(){
-		return questionString  ;
+		return "La question est : "+ questionString 
+				+"\nLes réponses affichées sont : "+ printedAnswers.toString()
+				+"\nLes réponses correctes sont : "+ rightAnswers.toString();
 	}
 }
