@@ -31,6 +31,18 @@ public class Laureate
 		prizes = new ArrayList<Prize>();
 	}
 
+	/**
+	 * nécessaire pour avoir un bon random des laureates = pas de doublons
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Laureate && ((Laureate)o).getId() == this.getId()){
+		    return true;
+		} else {
+		    return false;
+		}
+	}
+
 	public String getDateBorn()
 	{
 		return dateBorn;
