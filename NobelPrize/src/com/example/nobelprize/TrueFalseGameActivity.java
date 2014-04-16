@@ -163,6 +163,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				Object object) {
 			View currentView = (View)object;
 			currentQuestionNumber= (TextView) currentView.findViewById(R.id.TextViewTrueFalse_QNumber);
+			Log.d(TAG, "Currently on view " + position);
 			super.setPrimaryItem(container, position, object);
 		}
 
@@ -181,6 +182,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 		}	
 		
 		public void handleClick(boolean answer){
+			Log.d(TAG, "currentQuestionNumberView is : " + currentQuestionNumber.getText());
 			int pos = viewPager.getCurrentItem();
 			currentQuestion = questions.get(pos);
 			//TextView currentQuestionNumber = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
@@ -190,8 +192,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
-					//update database
-					currentQuestionNumber.setTextColor(Color.GREEN);
+					currentQuestionNumber.setTextColor(Color.parseColor("#7cfc00"));;
 					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else{
@@ -199,8 +200,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					currentQuestion.setAnsweredCorrectly(false);
 					if(prefs.getBoolean("vibrate", true))
 						vib.vibrate(500);
-					//update database
-					currentQuestionNumber.setTextColor(Color.RED);
+					currentQuestionNumber.setTextColor(Color.parseColor("#ff0000"));
 					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				
@@ -209,6 +209,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					if(questions.get(i).isAnswered)
 						j++;
 				}
+				
 				if(j==questions.size()){
 					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
 					String playerName = prefs.getString("username", "");
@@ -221,8 +222,8 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					startActivity(goBackToGameMenu);
 				}
 				
-				if(pos<questions.size())
-					viewPager.setCurrentItem(pos+1);
+				//if(pos<questions.size())
+					//viewPager.setCurrentItem(pos+1);
 			}
 				
 		}
