@@ -51,6 +51,7 @@ public class WhoAmIGameAPI {
 		questionNumber=1;
 
 		while(questions.size()<AMOUNT_OF_QUESTIONS){
+			//NULLpointerEcepion here
 			WhoAmIQuestion questionElement = computeRandomQuestion(questionNumber);
 			if(questionElement != null){
 
@@ -138,13 +139,14 @@ public class WhoAmIGameAPI {
 
 	/**si prize == null ou (alors contient un earraylist non nulle d'objets null... tester aussi) alors retourner*/
 	private Laureate fetchRandomLaureate() {
-		int id = (new Random()).nextInt(LAST_LAUREATE)+1;
+		Random r = new Random();
 		//soit appeler json unique = je pense que ca fetch la totalité des laureats 
 		// soit initialiser une liste locale dans constructeur et chercher le laureat dedans
 		try
 		{
 			Laureate selectedLaureate = null;
 			do{
+				int id = r.nextInt(LAST_LAUREATE)+1;
 				selectedLaureate = new DownloadLaureateTask().execute(id).get();
 				//Prize prize = new Prize();
 				/*if (selectedLaureate.getPrizes().size() == 0)
@@ -152,7 +154,8 @@ public class WhoAmIGameAPI {
 				return null;
 				//prize = selectedLaureate.getPrizes().get(0);
 			}*/
-			}while(selectedLaureate==null || selectedLaureate.getPrizes().size() == 0);
+			}while(selectedLaureate==null || selectedLaureate.getSurname()==null || selectedLaureate.getFirstname()==null || 
+					selectedLaureate.getPrizes() == null || selectedLaureate.getPrizes().size() == 0  );
 
 			return selectedLaureate;
 		}catch(Exception e){Log.v(TAG,"on a fetché un laureate NULL");

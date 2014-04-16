@@ -106,7 +106,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			//on récupère la question
 			WhoAmIQuestion question = questions.get(position);
 
+			if (question == null)
+				return page;
 			TextView tvQuestion=(TextView)page.findViewById(R.id.question);
+			//NULLPointer
 			tvQuestion.setText("Question "+(position+1)+"\n"+question.getQuestionString());
 
 			ArrayList<String> printedAnswers = question.getPrintedAnswers();
