@@ -82,6 +82,7 @@ public class WhoAmIGameAPI {
 			randomAnswers=fetchRandomCategories(rightAnswers.get(0));
 		}
 		else{
+			//NULLPOINTEREXCEPITON
 			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
 			randomAnswers =fetchRandomNames(laureate);
 		}
@@ -90,9 +91,8 @@ public class WhoAmIGameAPI {
 		//on ajoute une des reponses possibles au champ, toujours la première...
 		answersToPrint.add(rightAnswers.get(0));
 
-
-		removeNull(answersToPrint);
-		removeNull(rightAnswers);
+		answersToPrint.removeAll(Collections.singleton(null)); 
+		rightAnswers.removeAll(Collections.singleton(null));  
 
 		WhoAmIQuestion question= null;
 
@@ -152,10 +152,10 @@ public class WhoAmIGameAPI {
 				return null;
 				//prize = selectedLaureate.getPrizes().get(0);
 			}*/
-			}while(selectedLaureate!=null && selectedLaureate.getPrizes().size() == 0);
+			}while(selectedLaureate==null || selectedLaureate.getPrizes().size() == 0);
 
 			return selectedLaureate;
-		}catch(Exception e){
+		}catch(Exception e){Log.v(TAG,"on a fetché un laureate NULL");
 		}
 
 		return null;
@@ -245,17 +245,20 @@ public class WhoAmIGameAPI {
 			}
 		}
 		if (isNull)
-			Log.d(TAG,"on a enlevé des élements NULL");
+			Log.v(TAG,"on a enlevé des élements NULL");
 		return isNull;
 
 	}
+
+	//NULLPOINTEREXCEPTION
 	public void shuffleQuestions(){
 
-		Log.v(TAG,"AVANT"+questions);
+		//Log.v(TAG,"AVANT"+questions);
 		for(WhoAmIQuestion q : questions){
-			Collections.shuffle(q.getPrintedAnswers());
+			if (q != null)
+				Collections.shuffle(q.getPrintedAnswers());
 		}
-		Log.v(TAG,"APRES"+questions);
+		//Log.v(TAG,"APRES"+questions);
 
 
 	}
