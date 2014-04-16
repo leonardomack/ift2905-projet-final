@@ -3,58 +3,87 @@ package com.example.nobelprize;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.example.nobelAPI.WhoAmIGameAPI;
-import com.example.nobelobjects.WhoAmIQuestion;
+
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WhoAmIGameActivity extends Activity implements OnPageChangeListener{
+import com.example.nobelAPI.WhoAmIGameAPI;
+import com.example.nobelobjects.Player;
+import com.example.nobelobjects.TrueFalseQuestion;
+import com.example.nobelobjects.WhoAmIQuestion;
+
+public class WhoAmIGameActivity extends Activity implements OnPageChangeListener, OnSharedPreferenceChangeListener{
+
+	private int score;
+	private final String TAG = "WhoAmIGameActivity";
+	private WhoAmIGameAPI api=null;
+	private ArrayList <WhoAmIQuestion> questions;
 
 
+	private boolean finishedLoading;
 	ViewPager pager;
 	MonPagerAdapter monAdapter;
+
 	Context ctx;
 
 	TextView tvInfo;
 
-	ArrayList <WhoAmIQuestion> questions;
 
-	//questions
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		setProgressBarIndeterminateVisibility(false);
 		setContentView(R.layout.who_am_i_game_layout);
+
+		Log.v(TAG,"avant la requête");
 
 		ctx=this;
 
-		pager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
-		monAdapter = new MonPagerAdapter();
-		pager.setAdapter(monAdapter);
-		pager.setOnPageChangeListener(this);
+		//new sendRequestForQuestionsWho().execute();
 
+
+		new sendRequestForQuestionsWho().execute();
+		
+		//WhoAmIGameAPI api2 = new WhoAmIGameAPI();
+
+		//Log.v(TAG,"api2 \n"+api2.getQuestions());
+		
+		Log.v(TAG,"aprèsla requête");
+		
+		finishedLoading = false;
 		tvInfo=(TextView)findViewById(R.id.textView1);
+		tvInfo.setText("this is it");
 
-		//on initialise les questions
-		//est-ce qu'on va recharger ?? si on va au menu et qu'on revient ici, est ce que ca va recreer une activit é ??		
-
-		WhoAmIGameAPI game = new WhoAmIGameAPI();	
-		//on les mélange pour pas qu'elles soient toujours à laa même place
-		game.shuffleQuestions();
-		this.questions = game.getQuestions();
+		Log.v(TAG,"à la fin du constructeur");
 	}
 
 	@Override
@@ -62,6 +91,73 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+
+
+
+
+	class sendRequestForQuestionsWho extends AsyncTask<String, Integer, String>
+	{
+		@Override
+		protected String doInBackground(String... params)
+		{
+			
+			
+			
+			try
+			{
+				//do{
+					Log.v(TAG,"DEBUT REQUETE");
+					
+				api = new WhoAmIGameAPI();
+				
+			//	}while(api==null);
+				
+
+				Log.v(TAG,"FIN REQUETE");
+				return "Worked";
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				return "Failed";
+			}
+		}
+
+		@Override
+		protected void onPreExecute()
+		{
+			setProgressBarIndeterminateVisibility(true);
+
+			Log.v(TAG,"onPreExecute");
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			setProgressBarIndeterminateVisibility(false);
+
+			Log.v(TAG,"onPostExecute");
+
+			//updateQuestion();
+
+			finishedLoading=true;
+
+			pager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
+			monAdapter = new MonPagerAdapter();
+			pager.setAdapter(monAdapter);
+			pager.setOnPageChangeListener((OnPageChangeListener) ctx);
+
+
+
+			Log.v(TAG,"avant shuffle");
+			api.shuffleQuestions();
+			questions = api.getQuestions();
+
+			Log.v(TAG,"apres shuffle");
+
+		}
 	}
 
 
@@ -94,6 +190,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		@Override
 		public Object instantiateItem(View container, int position) {
+
+			Log.v(TAG,"instantiate item");
 			//compte a partir de 0
 			Toast.makeText(ctx,"Page "+(position+1)+"créée", Toast.LENGTH_LONG).show();
 
@@ -169,6 +267,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	@Override
 	public void onPageSelected(int position) {
 		tvInfo.setText("La page "+(position+1)+" a ete choisie!!!!");
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

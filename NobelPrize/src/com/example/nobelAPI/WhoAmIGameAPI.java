@@ -21,11 +21,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
 import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
+import com.example.nobelprize.SearchLaureateAPI;
 import com.example.tasks.DownloadLaureateTask;
 /**
  * 2types de questions = "qui suis je" et "quel prix nobel ai-je gagné"
@@ -56,7 +58,7 @@ public class WhoAmIGameAPI {
 			if(questionElement != null){
 
 				Log.v(TAG,questionElement.toString());
-				questions.add(computeRandomQuestion(questionNumber));
+				questions.add(questionElement);
 				questionNumber++;
 			}
 		}
@@ -140,29 +142,56 @@ public class WhoAmIGameAPI {
 	/**si prize == null ou (alors contient un earraylist non nulle d'objets null... tester aussi) alors retourner*/
 	private Laureate fetchRandomLaureate() {
 		Random r = new Random();
+
+		Laureate selectedLaureate = null;
 		//soit appeler json unique = je pense que ca fetch la totalité des laureats 
 		// soit initialiser une liste locale dans constructeur et chercher le laureat dedans
 		try
 		{
-			Laureate selectedLaureate = null;
 			do{
 				int id = r.nextInt(LAST_LAUREATE)+1;
-				selectedLaureate = new DownloadLaureateTask().execute(id).get();
-				//Prize prize = new Prize();
-				/*if (selectedLaureate.getPrizes().size() == 0)
-			{
-				return null;
-				//prize = selectedLaureate.getPrizes().get(0);
-			}*/
-			}while(selectedLaureate==null || selectedLaureate.getSurname()==null || selectedLaureate.getFirstname()==null || 
-					selectedLaureate.getPrizes() == null || selectedLaureate.getPrizes().size() == 0  );
+				selectedLaureate = fetchLaureateFromTheInternet(id);
+				Log.v(TAG,"on a fetché un laureate");
+				Log.v(TAG,selectedLaureate.toString());
+			}
+			while(selectedLaureate==null);// || selectedLaureate.getSurname()==null || selectedLaureate.getFirstname()==null || 
+			//					selectedLaureate.getPrizes() == null || selectedLaureate.getPrizes().size() == 0  );
 
-			return selectedLaureate;
-		}catch(Exception e){Log.v(TAG,"on a fetché un laureate NULL");
+		}
+		catch(Exception e){
+			Log.v(TAG,"on a fetché un laureate NULL");
 		}
 
-		return null;
+
+
+		return selectedLaureate; 
 	}
+
+	private Laureate fetchLaureateFromTheInternet(int id){
+		int selectedId = id;
+		SparseArray<Laureate> arrayOfLaureates = new SparseArray<Laureate>();
+		Laureate laureate = new Laureate();
+
+		try
+		{
+			SearchLaureateAPI api = new SearchLaureateAPI(selectedId);
+
+			arrayOfLaureates = api.getFinalArray();
+			if (arrayOfLaureates.size() > 0)
+			{
+				laureate = arrayOfLaureates.valueAt(0);
+			}
+
+			return laureate;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return laureate;
+		}
+	}
+
+
 	public static int getAmountOfQuestion(){
 		return AMOUNT_OF_QUESTIONS;
 	}
@@ -264,5 +293,17 @@ public class WhoAmIGameAPI {
 		//Log.v(TAG,"APRES"+questions);
 
 
+	}
+
+
+	/*
+	 * M�thode de MeteoWebAPI
+	 * 
+	 */
+	private HttpEntity getHttp(String url) throws ClientProtocolException, IOException {
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpGet http = new HttpGet(url);
+		HttpResponse response = httpClient.execute(http);
+		return response.getEntity();    		
 	}
 }
