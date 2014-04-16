@@ -39,9 +39,11 @@
         <activity android:name="com.example.nobelprize.MenuGameActivity" >
         </activity>           
         <activity android:name="com.example.nobelprize.MultipleChoiceQuestionActivity" >
+        </activity>        
+        <activity android:name="com.example.nobelprize.WhoAmIGameActivity" >
         </activity>
         <activity android:name="com.example.nobelprize.PreferencesActivity" >
-        </activity>
+        </activity>        
     </application>
 
 </manifest>

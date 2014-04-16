@@ -49,4 +49,10 @@ public class MenuGameActivity extends Activity {
 		Intent intentJouerTrueFalse = new Intent(getApplicationContext(), TrueFalseGameActivity.class);
 		startActivity(intentJouerTrueFalse);
 	}	
+	
+	public void buttonWhoAmIGameClick(View view)
+	{
+		Intent intentJouerWhoAmI = new Intent(getApplicationContext(), WhoAmIGameActivity.class);
+		startActivity(intentJouerWhoAmI);
+	}	
 }
