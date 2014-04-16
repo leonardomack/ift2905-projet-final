@@ -66,6 +66,11 @@
     <!-- ======TrueFalseGame====== -->
     
     
+    
+     <!-- ======WhoAmIGame====== -->      
+    <!-- ======WhoAmIGame====== -->
+    
+    
      <!-- ======MenuGame====== -->
     <string name="MenuGame_button_MCQGame">MCQ</string>    
     <string name="MenuGame_button_TrueFalseGame">True or False</string>

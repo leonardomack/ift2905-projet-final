@@ -3,6 +3,7 @@ package com.example.nobelAPI;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
@@ -27,7 +28,7 @@ import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
 import com.example.tasks.DownloadLaureateTask;
 /**
- * NON TESTÉ
+ * 2types de questions = "qui suis je" et "quel prix nobel ai-je gagné"
  * @author locust
  *
  */
@@ -38,7 +39,7 @@ public class WhoAmIGameAPI {
 	private ArrayList<WhoAmIQuestion> questions;
 	private String erreur;
 	private final static int AMOUNT_OF_QUESTIONS = 5;
-	private final int LAST_LAUREATE = 896; //dernier laur�at de la liste r�pertori� Avril 2014
+	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private int questionNumber;
 	private final static String TAG = "WhoAmIAPI";
 
@@ -55,14 +56,12 @@ public class WhoAmIGameAPI {
 
 				Log.v(TAG,questionElement.toString());
 				questions.add(computeRandomQuestion(questionNumber));
-				questionNumber++;}
+				questionNumber++;
+			}
 		}
 	}
 	/**
-	 * en théorie on peut générer des doubles de questions... mauvais, ou alors mettre la liste de qquestions
-	 *  en attribut et comparer apres chque creation de quqestion avec la liste de questions deja générées =
-	 * attention à bien redéfinir le equals dans ce type de question, 2 questions sont égales si meme type 
-	 * et si meme rightAnswers... (égalité ArrayList rend true si dans le même ORDRE !! ?? ok I guess)
+	 on vérifie qu'on ne crée pas de questions trop ressemblantes cf equals dans WhoAmIQuestion 
 	 * @param questionNumber
 	 * @return
 	 */
@@ -72,34 +71,40 @@ public class WhoAmIGameAPI {
 
 		ArrayList<String> randomAnswers = new ArrayList<String>();
 		ArrayList<String> rightAnswers = new ArrayList<String>();
+		ArrayList<String> answersToPrint = new ArrayList<String>();
 
 		//on choisit l'un des deux types de question
 		boolean type = randomFiftyPercentChance();
 		if(type){
 			rightAnswers=getCategoriesWon(laureate);
-			randomAnswers=fetchRandomCategories();
+
+			//moche mais bon...
+			randomAnswers=fetchRandomCategories(rightAnswers.get(0));
 		}
 		else{
 			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
 			randomAnswers =fetchRandomNames(laureate);
 		}
 
-		ArrayList<String> answersToPrint = new ArrayList<String>();
 		answersToPrint.addAll(randomAnswers);
-		//on ajoute une des reponses possibles au champ
-		answersToPrint.add(rightAnswers.get(randomMinMax(0, rightAnswers.size()-1)));
+		//on ajoute une des reponses possibles au champ, toujours la première...
+		answersToPrint.add(rightAnswers.get(0));
+
+
+		removeNull(answersToPrint);
+		removeNull(rightAnswers);
 
 		WhoAmIQuestion question= null;
-		
+
 		try {
 			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,laureate.getImageUrl(laureate));
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
+
 			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+			return null;
+		}
+
 
 
 		//si on a déjà créé cette question, alors on n'en veut pas
@@ -123,7 +128,7 @@ public class WhoAmIGameAPI {
 
 		while(laureateList.size() < 3){
 			Laureate tempLaureate = fetchRandomLaureate();
-			if ( !tempLaureate.equals (laureate) && !laureateList.contains(tempLaureate)){
+			if ( tempLaureate != null && !tempLaureate.equals (laureate) && !laureateList.contains(tempLaureate)){
 				laureateList.add (tempLaureate);
 				answers.add(tempLaureate.getFirstname()+" "+tempLaureate.getSurname());
 			}
@@ -131,18 +136,24 @@ public class WhoAmIGameAPI {
 		return answers;
 	}
 
+	/**si prize == null ou (alors contient un earraylist non nulle d'objets null... tester aussi) alors retourner*/
 	private Laureate fetchRandomLaureate() {
 		int id = (new Random()).nextInt(LAST_LAUREATE)+1;
 		//soit appeler json unique = je pense que ca fetch la totalité des laureats 
 		// soit initialiser une liste locale dans constructeur et chercher le laureat dedans
 		try
 		{
-			Laureate selectedLaureate = new DownloadLaureateTask().execute(id).get();
-			Prize prize = new Prize();
-			/*if (selectedLaureate.getPrizes().size() > 0)
+			Laureate selectedLaureate = null;
+			do{
+				selectedLaureate = new DownloadLaureateTask().execute(id).get();
+				//Prize prize = new Prize();
+				/*if (selectedLaureate.getPrizes().size() == 0)
 			{
-				prize = selectedLaureate.getPrizes().get(0);
+				return null;
+				//prize = selectedLaureate.getPrizes().get(0);
 			}*/
+			}while(selectedLaureate!=null && selectedLaureate.getPrizes().size() == 0);
+
 			return selectedLaureate;
 		}catch(Exception e){
 		}
@@ -154,7 +165,7 @@ public class WhoAmIGameAPI {
 	}
 
 
-	private ArrayList <String>  fetchRandomCategories(){
+	private ArrayList <String>  fetchRandomCategories(String answer){
 		ArrayList <String> selectedCategories = new ArrayList<String>();
 
 		for (int i = 0; i < 3 ; i++){
@@ -181,7 +192,7 @@ public class WhoAmIGameAPI {
 					category = "physics";
 					break;
 				}
-			}while(selectedCategories.contains(category));
+			}while(selectedCategories.contains(category) || category.equals(answer));
 
 			selectedCategories.add(category);
 		}
@@ -208,7 +219,7 @@ public class WhoAmIGameAPI {
 	}
 
 	/*
-	 * M�thodes al�atoires
+	 * Méthodes aléatoires
 	 */
 	private int randomMinMax(int min, int max){
 		Random rand = new Random();
@@ -218,5 +229,34 @@ public class WhoAmIGameAPI {
 	private boolean randomFiftyPercentChance()
 	{   
 		return Math.random() < 0.50;
+	}
+	/**
+	 * certaines lsites ont des éléments null qui perturbent le bon fonctionnement de l'app
+	 * @param l
+	 */
+	private boolean removeNull(ArrayList l){
+		boolean isNull=false;
+		Object o =null;
+		for(int i = 0; i < l.size(); i++){
+			o = l.get(i);
+			if (o == null){
+				isNull= true;
+				l.remove(i);
+			}
+		}
+		if (isNull)
+			Log.d(TAG,"on a enlevé des élements NULL");
+		return isNull;
+
+	}
+	public void shuffleQuestions(){
+
+		Log.v(TAG,"AVANT"+questions);
+		for(WhoAmIQuestion q : questions){
+			Collections.shuffle(q.getPrintedAnswers());
+		}
+		Log.v(TAG,"APRES"+questions);
+
+
 	}
 }
