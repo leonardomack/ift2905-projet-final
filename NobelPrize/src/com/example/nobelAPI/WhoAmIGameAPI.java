@@ -31,6 +31,7 @@ import com.example.nobelprize.SearchLaureateAPI;
 import com.example.tasks.DownloadLaureateTask;
 /**
  * 2types de questions = "qui suis je" et "quel prix nobel ai-je gagné"
+ * rq : on utilisera pas forcémenet tout les candidats dans l'arraylist
  * @author locust
  *
  */
@@ -39,38 +40,44 @@ public class WhoAmIGameAPI {
 	private String prizeURL;
 	private String laureateURL;
 	private ArrayList<WhoAmIQuestion> questions;
+
+	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private String erreur;
 	private final static int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private int questionNumber;
 	private final static String TAG = "WhoAmIAPI";
 
-	public WhoAmIGameAPI(){		
-		prizeURL = "http://api.nobelprize.org/v1/prize.json";
-		laureateURL = "http://api.nobelprize.org/v1/laureate.json";
+	/**
+	 * créé les questions à partir de la list de laureats donnée
+	 * @param laureates
+	 */
+	public WhoAmIGameAPI(ArrayList<ArrayList<Laureate>> laureatesList){
+		this.laureatesList = laureatesList;
 		questions = new ArrayList<WhoAmIQuestion>();
 		erreur = null;
 		questionNumber=1;
 
+		//synchroniser amount of aesiton et size de laureates
 		while(questions.size()<AMOUNT_OF_QUESTIONS){
 			//NULLpointerEcepion here
 			WhoAmIQuestion questionElement = computeRandomQuestion(questionNumber);
-			if(questionElement != null){
+			Log.v(TAG,questionElement.toString());
+			questions.add(questionElement);
+			questionNumber++;
 
-				Log.v(TAG,questionElement.toString());
-				questions.add(questionElement);
-				questionNumber++;
-			}
 		}
 	}
+
 	/**
-	 on vérifie qu'on ne crée pas de questions trop ressemblantes cf equals dans WhoAmIQuestion 
 	 * @param questionNumber
 	 * @return
 	 */
 	private WhoAmIQuestion computeRandomQuestion(int questionNumber) {
+		ArrayList<Laureate> laureates = laureatesList.get(questionNumber-1); 
 
-		Laureate laureate = fetchRandomLaureate();		
+		//bonne reponse
+		Laureate laureate = laureates.get(0);		
 
 		ArrayList<String> randomAnswers = new ArrayList<String>();
 		ArrayList<String> rightAnswers = new ArrayList<String>();
@@ -80,40 +87,33 @@ public class WhoAmIGameAPI {
 		boolean type = randomFiftyPercentChance();
 		if(type){
 			rightAnswers=getCategoriesWon(laureate);
-
-			//moche mais bon...
 			randomAnswers=fetchRandomCategories(rightAnswers.get(0));
 		}
 		else{
-			//NULLPOINTEREXCEPITON
 			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
-			randomAnswers =fetchRandomNames(laureate);
+			randomAnswers =fetchRandomNames(laureates);
 		}
 
 		answersToPrint.addAll(randomAnswers);
 		//on ajoute une des reponses possibles au champ, toujours la première...
 		answersToPrint.add(rightAnswers.get(0));
-
+		/*
 		answersToPrint.removeAll(Collections.singleton(null)); 
 		rightAnswers.removeAll(Collections.singleton(null));  
-
+		 */
 		WhoAmIQuestion question= null;
 
 		try {
 			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,laureate.getImageUrl(laureate));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-
+			//on a un laureat avec une image nulle... pas bon du tout... on ne paut pas gérer ce cas à ce niveau...
+			//on peut mettre une url basic vers une photo anonyme qui est signe dde bug... pour renseigner l'utilisateur
+			Log.v(TAG,"Laureate avec PHOTO NULL !!!! Nothing we can do for now");
 			e.printStackTrace();
-			return null;
+			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,"pas d image");
 		}
 
-
-
-		//si on a déjà créé cette question, alors on n'en veut pas
-		if(questions.contains(question)){
-			return null;
-		}
 		return question;
 	}
 
@@ -125,72 +125,16 @@ public class WhoAmIGameAPI {
 		return categoriesWon;
 	}
 
-	private ArrayList<String> fetchRandomNames( Laureate laureate){
+	private ArrayList<String> fetchRandomNames( ArrayList<Laureate> randomLaureates){
 		ArrayList<String> answers = new ArrayList<String>();  
-		ArrayList<Laureate> laureateList = new ArrayList<Laureate>();	
 
-		while(laureateList.size() < 3){
-			Laureate tempLaureate = fetchRandomLaureate();
-			if ( tempLaureate != null && !tempLaureate.equals (laureate) && !laureateList.contains(tempLaureate)){
-				laureateList.add (tempLaureate);
-				answers.add(tempLaureate.getFirstname()+" "+tempLaureate.getSurname());
-			}
+		//remplacer 4 par "number - od other choices"
+		for(int i = 1; i < 4 ; i++){
+			Laureate tempLaureate = randomLaureates.get(i);
+			answers.add(tempLaureate.getFirstname()+" "+tempLaureate.getSurname());
 		}
 		return answers;
 	}
-
-	/**si prize == null ou (alors contient un earraylist non nulle d'objets null... tester aussi) alors retourner*/
-	private Laureate fetchRandomLaureate() {
-		Random r = new Random();
-
-		Laureate selectedLaureate = null;
-		//soit appeler json unique = je pense que ca fetch la totalité des laureats 
-		// soit initialiser une liste locale dans constructeur et chercher le laureat dedans
-		try
-		{
-			do{
-				int id = r.nextInt(LAST_LAUREATE)+1;
-				selectedLaureate = fetchLaureateFromTheInternet(id);
-				Log.v(TAG,"on a fetché un laureate");
-				Log.v(TAG,selectedLaureate.toString());
-			}
-			while(selectedLaureate==null);// || selectedLaureate.getSurname()==null || selectedLaureate.getFirstname()==null || 
-			//					selectedLaureate.getPrizes() == null || selectedLaureate.getPrizes().size() == 0  );
-
-		}
-		catch(Exception e){
-			Log.v(TAG,"on a fetché un laureate NULL");
-		}
-
-
-
-		return selectedLaureate; 
-	}
-
-	private Laureate fetchLaureateFromTheInternet(int id){
-		int selectedId = id;
-		SparseArray<Laureate> arrayOfLaureates = new SparseArray<Laureate>();
-		Laureate laureate = new Laureate();
-
-		try
-		{
-			SearchLaureateAPI api = new SearchLaureateAPI(selectedId);
-
-			arrayOfLaureates = api.getFinalArray();
-			if (arrayOfLaureates.size() > 0)
-			{
-				laureate = arrayOfLaureates.valueAt(0);
-			}
-
-			return laureate;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return laureate;
-		}
-	}
-
 
 	public static int getAmountOfQuestion(){
 		return AMOUNT_OF_QUESTIONS;
@@ -262,48 +206,17 @@ public class WhoAmIGameAPI {
 	{   
 		return Math.random() < 0.50;
 	}
-	/**
-	 * certaines lsites ont des éléments null qui perturbent le bon fonctionnement de l'app
-	 * @param l
-	 */
-	private boolean removeNull(ArrayList l){
-		boolean isNull=false;
-		Object o =null;
-		for(int i = 0; i < l.size(); i++){
-			o = l.get(i);
-			if (o == null){
-				isNull= true;
-				l.remove(i);
-			}
-		}
-		if (isNull)
-			Log.v(TAG,"on a enlevé des élements NULL");
-		return isNull;
 
-	}
 
-	//NULLPOINTEREXCEPTION
 	public void shuffleQuestions(){
 
-		//Log.v(TAG,"AVANT"+questions);
+		Log.v(TAG,"AVANT SHUFFLE");
 		for(WhoAmIQuestion q : questions){
 			if (q != null)
 				Collections.shuffle(q.getPrintedAnswers());
 		}
-		//Log.v(TAG,"APRES"+questions);
-
-
+		Log.v(TAG,"APRES SHUFFLE");
 	}
 
 
-	/*
-	 * M�thode de MeteoWebAPI
-	 * 
-	 */
-	private HttpEntity getHttp(String url) throws ClientProtocolException, IOException {
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet http = new HttpGet(url);
-		HttpResponse response = httpClient.execute(http);
-		return response.getEntity();    		
-	}
 }
