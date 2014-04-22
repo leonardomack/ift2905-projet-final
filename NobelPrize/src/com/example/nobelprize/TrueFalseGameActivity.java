@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,7 +124,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 	
 	private class TrueFalseGamePagerAdapter extends PagerAdapter implements OnClickListener{
 		private TextView currentQuestionNumber;
-		
+		private ImageView responseImage;
 		@Override
 		public int getCount() {
 			return TrueFalseGameAPI.getAmountOfQuestion();
@@ -142,18 +143,32 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			TextView questionNumber = (TextView)layout.findViewById(R.id.TextViewTrueFalse_QNumber);
 			Button trueButton = (Button)layout.findViewById(R.id.ButtonTrueFalseGame_True);
 			Button falseButton = (Button)layout.findViewById(R.id.ButtonTrueFalseGame_False);
-			trueButton.setOnClickListener(this);
-			falseButton.setOnClickListener(this);
 			question.setText(questions.get(position).getQuestionString());
 			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
-			
+			currentQuestionNumber= (TextView) layout.findViewById(R.id.TextViewTrueFalse_QNumber);
+			responseImage = (ImageView)layout.findViewById(R.id.ImageFeedbackQuestion);
+			currentQuestion = questions.get(position);
+			if(currentQuestion.isAnswered){
+				if(currentQuestion.isAnsweredCorrectly){
+					responseImage.setImageResource(R.drawable.truequestion);
+					currentQuestionNumber.setTextColor(Color.GREEN);
+				}
+				else{
+					responseImage.setImageResource(R.drawable.falsequestion);
+					currentQuestionNumber.setTextColor(Color.RED);
+				}
+			}
+			else{
+				trueButton.setOnClickListener(this);
+				falseButton.setOnClickListener(this);
+			}
 	        ((ViewPager) container).addView(layout, 0);
 	        return layout;
 		}
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			//((ViewPager) container).removeView((View) object);
+			((ViewPager) container).removeView((View) object);
 		}
 
 		
@@ -163,6 +178,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				Object object) {
 			View currentView = (View)object;
 			currentQuestionNumber= (TextView) currentView.findViewById(R.id.TextViewTrueFalse_QNumber);
+			responseImage = (ImageView)currentView.findViewById(R.id.ImageFeedbackQuestion);
 			super.setPrimaryItem(container, position, object);
 		}
 
@@ -191,6 +207,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
 					//update database
+					responseImage.setImageResource(R.drawable.truequestion);
 					currentQuestionNumber.setTextColor(Color.GREEN);
 					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
@@ -200,6 +217,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					if(prefs.getBoolean("vibrate", true))
 						vib.vibrate(500);
 					//update database
+					responseImage.setImageResource(R.drawable.falsequestion);
 					currentQuestionNumber.setTextColor(Color.RED);
 					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
 				}

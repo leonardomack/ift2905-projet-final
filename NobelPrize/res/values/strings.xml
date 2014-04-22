@@ -63,6 +63,7 @@
     <string name="TrueFalseGame_QuestionNumber">Question #1 of 5</string>
     <string name="TrueFalseGame_RightAnswerToast">Right Answer!</string>
     <string name="TrueFalseGame_WrongAnswerToast">Wrong Answer!</string>
+    <string name="TrueFalseImageContentDescription">Image corresponding to response</string>
     <!-- ======TrueFalseGame====== -->
     
     
