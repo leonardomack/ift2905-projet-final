@@ -18,6 +18,8 @@ public class Laureate
 	private String dateDied;
 	private List<Prize> prizes;
 
+	private String imageUrl = null;
+
 	public Laureate()
 	{
 	}
@@ -29,6 +31,18 @@ public class Laureate
 		this.surname = surname;
 
 		prizes = new ArrayList<Prize>();
+	}
+
+	/**
+	 * nécessaire pour avoir un bon random des laureates = pas de doublons
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Laureate && ((Laureate)o).getId() == this.getId()){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public String getDateBorn()
@@ -121,6 +135,10 @@ public class Laureate
 	 */
 	public String getImageUrl(Laureate laureate) throws InterruptedException, ExecutionException
 	{
+		//pour éviter les calculs et appels a l'API redondants
+		if(imageUrl != null && !imageUrl.equals(""))
+			return imageUrl;
+
 		// Find the laureate and his prizes
 		Laureate laureateSearch = new DownloadLaureateTask().execute(laureate.getId()).get();
 		List<Prize> prizes = laureateSearch.getPrizes();
@@ -191,7 +209,8 @@ public class Laureate
 		catch (Exception e)
 		{
 		}
-
+		
+		this.imageUrl = winnerImageUrl;
 		return winnerImageUrl;
 	}
 }

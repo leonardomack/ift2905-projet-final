@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/activity_main_buttonMCQGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:onClick="buttonMCQGameClick"
+        android:text="@string/MenuGame_button_MCQGame" />
+
+    <Button
+        android:id="@+id/activity_main_buttonTrueFalseGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:onClick="buttonTrueFalseGameClick"
+        android:text="@string/MenuGame_button_TrueFalseGame" />
+    
+     <Button
+        android:id="@+id/activity_main_buttonWhoAmIGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:onClick="buttonWhoAmIGameClick"
+        android:text="@string/MenuGame_button_WhoAmIGame" />
+
+</LinearLayout>

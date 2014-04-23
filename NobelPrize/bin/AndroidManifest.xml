@@ -9,6 +9,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -32,8 +33,21 @@
         </activity>
         <activity android:name="com.example.nobelprize.LaureateDetailActivity" >
         </activity>
-        <activity android:name="com.example.nobelprize.TrueFalseGameActivity"
+        <activity
+            android:name="com.example.nobelprize.TrueFalseGameActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" >
+        </activity>
+        <activity android:name="com.example.nobelprize.MenuGameActivity" >
+        </activity>
+        <activity
+            android:name="com.example.nobelprize.MultipleChoiceQuestionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" >
+        </activity>
+        <activity
+            android:name="com.example.nobelprize.WhoAmIGameActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" >
+        </activity>
+        <activity android:name="com.example.nobelprize.PreferencesActivity" >
         </activity>
     </application>
 

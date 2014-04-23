@@ -3,7 +3,6 @@ package com.example.nobelprize;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.Random;
 
 import org.apache.http.HttpEntity;
@@ -27,8 +26,8 @@ public class TrueFalseGameAPI {
 	private String laureateURL;
 	private ArrayList<TrueFalseQuestion> questions;
 	private String erreur;
-	private final int AMOUNT_OF_QUESTIONS = 5;
-	private final int LAST_LAUREATE = 896;
+	private final static int AMOUNT_OF_QUESTIONS = 5;
+	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private int questionNumber;
 	private final String TAG = "TrueFalseGameAPI";
 	
@@ -44,6 +43,13 @@ public class TrueFalseGameAPI {
 		}
 	}
 	
+	public static int getAmountOfQuestion(){
+		return AMOUNT_OF_QUESTIONS;
+	}
+	
+	/**
+	 * Récupère les infos de l'API, crée une question aléatoirement et l'ajoute à la liste de question
+	 */
 	private void getInfoForQuestionType1(){
 		String searchURL = laureateURL+"?id=";
 		int id = randomMinMax(1, LAST_LAUREATE);
@@ -56,30 +62,12 @@ public class TrueFalseGameAPI {
 				JSONObject laureate = laureateList.getJSONObject(0);
 				JSONArray prizesList = laureate.getJSONArray("prizes");
 				JSONObject prize = prizesList.getJSONObject(0);
+				
 				String name = laureate.getString("firstname") + " " + laureate.getString("surname");
 				int year = prize.getInt("year");
 				String category = prize.getString("category");
-				boolean answer = true;
-				int chooseAField = 0;
-				chooseAField=randomMinMax(0,1);
-				switch(chooseAField){
-				case 0:
-					if(randomFiftyPercentChance()){
-						category = fetchRandomCategory();
-						answer=false;
-					}
-					break;
-				case 1:
-					if(randomFiftyPercentChance()){
-						year = fetchRandomYear();
-						answer=false;
-					}
-					break;
-				default:
-					break;
-				}
-				TrueFalseQuestion q = new TrueFalseQuestion().newTrueFalseQuestionType1(questionNumber, 
-						name,year,category, answer);
+				
+				TrueFalseQuestion q = randomizeQuestion(name, year, category);
 				questions.add(q);
 			}
 			
@@ -92,6 +80,36 @@ public class TrueFalseGameAPI {
 		} catch (JSONException e) {
 			erreur = "Erreur JSON :"+e.getMessage();
 		}
+	}
+
+	/**
+	 * Crée une question vrai ou fausse avec 50 % de chance
+	 */
+	private TrueFalseQuestion randomizeQuestion(String name, int year,
+			String category) {
+		boolean answer = true;
+		int chooseAField = 0;
+		chooseAField=randomMinMax(0,1);
+		switch(chooseAField){
+		case 0:
+			if(randomFiftyPercentChance()){
+				category = fetchRandomCategory(category);
+				answer=false;
+			}
+			break;
+		case 1:
+			if(randomFiftyPercentChance()){
+				year = fetchRandomYear(year);
+				answer=false;
+			}
+			break;
+		default:
+			break;
+		}
+		
+		TrueFalseQuestion q = new TrueFalseQuestion().newTrueFalseQuestionType1(questionNumber, 
+				name,year,category, answer);
+		return q;
 	}
 	
 	public ArrayList<TrueFalseQuestion> getQuestions() {
@@ -109,6 +127,9 @@ public class TrueFalseGameAPI {
 		return response.getEntity();    		
 	}
 	
+	/*
+	 * Méthodes aléatoires
+	 */
 	private int randomMinMax(int min, int max){
 		Random rand = new Random();
 		return rand.nextInt((max-min)+1)+min;
@@ -119,37 +140,41 @@ public class TrueFalseGameAPI {
 	   return Math.random() < 0.50;
 	}
 	
-	private String fetchRandomCategory(){
-		int i = randomMinMax(0, 5);
+	private String fetchRandomCategory(String category){
 		String cat = null;
-		switch(i){
-		case 0:
-			cat = "Economics";
-			break;
-		case 1:
-			cat = "Peace";
-			break;
-		case 2:
-			cat = "Literature";
-			break;
-		case 3:
-			cat = "Medicine";
-			break;
-		case 4:
-			cat = "Chemistry";
-			break;
-		case 5:
-			cat = "Physics";
-			break;
-		}
+		do{
+			int i = randomMinMax(0, 5);
+			switch(i){
+			case 0:
+				cat = "economics";
+				break;
+			case 1:
+				cat = "peace";
+				break;
+			case 2:
+				cat = "literature";
+				break;
+			case 3:
+				cat = "medicine";
+				break;
+			case 4:
+				cat = "chemistry";
+				break;
+			case 5:
+				cat = "physics";
+				break;
+			}
+		}while(cat.equals(category));
 		return cat;
 	}
 	
-	private int fetchRandomYear(){
+	private int fetchRandomYear(int rightYear){
 		int year = -1;
 		int firstYearOfNobelPrize = 1901;
 		int thisYear = (Calendar.getInstance().get(Calendar.YEAR)) -1;
-		year = randomMinMax(firstYearOfNobelPrize, thisYear);
+		do{
+			year = randomMinMax(firstYearOfNobelPrize, thisYear);
+		}while(year == rightYear);
 		return year;
 	}
 }
