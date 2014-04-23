@@ -32,6 +32,30 @@ public class MultipleChoiceQuestion {
 	 * @param category
 	 * @param answer
 	 */
+	
+	private String laureateName; 
+	private String category ; 
+	private int year; 
+	
+	// Born city
+		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
+			this(questionNumber, typeQuestion, printedAnswers, rightAnswers); 
+			this.laureateName = laureateName ;
+		}
+
+		// Category of Nobel Prize
+		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName, String category){
+			this(questionNumber, typeQuestion, printedAnswers, rightAnswers, laureateName);
+			this.category = category ; 		
+		}
+
+		//Laureate who won
+		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String category, int year){
+			this(questionNumber, typeQuestion, printedAnswers, rightAnswers, "", category);
+			this.year = year; 
+		}
+
+		
 	public MultipleChoiceQuestion(int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers) {
 		super();
 
@@ -56,13 +80,13 @@ public class MultipleChoiceQuestion {
 private void generateQuestionDependingType(int typeQuestion) {
 	switch(typeQuestion){
 	case 1 :
-		this.questionString = "Question1?";
+		this.questionString = laureateName + "'s born city was :";
 		break;
 	case 2 :
-		this.questionString = "Question2";
+		this.questionString = laureateName + "won his "+category+"Nobel prize in :" ; 
 		break;
 	case 3 :
-		this.questionString = "question3";
+		this.questionString = "In"+year+","+category+"Nobel prize was discerned to :" ;
 		break;
 	}		
 		

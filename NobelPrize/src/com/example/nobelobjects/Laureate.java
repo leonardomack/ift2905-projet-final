@@ -17,6 +17,7 @@ public class Laureate
 	private String dateBorn;
 	private String dateDied;
 	private List<Prize> prizes;
+	private String categoryPrize;
 
 	private String imageUrl = null;
 
@@ -74,6 +75,10 @@ public class Laureate
 	{
 		this.bornCountry = bornCountry;
 	}
+	
+	//public String getCategoryPrize(int i){
+		//return 
+	//}
 
 	public String getBornCity()
 	{
@@ -93,7 +98,7 @@ public class Laureate
 	public List<Prize> getPrizes()
 	{
 		return prizes;
-	}
+	} 
 
 	public void setPrizes(List<Prize> prizes)
 	{
