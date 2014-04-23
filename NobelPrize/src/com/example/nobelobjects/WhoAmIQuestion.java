@@ -7,26 +7,9 @@ import java.util.ArrayList;
  * @author locust
  *
  */
-public class WhoAmIQuestion {
-
-	/**
-	 * il faudra les shuffler pour l'affichage
-	 * il faudra aussi afficher l'image...
-	 */
-	public ArrayList<String> printedAnswers;
-
-	/**contient les bonnes reponses = peut y en avoir plusieurs
-	 * ex = qlqun qui a gagné plsrs prix nobels*/
-	public ArrayList<String> rightAnswers;
-
-	public boolean isAnsweredCorrectly;
-	public boolean isAnswered;
-	public String questionString;
-	public int questionNumber;
-
+public class WhoAmIQuestion extends MultipleChoiceQuestion{
 	private String urlImage;
-	
-	public boolean type;
+
 	/**
 	 * remplacer boolean type par un enum... pour l'instant 2 type de questions
 	 * faire factory de question = après avoir testé la fonctionnalité
@@ -36,30 +19,27 @@ public class WhoAmIQuestion {
 	 * @param category
 	 * @param answer
 	 */
-	public WhoAmIQuestion(int questionNumber,boolean typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers,String urlImage) {
-		super();
-
-		//ou passer 3 autres string...
-		this.questionNumber = questionNumber;
-
-		this.type = typeQuestion;
-
-		this.printedAnswers=printedAnswers;
-		this.rightAnswers=rightAnswers;
-		
+	public WhoAmIQuestion(int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers,String urlImage) {
+		super(questionNumber,typeQuestion,printedAnswers,rightAnswers);
 		this.urlImage = urlImage;
-
-
-		if(typeQuestion)
+	}
+	/**
+	 * dans les descendants, i lfaudra overrider cette methode
+	 * @param typeQuestion
+	 */
+	private void generateQuestionDependingType(int typeQuestion) {
+		switch(typeQuestion){
+		case 1 :
 			this.questionString = "Which Nobel Prize have I won ?";
-		else
-			this.questionString = "Who Am I ?";//ton père
-
-		this.isAnswered=false;
-		this.isAnsweredCorrectly=false;
+			break;
+		case 2 :
+			this.questionString = "Who Am I ?";
+			break;
+		}		
 	}
 
-public String getUrlImage() {
+
+	public String getUrlImage() {
 		return urlImage;
 	}
 
@@ -67,19 +47,18 @@ public String getUrlImage() {
 		this.urlImage = urlImage;
 	}
 
-/**
- * on considère deux quqestions egales si elles sont du même type et si elles ont les mêmes réponses (dans le même ordre)
+	/**
+	 * on considère deux quqestions egales si elles sont du même type et si elles ont les mêmes réponses (dans le même ordre)
  Non testé... easy coder ^^
- */
+	 */
 	@Override
 	public boolean equals(Object o) {
 
 		if(o instanceof WhoAmIQuestion && 
-				(		
-						(((WhoAmIQuestion)o).isType() &&  this.isType()) 
-						||  (!((WhoAmIQuestion)o).isType() &&  !this.isType()) 
-						)
-						&& ((WhoAmIQuestion)o).getRightAnswers().equals(this.getRightAnswers()) 
+
+				((WhoAmIQuestion)o).getType() ==  this.getType() 
+
+				&& ((WhoAmIQuestion)o).getRightAnswers().equals(this.getRightAnswers()) 
 				)
 		{
 			return true;
@@ -87,86 +66,5 @@ public String getUrlImage() {
 		{
 			return false;
 		}
-	}
-
-
-	public ArrayList<String> getPrintedAnswers() {
-		return printedAnswers;
-	}
-
-
-	public void setPrintedAnswers(ArrayList<String> printedAnswers) {
-		this.printedAnswers = printedAnswers;
-	}
-
-
-	public ArrayList<String> getRightAnswers() {
-		return rightAnswers;
-	}
-
-
-	public void setRightAnswers(ArrayList<String> rightAnswers) {
-		this.rightAnswers = rightAnswers;
-	}
-
-
-	boolean randomFiftyPercentChance()
-	{   
-		return Math.random() < 0.50;
-	}
-
-	public boolean isAnsweredCorrectly() {
-		return isAnsweredCorrectly;
-	}
-
-
-	public void setAnsweredCorrectly(boolean isAnsweredCorrectly) {
-		this.isAnsweredCorrectly = isAnsweredCorrectly;
-	}
-
-
-	public boolean isAnswered() {
-		return isAnswered;
-	}
-
-
-	public void setAnswered(boolean isAnswered) {
-		this.isAnswered = isAnswered;
-	}
-
-
-	public String getQuestionString() {
-		return questionString;
-	}
-
-
-	public void setQuestionString(String questionString) {
-		this.questionString = questionString;
-	}
-
-
-	public int getQuestionNumber() {
-		return questionNumber;
-	}
-
-
-	public void setQuestionNumber(int questionNumber) {
-		this.questionNumber = questionNumber;
-	}
-
-
-	public boolean isType() {
-		return type;
-	}
-
-	public void setType(boolean type) {
-		this.type = type;
-	}
-
-
-	public String toString(){
-		return "\n\nLa question n°"+questionNumber+" est : "+ questionString 
-				+"\nLes réponses affichées sont : "+ printedAnswers.toString()
-				+"\nLes réponses correctes sont : "+ rightAnswers.toString();
 	}
 }

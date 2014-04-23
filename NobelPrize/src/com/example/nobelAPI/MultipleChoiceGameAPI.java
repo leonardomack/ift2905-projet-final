@@ -1,42 +1,18 @@
 package com.example.nobelAPI;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
-import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
-import com.example.nobelprize.SearchLaureateAPI;
-import com.example.tasks.DownloadLaureateTask;
-/**
- * 2types de questions = "qui suis je" et "quel prix nobel ai-je gagné"
- * rq : on utilisera pas forcémenet tout les candidats dans l'arraylist
- * @author locust
- *
- */
 
-public class WhoAmIGameAPI {
+public class MultipleChoiceGameAPI {
+
 	private String prizeURL;
 	private String laureateURL;
 	private ArrayList<WhoAmIQuestion> questions;
@@ -51,7 +27,7 @@ public class WhoAmIGameAPI {
 	 * créé les questions à partir de la list de laureats donnée
 	 * @param laureates
 	 */
-	public WhoAmIGameAPI(ArrayList<ArrayList<Laureate>> laureatesList){
+	public MultipleChoiceGameAPI(ArrayList<ArrayList<Laureate>> laureatesList){
 		this.laureatesList = laureatesList;
 		questions = new ArrayList<WhoAmIQuestion>();
 		erreur = null;
@@ -211,3 +187,4 @@ public class WhoAmIGameAPI {
 	}
 
 }
+
