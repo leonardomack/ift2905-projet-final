@@ -2,15 +2,19 @@ package com.example.nobelobjects;
 
 public class MultipleChoiceQuestion {
 
-	public boolean answer;
 	public boolean isAnsweredCorrectly;
 	public boolean isAnswered;
 	public String questionString;
 	public int questionNumber; 
 	
+	//Answers 
+	public String answer;
+	public String fake1;
+	public String fake2; 
+	public String fake3;
 	
 	// Born city
-	public MultipleChoiceQuestion newMultipleChoiceQuestionType1(int num, String laureateName, boolean answer){
+	public MultipleChoiceQuestion newMultipleChoiceQuestionType1(int num, String laureateName, String answer, String fake1, String fake2, String fake3){
 		this.questionString = laureateName + "'s born city was :";
 		this.questionNumber = num;
 		this.isAnswered=false;
@@ -20,7 +24,7 @@ public class MultipleChoiceQuestion {
 	}
 	
 	// Category of Nobel Prize
-	public MultipleChoiceQuestion newMultipleChoiceQuestionType2(int num, String laureateName, String category, int share,boolean answer){
+	public MultipleChoiceQuestion newMultipleChoiceQuestionType2(int num, String laureateName, String category, int share,String answer, String fake1, String fake2, String fake3){
 		this.questionString = laureateName + "won his "+category+"Nobel prize in :" ; 
 		this.questionNumber = num;
 		this.isAnswered=false;
@@ -30,7 +34,7 @@ public class MultipleChoiceQuestion {
 	}
 	
 	//Laureate who won
-	public MultipleChoiceQuestion newMultipleChoiceQuestionType3(int num, int year, String category, int share,boolean answer){
+	public MultipleChoiceQuestion newMultipleChoiceQuestionType3(int num, int year, String category, int share,String answer, String fake1, String fake2, String fake3){
 		this.questionString = "In"+year+","+category+"Nobel prize was discerned to :" ; 
 		this.questionNumber = num;
 		this.isAnswered=false;
@@ -39,11 +43,11 @@ public class MultipleChoiceQuestion {
 		return this;
 	}
 
-	public boolean getAnswer() {
+	public String getAnswer() {
 		return answer;
 	}
 
-	public void setAnswer(boolean answer) {
+	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
 
