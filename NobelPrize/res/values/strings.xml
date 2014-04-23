@@ -68,8 +68,18 @@
     
     
     
-     <!-- ======WhoAmIGame====== -->      
-    <!-- ======WhoAmIGame====== -->
+    
+     <!-- ======WhoAmIGame====== --> 
+     
+     <!-- ======WhoAmIGame====== --> 
+    
+     <!-- ======GeneralGame====== -->       
+    <string name="Question">Loading Question</string>
+    <string name="QuestionNumber">Question #1 of 5</string>
+    <string name="ImageContentDescription">Image corresponding to response</string>    
+    <string name="RightAnswerToast">Right Answer!</string>
+    <string name="WrongAnswerToast">Wrong Answer!</string>
+    <!-- ======GeneralGame====== -->
     
     
      <!-- ======MenuGame====== -->

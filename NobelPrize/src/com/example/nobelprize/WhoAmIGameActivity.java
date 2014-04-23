@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.example.nobelAPI.WhoAmIGameAPI;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Player;
+import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
 import com.example.tasks.DownloadImagesTask;
 
@@ -52,14 +53,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private final String TAG = "WhoAmIGameActivity";
 	private WhoAmIGameAPI questionsGenerator=null;
 	private ArrayList <WhoAmIQuestion> questions;
-
+	private WhoAmIQuestion currentQuestion;
 
 	private boolean finishedLoading;
-	ViewPager pager;
+	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
 
 	Context ctx;
-	TextView tvInfo;
 
 	//pour la requete des laureats = on peut affiner pour faire des quizzs thematiques
 	private String name;
@@ -67,6 +67,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private String category;
 	private String gender;
 	SparseArray<Laureate> arrayOfLaureates;
+	
+	private Vibrator vib;
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +83,25 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		finishedLoading = false;
 
 		new SendRequestForNobelPrizeQuestions().execute();
-
-		tvInfo=(TextView)findViewById(R.id.textView1);
-		tvInfo.setText("this is it");
+		
+		vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.itemPrefs:
+			startActivity(new Intent(this, PreferencesActivity.class));
+		break;
+		}
 		return true;
 	}
 
@@ -151,13 +164,12 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 							Log.v(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString()+" n' a PAS DE PHOTO");
 							continue;
 						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+					} catch (Exception e) {
+						// TODO Auto-generated catch block						
 						e.printStackTrace();
-					} catch (ExecutionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						continue;
 					}
+					
 
 					first = false;
 					if (!laureates.contains(l) 
@@ -187,10 +199,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			questions = questionsGenerator.getQuestions();
 
 
-			pager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
+			viewPager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
 			monAdapter = new MonPagerAdapter();
-			pager.setAdapter(monAdapter);
-			pager.setOnPageChangeListener((OnPageChangeListener) ctx);
+			viewPager.setAdapter(monAdapter);
+			viewPager.setOnPageChangeListener((OnPageChangeListener) ctx);
 
 
 			//doit on mettre ça a la toute fin ??
@@ -199,8 +211,11 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 	}
 
-	class MonPagerAdapter extends PagerAdapter {
-
+	class MonPagerAdapter extends PagerAdapter implements OnClickListener{
+		private TextView currentQuestionNumber;
+		private ImageView responseImage;
+		
+		
 		LayoutInflater inflater;
 
 		MonPagerAdapter() {
@@ -221,57 +236,78 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		@Override
 		public Object instantiateItem(View container, int position) {
-
 			Log.v(TAG,"instantiate item"+ position);
-			//compte a partir de 0
-			Toast.makeText(ctx,"Page "+(position+1)+"créée", Toast.LENGTH_LONG).show();
 
-			LinearLayout page;
+			View layout;
+			layout=(View)inflater.inflate(R.layout.who_am_i_game_layout_page, null);
+			
+			
+			//VINCENT
+			currentQuestion = questions.get(position);
+			
+			
+			TextView question = (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_Question);
+			TextView questionNumber = (TextView)layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);
+			question.setText(currentQuestion.getQuestionString());
+			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
+			
+			ArrayList<String> printedAnswers = currentQuestion.getPrintedAnswers();
 
-			page=(LinearLayout)inflater.inflate(R.layout.who_am_i_game_layout_page, null);
-
-
-
-			//numero de question = position + 1
-			//on récupère la question
-			WhoAmIQuestion question = questions.get(position);
-
-			if (question == null)
-				return page;
-			TextView tvQuestion=(TextView)page.findViewById(R.id.question);
-			tvQuestion.setText("Question "+(position+1)+"\n"+question.getQuestionString());
-
-			ArrayList<String> printedAnswers = question.getPrintedAnswers();
-
-			Button b1 = (Button)page.findViewById(R.id.button1);
-			Button b2 = (Button)page.findViewById(R.id.button2);
-			Button b3 = (Button)page.findViewById(R.id.button3);
-			Button b4 = (Button)page.findViewById(R.id.button4);
+			Button b1 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button1);
+			Button b2 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button2);
+			Button b3 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button3);
+			Button b4 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button4);
 
 			b1.setText(printedAnswers.get(0));
 			b2.setText(printedAnswers.get(1));
 			b3.setText(printedAnswers.get(2));
 			b4.setText(printedAnswers.get(3));
+			
 
-			ImageView photo = (ImageView)page.findViewById(R.id.laureate_photo);
-			String laureateImageUrl = question.getUrlImage();
+			ImageView photo = (ImageView)layout.findViewById(R.id.ImageViewWhoAmIGame_laureate_photo);
+			String laureateImageUrl = currentQuestion.getUrlImage();
 			photo.setTag(laureateImageUrl);
-			new DownloadImagesTask().execute(photo);
-			//tvTitre.setTextColor(Color.BLUE);
+			new DownloadImagesTask().execute(photo);			
+			
+			question.setText(questions.get(position).getQuestionString());
+			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
+			currentQuestionNumber= (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);			
+			responseImage = (ImageView)layout.findViewById(R.id.WhoAmIGameImageFeedbackQuestion);
+			
+			
+			if(currentQuestion.isAnswered){
+				if(currentQuestion.isAnsweredCorrectly){
+					responseImage.setImageResource(R.drawable.truequestion);
+					currentQuestionNumber.setTextColor(Color.GREEN);
+				}
+				else{
+					responseImage.setImageResource(R.drawable.falsequestion);
+					currentQuestionNumber.setTextColor(Color.RED);
+				}
+			}
+			else{
+				b1.setOnClickListener(this);
+				b2.setOnClickListener(this);
+				b3.setOnClickListener(this);
+				b4.setOnClickListener(this);
+			}		
+			
+			((ViewPager)container).addView(layout,0);
 
-
-			// On doit ensuite l'ajouter au parent fourni 
-			//pourquoi indic 0 ??
-			((ViewPager)container).addView(page,0);
-
-			return page;
+			return layout;
 		}
 
 		@Override
+		public void setPrimaryItem(ViewGroup container, int position,
+				Object object) {
+			View currentView = (View)object;
+			currentQuestionNumber= (TextView) currentView.findViewById(R.id.TextViewWhoAmIGame_QNumber);
+			responseImage = (ImageView)currentView.findViewById(R.id.WhoAmIGameImageFeedbackQuestion);
+			super.setPrimaryItem(container, position, object);
+		}
+		
+		@Override
 		public void destroyItem(View collection, int position, Object view) {
-			//Toast.makeText(ctx,"DESTROY page"+(position+1),Toast.LENGTH_SHORT).show();
-
-			// On commence par enlever notre page du parent
 			((ViewPager) collection).removeView((View) view);
 		}
 
@@ -286,6 +322,78 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		@Override
 		public void startUpdate(View arg0) {}
+		@Override
+		public void onClick(View v) {
+			if(finishedLoading){
+				switch(v.getId()){
+				case R.id.ButtonWhoAmIGame_button1 :
+					handleClick(1);
+					break;
+				case R.id.ButtonWhoAmIGame_button2 :
+					handleClick(2);
+					break;
+				case R.id.ButtonWhoAmIGame_button3 :
+					handleClick(3);
+					break;
+				case R.id.ButtonWhoAmIGame_button4 :
+					handleClick(4);
+					break;				
+				}
+			}
+		}
+		
+		
+		public void handleClick(int answer){
+			int pos = viewPager.getCurrentItem();
+			currentQuestion = questions.get(pos);
+			//TextView currentQuestionNumber = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
+			if(!currentQuestion.isAnswered){
+				currentQuestion.setAnswered(true);
+				
+				if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer-1))){
+					Log.d(TAG, "Answered correctly");
+					currentQuestion.setAnsweredCorrectly(true);
+					score++;
+					//update database
+					//on garde ça ???
+					//ICI
+					responseImage.setImageResource(R.drawable.truequestion);
+					currentQuestionNumber.setTextColor(Color.GREEN);
+					Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
+				}
+				else{
+					Log.d(TAG, "Answered wrongly");
+					currentQuestion.setAnsweredCorrectly(false);
+					if(prefs.getBoolean("vibrate", true))
+						vib.vibrate(500);
+					//update database
+					responseImage.setImageResource(R.drawable.falsequestion);
+					currentQuestionNumber.setTextColor(Color.RED);
+					Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
+				}
+				
+				int j = 0;
+				for(int i=0; i < questions.size(); i++){
+					if(questions.get(i).isAnswered)
+						j++;
+				}
+				if(j==questions.size()){
+					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
+					String playerName = prefs.getString("username", "");
+					Log.d(TAG, "Player name is :" +playerName);
+					Player player = new Player(getApplicationContext(),prefs.getString("username", ""));
+					Log.d(TAG, "player score was : "+player.toString());
+					player.addScoreTrueFalse(score, questions.size());
+					Log.d(TAG, "player score is now : "+player.toString());
+					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
+					startActivity(goBackToGameMenu);
+				}
+				
+				if(pos<questions.size())
+					viewPager.setCurrentItem(pos+1);
+			}
+				
+		}
 
 	}
 
@@ -301,7 +409,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 	@Override
 	public void onPageSelected(int position) {
-		//tvInfo.setText("La page "+(position+1)+" a ete choisie!!!!");
 	}
 
 	@Override

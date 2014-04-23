@@ -51,9 +51,9 @@ public class WhoAmIQuestion {
 
 
 		if(typeQuestion)
-			this.questionString = "Quel prix nobel ai-je gagné ?";
+			this.questionString = "Which Nobel Prize have I won ?";
 		else
-			this.questionString = "Qui-suis-je ?";//ton père
+			this.questionString = "Who Am I ?";//ton père
 
 		this.isAnswered=false;
 		this.isAnsweredCorrectly=false;
