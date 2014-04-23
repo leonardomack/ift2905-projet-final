@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import com.example.nobelAPI.WhoAmIGameAPI;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Player;
 import com.example.nobelobjects.WhoAmIQuestion;
+import com.example.tasks.DownloadImagesTask;
 
 public class WhoAmIGameActivity extends Activity implements OnPageChangeListener, OnSharedPreferenceChangeListener{
 
@@ -251,6 +253,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			b3.setText(printedAnswers.get(2));
 			b4.setText(printedAnswers.get(3));
 
+			ImageView photo = (ImageView)page.findViewById(R.id.laureate_photo);
+			String laureateImageUrl = question.getUrlImage();
+			photo.setTag(laureateImageUrl);
+			new DownloadImagesTask().execute(photo);
 			//tvTitre.setTextColor(Color.BLUE);
 
 

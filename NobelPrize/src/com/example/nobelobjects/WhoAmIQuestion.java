@@ -46,6 +46,8 @@ public class WhoAmIQuestion {
 
 		this.printedAnswers=printedAnswers;
 		this.rightAnswers=rightAnswers;
+		
+		this.urlImage = urlImage;
 
 
 		if(typeQuestion)
@@ -55,6 +57,14 @@ public class WhoAmIQuestion {
 
 		this.isAnswered=false;
 		this.isAnsweredCorrectly=false;
+	}
+
+public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 
 /**

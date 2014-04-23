@@ -61,7 +61,6 @@ public final class R {
         public static final int dateSearch=0x7f0a0010;
         public static final int fieldSearch=0x7f0a0011;
         public static final int genderSearch=0x7f0a0012;
-        public static final int imageView1=0x7f0a0023;
         public static final int img_splash_screen_logo=0x7f0a0005;
         public static final int itemPrefs=0x7f0a0029;
         public static final int laureate_detail_image_winner=0x7f0a0006;
@@ -69,6 +68,7 @@ public final class R {
         public static final int laureate_detail_name_winner=0x7f0a0007;
         public static final int laureate_detail_textview_born=0x7f0a0008;
         public static final int laureate_details_prizes_listview_textview_prizename=0x7f0a000a;
+        public static final int laureate_photo=0x7f0a0023;
         public static final int mainList=0x7f0a0014;
         public static final int nameSearch=0x7f0a000f;
         public static final int picture=0x7f0a0016;
