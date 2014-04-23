@@ -30,17 +30,21 @@ public final class R {
     public static final class drawable {
         public static final int einstein=0x7f020000;
         public static final int empty_user=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int ic_splash_screen_logo=0x7f020003;
-        public static final int nobel_prize_original=0x7f020004;
-        public static final int references_links=0x7f020005;
+        public static final int falsequestion=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int ic_splash_screen_logo=0x7f020004;
+        public static final int nobel_prize_original=0x7f020005;
+        public static final int references_links=0x7f020006;
+        public static final int truequestion=0x7f020007;
+        public static final int unknownquestion=0x7f020008;
     }
     public static final class id {
         public static final int ButtonTrueFalseGame_False=0x7f0a001d;
         public static final int ButtonTrueFalseGame_True=0x7f0a001e;
+        public static final int ImageFeedbackQuestion=0x7f0a001f;
         public static final int TextViewTrueFalse_QNumber=0x7f0a001c;
         public static final int TextViewTrueFalse_Question=0x7f0a001b;
-        public static final int action_settings=0x7f0a0027;
+        public static final int action_settings=0x7f0a0028;
         public static final int activity_main_buttonChercher=0x7f0a0003;
         public static final int activity_main_buttonJouer=0x7f0a0004;
         public static final int activity_main_buttonMCQGame=0x7f0a000b;
@@ -49,17 +53,17 @@ public final class R {
         public static final int activity_main_description_winner=0x7f0a0002;
         public static final int activity_main_image_winner=0x7f0a0000;
         public static final int activity_main_name_winner=0x7f0a0001;
-        public static final int button1=0x7f0a0023;
-        public static final int button2=0x7f0a0024;
-        public static final int button3=0x7f0a0025;
-        public static final int button4=0x7f0a0026;
+        public static final int button1=0x7f0a0024;
+        public static final int button2=0x7f0a0025;
+        public static final int button3=0x7f0a0026;
+        public static final int button4=0x7f0a0027;
         public static final int container=0x7f0a000e;
         public static final int dateSearch=0x7f0a0010;
         public static final int fieldSearch=0x7f0a0011;
         public static final int genderSearch=0x7f0a0012;
-        public static final int imageView1=0x7f0a0022;
+        public static final int imageView1=0x7f0a0023;
         public static final int img_splash_screen_logo=0x7f0a0005;
-        public static final int itemPrefs=0x7f0a0028;
+        public static final int itemPrefs=0x7f0a0029;
         public static final int laureate_detail_image_winner=0x7f0a0006;
         public static final int laureate_detail_listview_prizes=0x7f0a0009;
         public static final int laureate_detail_name_winner=0x7f0a0007;
@@ -68,15 +72,15 @@ public final class R {
         public static final int mainList=0x7f0a0014;
         public static final int nameSearch=0x7f0a000f;
         public static final int picture=0x7f0a0016;
-        public static final int question=0x7f0a0021;
+        public static final int question=0x7f0a0022;
         public static final int searchListView=0x7f0a0015;
         public static final int searchListViewFinal=0x7f0a0019;
         public static final int searchViewFirstname=0x7f0a0017;
         public static final int searchViewSurname=0x7f0a0018;
         public static final int search_activity_buttonSearch=0x7f0a0013;
-        public static final int textView1=0x7f0a001f;
+        public static final int textView1=0x7f0a0020;
         public static final int true_false_pager=0x7f0a001a;
-        public static final int who_am_i_game_pager=0x7f0a0020;
+        public static final int who_am_i_game_pager=0x7f0a0021;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -118,18 +122,18 @@ public final class R {
  ======WhoAmIGame====== 
  ======MenuGame====== 
          */
-        public static final int MenuGame_button_MCQGame=0x7f060018;
-        public static final int MenuGame_button_TrueFalseGame=0x7f060019;
-        public static final int MenuGame_button_WhoAmIGame=0x7f06001a;
-        public static final int PrefMenu_titleMenu=0x7f06001f;
-        public static final int PrefMenu_titleMenuCondensed=0x7f060020;
-        public static final int PrefScreen_UsernameDescription=0x7f06001c;
+        public static final int MenuGame_button_MCQGame=0x7f060019;
+        public static final int MenuGame_button_TrueFalseGame=0x7f06001a;
+        public static final int MenuGame_button_WhoAmIGame=0x7f06001b;
+        public static final int PrefMenu_titleMenu=0x7f060020;
+        public static final int PrefMenu_titleMenuCondensed=0x7f060021;
+        public static final int PrefScreen_UsernameDescription=0x7f06001d;
         /**  ======MenuGame====== 
  ======Preferences====== 
          */
-        public static final int PrefScreen_UsernameTitle=0x7f06001b;
-        public static final int PrefScreen_VibrateDescription=0x7f06001e;
-        public static final int PrefScreen_VibrateTitle=0x7f06001d;
+        public static final int PrefScreen_UsernameTitle=0x7f06001c;
+        public static final int PrefScreen_VibrateDescription=0x7f06001f;
+        public static final int PrefScreen_VibrateTitle=0x7f06001e;
         public static final int SplashScreen_logo_description=0x7f060011;
         public static final int TrueFalseGame_False=0x7f060014;
         /**  ======SplashScreen====== 
@@ -140,6 +144,7 @@ public final class R {
         public static final int TrueFalseGame_RightAnswerToast=0x7f060016;
         public static final int TrueFalseGame_True=0x7f060013;
         public static final int TrueFalseGame_WrongAnswerToast=0x7f060017;
+        public static final int TrueFalseImageContentDescription=0x7f060018;
         public static final int action_settings=0x7f060001;
         /**  ======Generale====== 
          */

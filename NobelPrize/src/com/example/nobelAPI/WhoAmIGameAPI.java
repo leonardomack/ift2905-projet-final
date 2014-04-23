@@ -45,7 +45,6 @@ public class WhoAmIGameAPI {
 	private String erreur;
 	private final static int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
-	private int questionNumber;
 	private final static String TAG = "WhoAmIAPI";
 
 	/**
@@ -56,16 +55,12 @@ public class WhoAmIGameAPI {
 		this.laureatesList = laureatesList;
 		questions = new ArrayList<WhoAmIQuestion>();
 		erreur = null;
-		questionNumber=1;
 
-		//synchroniser amount of aesiton et size de laureates
-		while(questions.size()<AMOUNT_OF_QUESTIONS){
-			//NULLpointerEcepion here
+		for(int questionNumber = 1 ; questionNumber <= AMOUNT_OF_QUESTIONS ; questionNumber++){
 			WhoAmIQuestion questionElement = computeRandomQuestion(questionNumber);
-			Log.v(TAG,questionElement.toString());
 			questions.add(questionElement);
-			questionNumber++;
-
+			
+			Log.v(TAG,questionElement.toString());
 		}
 	}
 
@@ -97,12 +92,8 @@ public class WhoAmIGameAPI {
 		answersToPrint.addAll(randomAnswers);
 		//on ajoute une des reponses possibles au champ, toujours la première...
 		answersToPrint.add(rightAnswers.get(0));
-		/*
-		answersToPrint.removeAll(Collections.singleton(null)); 
-		rightAnswers.removeAll(Collections.singleton(null));  
-		 */
+		
 		WhoAmIQuestion question= null;
-
 		try {
 			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,laureate.getImageUrl(laureate));
 		} catch (Exception e) {
@@ -209,13 +200,10 @@ public class WhoAmIGameAPI {
 
 
 	public void shuffleQuestions(){
-
-		Log.v(TAG,"AVANT SHUFFLE");
 		for(WhoAmIQuestion q : questions){
 			if (q != null)
 				Collections.shuffle(q.getPrintedAnswers());
 		}
-		Log.v(TAG,"APRES SHUFFLE");
 	}
 
 

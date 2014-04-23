@@ -6,6 +6,7 @@ import java.util.Random;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -56,11 +57,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	MonPagerAdapter monAdapter;
 
 	Context ctx;
-
 	TextView tvInfo;
 
-
-	//get laureats 
+	//pour la requete des laureats = on peut affiner pour faire des quizzs thematiques
 	private String name;
 	private int year;
 	private String category;
@@ -74,20 +73,14 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		setProgressBarIndeterminateVisibility(false);
 		setContentView(R.layout.who_am_i_game_layout);
 
-
 		ctx=this;
 
-		Log.v(TAG,"au début du constructeur");
-		//ou doit on mettre ca ??
 		finishedLoading = false;
-		Log.v(TAG,"avant la requêteAPI");
+
 		new SendRequestForNobelPrizeQuestions().execute();
-		Log.v(TAG,"aprèsla requêteAPI");
 
 		tvInfo=(TextView)findViewById(R.id.textView1);
 		tvInfo.setText("this is it");
-
-		Log.v(TAG,"à la fin du constructeur");
 	}
 
 	@Override
@@ -132,7 +125,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		@Override
 		protected void onPostExecute(String result)
 		{
-
 			ArrayList<ArrayList<Laureate>> laureatesList = new ArrayList<ArrayList<Laureate>>();
 			int number_of_questions = 5;
 			int number_of_different_random_laureates = 4;
@@ -140,45 +132,59 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			arrayOfLaureates = new SparseArray<Laureate>();
 			arrayOfLaureates = api.getFinalArray();
 			int key = 0;
-			int ind_question = 0;
-			int ind_laureate=0;
 			Random r = new Random();
-			do{
 
+			do{
 				ArrayList<Laureate> laureates = new ArrayList<Laureate>();
+				boolean first = true;
+
 				do{
 					key = r.nextInt(arrayOfLaureates.size());
 					Laureate l = arrayOfLaureates.get(key);	
+					//on peut ne tester l'exitence de la photo que ici... pour le premier de chaque liste = reponse 
+					//si le premier element de la liste ui est la reponse a une photo vide, alors on ne l'ajoute pas
+					try {
+						if (first && ( l.getImageUrl(l)==null || l.getImageUrl(l).equals("") ))
+						{
+							Log.v(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString()+" n' a PAS DE PHOTO");
+							continue;
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
+					first = false;
 					if (!laureates.contains(l) 
 							&& l != null 
 							&& l.getFirstname() != null && !l.getFirstname().equals("") 
 							&& l.getSurname() != null && !l.getSurname().equals("") 
-							&& l.getPrizes() != null && l.getPrizes().size() != 0	
+							&& l.getPrizes() != null && l.getPrizes().size() != 0
 							)
 					{
 						laureates.add(l);
 						Log.v(TAG, "added laureate #" + l.getId() + " : " + l.toString());
 					}	
+
 				}
 				while(laureates.size() < number_of_different_random_laureates);
 
 				laureatesList.add(laureates);
+
 			}
 			while(laureatesList.size()<number_of_questions);
 
-			Log.v(TAG, "avant le genrator de questions");
 			questionsGenerator = new WhoAmIGameAPI(laureatesList);	
-			Log.v(TAG, "après le generator de questions");
 
 			finishedLoading=true;
 
-			Log.v(TAG,"avant shuffle");
 			questionsGenerator.shuffleQuestions();
 			questions = questionsGenerator.getQuestions();
-			Log.v(TAG,"apres shuffle");			
-			
-			
+
+
 			pager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
 			monAdapter = new MonPagerAdapter();
 			pager.setAdapter(monAdapter);
@@ -205,7 +211,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		 */
 		@Override
 		public int getCount() {
-			return 5;
+			return WhoAmIGameAPI.getAmountOfQuestion();
 		}
 
 		@Override
@@ -222,11 +228,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 			page=(LinearLayout)inflater.inflate(R.layout.who_am_i_game_layout_page, null);
 
-			
+
 
 			//numero de question = position + 1
 			//on récupère la question
-			//NULL pointer exception
 			WhoAmIQuestion question = questions.get(position);
 
 			if (question == null)
