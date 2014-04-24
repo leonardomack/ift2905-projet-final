@@ -90,7 +90,10 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		// TODO Auto-generated method stub
-		
+		player = new Player(getApplicationContext(),prefs.getString("username", ""));
+		usernameView.setText(player.getUsername());
+		mcqStat.setText(player.getScoreQCM()+"/"+player.getTotalQCM());
+		trueFalseStat.setText(player.getScoreTrueFalse()+"/"+player.getTotalTrueFalse());
+		whoAmIStat.setText(player.getScorePicture()+"/"+player.getTotalPicture());
 	}	
 }
