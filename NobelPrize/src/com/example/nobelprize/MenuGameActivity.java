@@ -21,6 +21,7 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 	private TextView mcqStat;
 	private TextView trueFalseStat;
 	private TextView whoAmIStat;
+	private Player player;
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -46,7 +47,7 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		setContentView(R.layout.menu_game_layout);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
-		Player player = new Player(getApplicationContext(),prefs.getString("username", ""));
+		player = new Player(getApplicationContext(),prefs.getString("username", ""));
 		usernameView = (TextView)findViewById(R.id.activity_main_username);
 		usernameView.setText(player.getUsername());
 		mcqStat = (TextView)findViewById(R.id.activity_main_MCQ_Stats);
@@ -57,6 +58,15 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		whoAmIStat.setText(player.getScorePicture()+"/"+player.getTotalPicture());
 	}
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		usernameView.setText(player.getUsername());
+		mcqStat.setText(player.getScoreQCM()+"/"+player.getTotalQCM());
+		trueFalseStat.setText(player.getScoreTrueFalse()+"/"+player.getTotalTrueFalse());
+		whoAmIStat.setText(player.getScorePicture()+"/"+player.getTotalPicture());
+	}
 
 	public void buttonMCQGameClick(View view)
 	{
