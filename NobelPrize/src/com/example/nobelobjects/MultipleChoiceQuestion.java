@@ -20,63 +20,52 @@ public class MultipleChoiceQuestion {
 	public boolean isAnswered;
 	public String questionString;
 	public int questionNumber;
-
-	
 	public int type;
-	/**
-	 * remplacer boolean type par un enum... pour l'instant 2 type de questions
-	 * faire factory de question = après avoir testé la fonctionnalité
-	 * @param num
-	 * @param laureateName
-	 * @param year
-	 * @param category
-	 * @param answer
-	 */
-	
 	private String laureateName; 
 	private String category ; 
 	private int year; 
 	
 	// Born city
 		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
-			this(questionNumber, typeQuestion, printedAnswers, rightAnswers); 
 			this.laureateName = laureateName ;
+			this.questionNumber = questionNumber;
+			this.type = typeQuestion;
+			this.printedAnswers=printedAnswers;
+			this.rightAnswers=rightAnswers;						
+			this.isAnswered=false;
+			this.isAnsweredCorrectly=false;
 		}
 
 		// Category of Nobel Prize
 		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName, String category){
 			this(questionNumber, typeQuestion, printedAnswers, rightAnswers, laureateName);
-			this.category = category ; 		
+			this.category = category;
+			this.questionNumber = questionNumber;
+			this.type = typeQuestion;
+			this.printedAnswers=printedAnswers;
+			this.rightAnswers=rightAnswers;						
+			this.isAnswered=false;
+			this.isAnsweredCorrectly=false;
 		}
 
 		//Laureate who won
 		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String category, int year){
 			this(questionNumber, typeQuestion, printedAnswers, rightAnswers, "", category);
-			this.year = year; 
+			this.year = year;
+			this.questionNumber = questionNumber;
+			this.type = typeQuestion;
+			this.printedAnswers=printedAnswers;
+			this.rightAnswers=rightAnswers;						
+			this.isAnswered=false;
+			this.isAnsweredCorrectly=false;
 		}
 
-		
-	public MultipleChoiceQuestion(int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers) {
-		super();
-
-		//ou passer 3 autres string...
-		this.questionNumber = questionNumber;
-
-		this.type = typeQuestion;
-
-		this.printedAnswers=printedAnswers;
-		this.rightAnswers=rightAnswers;
-		
-		generateQuestionDependingType(typeQuestion);
-		
-		this.isAnswered=false;
-		this.isAnsweredCorrectly=false;
-	}
 
 	/**
 	 * dans les descendants, i lfaudra overrider cette methode
 	 * @param typeQuestion
 	 */
+		
 private void generateQuestionDependingType(int typeQuestion) {
 	switch(typeQuestion){
 	case 1 :

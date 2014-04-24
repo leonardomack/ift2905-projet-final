@@ -17,7 +17,6 @@ public class Laureate
 	private String dateBorn;
 	private String dateDied;
 	private List<Prize> prizes;
-	private String categoryPrize;
 
 	private String imageUrl = null;
 
@@ -76,10 +75,6 @@ public class Laureate
 		this.bornCountry = bornCountry;
 	}
 	
-	//public String getCategoryPrize(int i){
-		//return 
-	//}
-
 	public String getBornCity()
 	{
 		return bornCity;

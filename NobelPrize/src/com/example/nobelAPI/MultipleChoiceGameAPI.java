@@ -23,7 +23,7 @@ public class MultipleChoiceGameAPI {
 	private String erreur;
 	private final static int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
-	private final static String TAG = "WhoAmIAPI";
+	private final static String TAG = "MultipleChoiceGameAPI";
 
 	/**
 	 * créé les questions à partir de la list de laureats donnée
@@ -37,7 +37,6 @@ public class MultipleChoiceGameAPI {
 		for(int questionNumber = 1 ; questionNumber <= AMOUNT_OF_QUESTIONS ; questionNumber++){
 			MultipleChoiceQuestion questionElement = computeRandomQuestion(questionNumber);
 			questions.add(questionElement);
-
 			Log.v(TAG,questionElement.toString());
 		}
 	}
@@ -46,6 +45,9 @@ public class MultipleChoiceGameAPI {
 	 * @param questionNumber
 	 * @return
 	 */
+	
+	
+
 	private MultipleChoiceQuestion computeRandomQuestion(int questionNumber) {
 		ArrayList<Laureate> laureates = laureatesList.get(questionNumber-1); 
 
@@ -57,20 +59,24 @@ public class MultipleChoiceGameAPI {
 		ArrayList<String> rightAnswers = new ArrayList<String>();
 		ArrayList<String> answersToPrint = new ArrayList<String>();
 
-		//on choisit l'un des deux types de question
+		//on choisit l'un des trois types de question
 		int type = randomDifferentTypes(3);
 
 		switch(type){
 		case 1 :			
-			rightAnswers=getCategoriesWon(laureate);
-			randomAnswers=fetchRandomCategories(rightAnswers.get(0));
+			rightAnswers.add(laureate.getBornCity());
+			randomAnswers = randomBornCities(laureate, randomAnswers, laureates);
 			break;
+			
 		case 2 :
-			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
-			randomAnswers =fetchRandomNames(laureates);
+			rightAnswers.add(prizes.get(0).getYear());
+			randomAnswers = randomYears(randomAnswers);
 			break;
 		
 		case 3 :
+			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
+			randomAnswers = randomLaureate(randomAnswers); 
+			
 			break ;
 		}
 			
@@ -80,7 +86,6 @@ public class MultipleChoiceGameAPI {
 
 		MultipleChoiceQuestion question= null;
 		
-		
 		switch(type){
 		case 1 :
 			String laureateName = laureate.getFirstname()+" "+laureate.getSurname() ;
@@ -89,13 +94,14 @@ public class MultipleChoiceGameAPI {
 			
 		case 2 :
 			String laureateName2 = laureate.getFirstname()+" "+laureate.getSurname() ;
-			String category = prize.getCategory();
+			String category = prizes.get(randomDifferentTypes(prizes.size())).getCategory();
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, laureateName2, category);
 			break;
 		
 		case 3 :
-			String category2 = prize.getCategory();
-			int year = prize.getYear();
+			int i = randomDifferentTypes(prizes.size());
+			String category2 = prizes.get(i).getCategory();
+			int year = prizes.get(i).getYear();
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, category2, year);
 			break;
 		}
@@ -104,10 +110,11 @@ public class MultipleChoiceGameAPI {
 	}
 
 
+// 	public void randomAnswers() prendrait dans toutes les villes 3 diff�rentes de laureate.getBornCity()
+	
+	
 	private int randomDifferentTypes(int i) {
-
 		return randomMinMax(1,i);
-
 	}
 
 	private ArrayList<String> getCategoriesWon(Laureate laureate) {
@@ -182,7 +189,7 @@ public class MultipleChoiceGameAPI {
 		return year;
 	}
 
-	public ArrayList<WhoAmIQuestion> getQuestions() {
+	public ArrayList<MultipleChoiceQuestion> getQuestions() {
 		return questions;
 	}
 
@@ -194,13 +201,51 @@ public class MultipleChoiceGameAPI {
 		return rand.nextInt((max-min)+1)+min;
 	}
 
-
 	public void shuffleQuestions(){
-		for(WhoAmIQuestion q : questions){
+		for(MultipleChoiceQuestion q : questions){
 			if (q != null)
 				Collections.shuffle(q.getPrintedAnswers());
 		}
 	}
+
+}
+
+final ArrayList<String> randomBornCities (Laureate laureate2, ArrayList<String> randomAnswers, ArrayList<Laureate> laureates) {
+	int i = 0; 
+	while (i < 3) {		
+		if ( // si c'est les m�mes objets ) {
+			break; 
+		}
+		else {
+			randomAnswers.add(laureates.get(i).getBornCity());
+			i++;
+		}				
+	}
+	return randomAnswers ;
+}
+
+final ArrayList<String> randomYears(ArrayList<String> randomAnswers, Laureate laureate, ArrayList<String> prizes) {
+	int i = 0; 
+	while (i < 3) {
+			randomAnswers.add(laureate.getPrizes().get(0).getYear()+i);
+			i++;
+		}		
+	}
+	return randomAnswers ;
+}
+
+final ArrayList<String> randomLaureate (ArrayList<String> laureates, ArrayList<String> randomAnswers, Laureate laureate) {
+	int i = 0; 
+	while (i <3) {
+		if (laureate == laureates.get(i)) {
+		break;	
+		}
+		else {
+			randomAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
+			i++; 
+		}
+	}
+	return randomAnswers;
 
 }
 

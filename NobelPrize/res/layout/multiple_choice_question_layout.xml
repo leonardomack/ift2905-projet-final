@@ -25,26 +25,6 @@
         android:src="@drawable/unknownquestion" />
 
     <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ImageFeedbackQuestion"
-        android:layout_alignLeft="@+id/TextViewTrueFalse_QNumber"
-        android:layout_marginBottom="105dp"
-        android:layout_toLeftOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked1" />
-
-    <Button
-        android:id="@+id/Button01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignRight="@+id/TextViewTrueFalse_QNumber"
-        android:layout_toRightOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked2" />
-
-    <Button
         android:id="@+id/Button02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,5 +54,25 @@
         android:layout_marginTop="52dp"
         android:text="@string/TrueFalseGame_Question"
         android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Button02"
+        android:layout_alignLeft="@+id/TextViewTrueFalse_QNumber"
+        android:layout_marginBottom="40dp"
+        android:layout_toLeftOf="@+id/ImageFeedbackQuestion"
+        android:text="clicked1" />
+
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_alignRight="@+id/TextViewTrueFalse_QNumber"
+        android:layout_toRightOf="@+id/ImageFeedbackQuestion"
+        android:text="clicked2" />
 
 </RelativeLayout>
