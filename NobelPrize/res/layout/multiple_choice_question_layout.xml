@@ -1,78 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/TextViewTrueFalse_QNumber"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/multiple_choice_question_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:text="@string/TrueFalseGame_QuestionNumber"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-    <ImageView
-        android:id="@+id/ImageFeedbackQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/TextViewTrueFalse_QNumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="28dp"
-        android:contentDescription="@string/TrueFalseImageContentDescription"
-        android:src="@drawable/unknownquestion" />
-
-    <Button
-        android:id="@+id/Button02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ImageFeedbackQuestion"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_marginBottom="19dp"
-        android:layout_toLeftOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked3" />
-
-    <Button
-        android:id="@+id/Button03"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/Button02"
-        android:layout_alignBottom="@+id/Button02"
-        android:layout_alignRight="@+id/Button01"
-        android:layout_toRightOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked4" />
-
-    <TextView
-        android:id="@+id/TextViewTrueFalse_Question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/Button01"
-        android:layout_margin="20dp"
-        android:layout_marginTop="52dp"
-        android:text="@string/TrueFalseGame_Question"
-        android:textSize="24sp" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/Button02"
-        android:layout_alignLeft="@+id/TextViewTrueFalse_QNumber"
-        android:layout_marginBottom="40dp"
-        android:layout_toLeftOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked1" />
-
-    <Button
-        android:id="@+id/Button01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignRight="@+id/TextViewTrueFalse_QNumber"
-        android:layout_toRightOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked2" />
-
-</RelativeLayout>
+</LinearLayout>
