@@ -125,6 +125,74 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				gender="all";
 				category="all";
 				api = new SearchLaureateAPI(name, year, gender, category);
+				
+				
+				
+				ArrayList<ArrayList<Laureate>> laureatesList = new ArrayList<ArrayList<Laureate>>();
+				int number_of_questions = 5;
+				int number_of_different_random_laureates = 4;
+				// super.onPostExecute(result);
+				arrayOfLaureates = new SparseArray<Laureate>();
+				arrayOfLaureates = api.getFinalArray();
+				int key = 0;
+				Random r = new Random();
+
+				do{
+					ArrayList<Laureate> laureates = new ArrayList<Laureate>();
+					boolean first = true;
+
+					do{
+						key = r.nextInt(arrayOfLaureates.size());
+						Laureate l = arrayOfLaureates.get(key);	
+						//on peut ne tester l'exitence de la photo que ici... pour le premier de chaque liste = reponse 
+						//si le premier element de la liste ui est la reponse a une photo vide, alors on ne l'ajoute pas
+						try {
+							if (first && ( l.getImageUrl(l)==null || l.getImageUrl(l).equals("") ))
+							{
+								Log.v(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString()+" n' a PAS DE PHOTO");
+								continue;
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block						
+							e.printStackTrace();
+							continue;
+						}
+						
+
+						first = false;
+						if (!laureates.contains(l) 
+								&& l != null 
+								&& l.getFirstname() != null && !l.getFirstname().equals("") 
+								&& l.getSurname() != null && !l.getSurname().equals("") 
+								&& l.getPrizes() != null && l.getPrizes().size() != 0
+								)
+						{
+							laureates.add(l);
+							Log.v(TAG, "added laureate #" + l.getId() + " : " + l.toString());
+						}	
+
+					}
+					while(laureates.size() < number_of_different_random_laureates);
+
+					laureatesList.add(laureates);
+
+				}
+				while(laureatesList.size()<number_of_questions);
+
+				questionsGenerator = new WhoAmIGameAPI(laureatesList);	
+
+				finishedLoading=true;
+
+				questionsGenerator.shuffleQuestions();
+				questions = questionsGenerator.getQuestions();
+				
+				
+				
+				
+				
+				
+				
+				
 				return "Worked";
 			}
 			catch (Exception e)
@@ -143,63 +211,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		@Override
 		protected void onPostExecute(String result)
 		{
-			ArrayList<ArrayList<Laureate>> laureatesList = new ArrayList<ArrayList<Laureate>>();
-			int number_of_questions = 5;
-			int number_of_different_random_laureates = 4;
-			// super.onPostExecute(result);
-			arrayOfLaureates = new SparseArray<Laureate>();
-			arrayOfLaureates = api.getFinalArray();
-			int key = 0;
-			Random r = new Random();
-
-			do{
-				ArrayList<Laureate> laureates = new ArrayList<Laureate>();
-				boolean first = true;
-
-				do{
-					key = r.nextInt(arrayOfLaureates.size());
-					Laureate l = arrayOfLaureates.get(key);	
-					//on peut ne tester l'exitence de la photo que ici... pour le premier de chaque liste = reponse 
-					//si le premier element de la liste ui est la reponse a une photo vide, alors on ne l'ajoute pas
-					try {
-						if (first && ( l.getImageUrl(l)==null || l.getImageUrl(l).equals("") ))
-						{
-							Log.v(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString()+" n' a PAS DE PHOTO");
-							continue;
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block						
-						e.printStackTrace();
-						continue;
-					}
-					
-
-					first = false;
-					if (!laureates.contains(l) 
-							&& l != null 
-							&& l.getFirstname() != null && !l.getFirstname().equals("") 
-							&& l.getSurname() != null && !l.getSurname().equals("") 
-							&& l.getPrizes() != null && l.getPrizes().size() != 0
-							)
-					{
-						laureates.add(l);
-						Log.v(TAG, "added laureate #" + l.getId() + " : " + l.toString());
-					}	
-
-				}
-				while(laureates.size() < number_of_different_random_laureates);
-
-				laureatesList.add(laureates);
-
-			}
-			while(laureatesList.size()<number_of_questions);
-
-			questionsGenerator = new WhoAmIGameAPI(laureatesList);	
-
-			finishedLoading=true;
-
-			questionsGenerator.shuffleQuestions();
-			questions = questionsGenerator.getQuestions();
+			
 
 
 			viewPager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
