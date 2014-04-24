@@ -65,8 +65,7 @@ public class MultipleChoiceQuestion {
 	 * dans les descendants, i lfaudra overrider cette methode
 	 * @param typeQuestion
 	 */
-		
-private void generateQuestionDependingType(int typeQuestion) {
+protected void generateQuestionDependingType(int typeQuestion) {
 	switch(typeQuestion){
 	case 1 :
 		this.questionString = laureateName + "'s born city was :";

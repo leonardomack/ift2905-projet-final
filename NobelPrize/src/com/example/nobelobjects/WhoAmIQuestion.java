@@ -27,7 +27,8 @@ public class WhoAmIQuestion extends MultipleChoiceQuestion{
 	 * dans les descendants, i lfaudra overrider cette methode
 	 * @param typeQuestion
 	 */
-	private void generateQuestionDependingType(int typeQuestion) {
+	@Override
+	protected void generateQuestionDependingType(int typeQuestion) {
 		switch(typeQuestion){
 		case 1 :
 			this.questionString = "Which Nobel Prize have I won ?";

@@ -258,6 +258,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			Button b3 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button3);
 			Button b4 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button4);
 
+			
+			//on adapte le texteSize  selon la longueur du string ??
 			b1.setText(printedAnswers.get(0));
 			b2.setText(printedAnswers.get(1));
 			b3.setText(printedAnswers.get(2));
