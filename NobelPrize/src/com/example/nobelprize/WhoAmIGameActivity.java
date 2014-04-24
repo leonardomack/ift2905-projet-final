@@ -54,7 +54,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private WhoAmIGameAPI questionsGenerator=null;
 	private ArrayList <WhoAmIQuestion> questions;
 	private WhoAmIQuestion currentQuestion;
-
+	private ArrayList<ArrayList<Laureate>> laureatesList ;
 	private boolean finishedLoading;
 	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
@@ -67,7 +67,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private String category;
 	private String gender;
 	SparseArray<Laureate> arrayOfLaureates;
-	
+
 	private Vibrator vib;
 	private SharedPreferences prefs;
 
@@ -83,7 +83,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		finishedLoading = false;
 
 		new SendRequestForNobelPrizeQuestions().execute();
-		
+
 		vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
@@ -93,7 +93,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		//getMenuInflater().inflate(R.menu.main, menu);
-		
+
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
@@ -103,7 +103,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		switch(item.getItemId()){
 		case R.id.itemPrefs:
 			startActivity(new Intent(this, PreferencesActivity.class));
-		break;
+			break;
 		}
 		return true;
 	}
@@ -125,6 +125,15 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				gender="all";
 				category="all";
 				api = new SearchLaureateAPI(name, year, gender, category);
+
+
+
+
+
+
+
+
+
 				return "Worked";
 			}
 			catch (Exception e)
@@ -143,7 +152,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		@Override
 		protected void onPostExecute(String result)
 		{
-			ArrayList<ArrayList<Laureate>> laureatesList = new ArrayList<ArrayList<Laureate>>();
+
+			laureatesList = new ArrayList<ArrayList<Laureate>>();
 			int number_of_questions = 5;
 			int number_of_different_random_laureates = 4;
 			// super.onPostExecute(result);
@@ -172,7 +182,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 						e.printStackTrace();
 						continue;
 					}
-					
+
 
 					first = false;
 					if (!laureates.contains(l) 
@@ -217,8 +227,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	class MonPagerAdapter extends PagerAdapter implements OnClickListener{
 		private TextView currentQuestionNumber;
 		private ImageView responseImage;
-		
-		
+
+
 		LayoutInflater inflater;
 
 		MonPagerAdapter() {
@@ -243,17 +253,17 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 			View layout;
 			layout=(View)inflater.inflate(R.layout.who_am_i_game_layout_page, null);
-			
-			
+
+
 			//VINCENT
 			currentQuestion = questions.get(position);
-			
-			
+
+
 			TextView question = (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_Question);
 			TextView questionNumber = (TextView)layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);
 			question.setText(currentQuestion.getQuestionString());
 			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
-			
+
 			ArrayList<String> printedAnswers = currentQuestion.getPrintedAnswers();
 
 			Button b1 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button1);
@@ -261,25 +271,25 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			Button b3 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button3);
 			Button b4 = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button4);
 
-			
+
 			//on adapte le texteSize  selon la longueur du string ??
 			b1.setText(printedAnswers.get(0));
 			b2.setText(printedAnswers.get(1));
 			b3.setText(printedAnswers.get(2));
 			b4.setText(printedAnswers.get(3));
-			
+
 
 			ImageView photo = (ImageView)layout.findViewById(R.id.ImageViewWhoAmIGame_laureate_photo);
 			String laureateImageUrl = currentQuestion.getUrlImage();
 			photo.setTag(laureateImageUrl);
 			new DownloadImagesTask().execute(photo);			
-			
+
 			question.setText(questions.get(position).getQuestionString());
 			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
 			currentQuestionNumber= (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);			
 			responseImage = (ImageView)layout.findViewById(R.id.WhoAmIGameImageFeedbackQuestion);
-			
-			
+
+
 			if(currentQuestion.isAnswered){
 				if(currentQuestion.isAnsweredCorrectly){
 					responseImage.setImageResource(R.drawable.truequestion);
@@ -296,7 +306,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				b3.setOnClickListener(this);
 				b4.setOnClickListener(this);
 			}		
-			
+
 			((ViewPager)container).addView(layout,0);
 
 			return layout;
@@ -310,7 +320,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			responseImage = (ImageView)currentView.findViewById(R.id.WhoAmIGameImageFeedbackQuestion);
 			super.setPrimaryItem(container, position, object);
 		}
-		
+
 		@Override
 		public void destroyItem(View collection, int position, Object view) {
 			((ViewPager) collection).removeView((View) view);
@@ -346,15 +356,15 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				}
 			}
 		}
-		
-		
+
+
 		public void handleClick(int answer){
 			int pos = viewPager.getCurrentItem();
 			currentQuestion = questions.get(pos);
 			//TextView currentQuestionNumber = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
 			if(!currentQuestion.isAnswered){
 				currentQuestion.setAnswered(true);
-				
+
 				if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer-1))){
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
@@ -376,7 +386,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					currentQuestionNumber.setTextColor(Color.RED);
 					Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				int j = 0;
 				for(int i=0; i < questions.size(); i++){
 					if(questions.get(i).isAnswered)
@@ -393,11 +403,11 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
 					startActivity(goBackToGameMenu);
 				}
-				
-				if(pos<questions.size())
-					viewPager.setCurrentItem(pos+1);
+
+				//	if(pos<questions.size())
+				//	viewPager.setCurrentItem(pos+1);
 			}
-				
+
 		}
 
 	}
@@ -416,7 +426,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	public void onPageSelected(int position) {
 	}
 
-//	@Override
+	//	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		// TODO Auto-generated method stub

@@ -3,29 +3,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/activity_main_buttonMCQGame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:onClick="buttonMCQGameClick"
-        android:text="@string/MenuGame_button_MCQGame" />
-
-    <Button
-        android:id="@+id/activity_main_buttonTrueFalseGame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:onClick="buttonTrueFalseGameClick"
-        android:text="@string/MenuGame_button_TrueFalseGame" />
     
-     <Button
-        android:id="@+id/activity_main_buttonWhoAmIGame"
+    <TextView
+        android:id="@+id/activity_main_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:onClick="buttonWhoAmIGameClick"
-        android:text="@string/MenuGame_button_WhoAmIGame" />
+        android:layout_weight="1"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="@string/MenuGame_Username"/>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+            
+            <Button
+		        android:id="@+id/activity_main_buttonMCQGame"
+		        android:layout_width="0dp"
+		        android:layout_height="match_parent"
+		        android:layout_weight="8"
+		        android:onClick="buttonMCQGameClick"
+		        android:text="@string/MenuGame_button_MCQGame" />
+            <TextView 
+                android:id="@+id/activity_main_MCQ_Stats"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/MenuGame_MCQStat"
+                android:gravity="center"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+            
+		    <Button
+		        android:id="@+id/activity_main_buttonTrueFalseGame"
+		        android:layout_width="0dp"
+		        android:layout_height="match_parent"
+		        android:layout_weight="8"
+		        android:onClick="buttonTrueFalseGameClick"
+		        android:text="@string/MenuGame_button_TrueFalseGame" />
+        
+            <TextView 
+                android:id="@+id/activity_main_TrueFalse_Stats"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/MenuGame_TrueFalseStat"
+                android:gravity="center"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+            
+            <Button
+		        android:id="@+id/activity_main_buttonWhoAmIGame"
+		        android:layout_width="0dp"
+		        android:layout_height="match_parent"
+		        android:layout_weight="8"
+		        android:onClick="buttonWhoAmIGameClick"
+		        android:text="@string/MenuGame_button_WhoAmIGame" />
+        
+            <TextView 
+                android:id="@+id/activity_main_WhoAmI_Stats"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/MenuGame_WhoAmIStat"
+                android:gravity="center"/>
+        
+    </LinearLayout>
+    
 
 </LinearLayout>

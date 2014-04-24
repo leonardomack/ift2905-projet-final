@@ -86,7 +86,10 @@
     <string name="MenuGame_button_MCQGame">MCQ</string>    
     <string name="MenuGame_button_TrueFalseGame">True or False</string>
      <string name="MenuGame_button_WhoAmIGame">Who Am I</string>
-    
+    <string name="MenuGame_Username">MyUsername</string>
+    <string name="MenuGame_MCQStat">0/0</string>
+    <string name="MenuGame_TrueFalseStat">0/0</string>
+    <string name="MenuGame_WhoAmIStat">0/0</string>
     <!-- ======MenuGame====== -->
     
     <!-- ======Preferences====== -->

@@ -1,16 +1,27 @@
 package com.example.nobelprize;
 
+import com.example.nobelobjects.Player;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-public class MenuGameActivity extends Activity {
+public class MenuGameActivity extends Activity implements OnSharedPreferenceChangeListener{
 
-	
+	private SharedPreferences prefs;
+	private TextView usernameView;
+	private TextView mcqStat;
+	private TextView trueFalseStat;
+	private TextView whoAmIStat;
+	private Player player;
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -34,8 +45,28 @@ public class MenuGameActivity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_game_layout);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
+		player = new Player(getApplicationContext(),prefs.getString("username", ""));
+		usernameView = (TextView)findViewById(R.id.activity_main_username);
+		usernameView.setText(player.getUsername());
+		mcqStat = (TextView)findViewById(R.id.activity_main_MCQ_Stats);
+		mcqStat.setText(player.getScoreQCM()+"/"+player.getTotalQCM());
+		trueFalseStat = (TextView)findViewById(R.id.activity_main_TrueFalse_Stats);
+		trueFalseStat.setText(player.getScoreTrueFalse()+"/"+player.getTotalTrueFalse());
+		whoAmIStat = (TextView)findViewById(R.id.activity_main_WhoAmI_Stats);
+		whoAmIStat.setText(player.getScorePicture()+"/"+player.getTotalPicture());
 	}
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		usernameView.setText(player.getUsername());
+		mcqStat.setText(player.getScoreQCM()+"/"+player.getTotalQCM());
+		trueFalseStat.setText(player.getScoreTrueFalse()+"/"+player.getTotalTrueFalse());
+		whoAmIStat.setText(player.getScorePicture()+"/"+player.getTotalPicture());
+	}
 
 	public void buttonMCQGameClick(View view)
 	{
@@ -54,5 +85,12 @@ public class MenuGameActivity extends Activity {
 	{
 		Intent intentJouerWhoAmI = new Intent(getApplicationContext(), WhoAmIGameActivity.class);
 		startActivity(intentJouerWhoAmI);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
