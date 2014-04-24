@@ -10,6 +10,6 @@ public class MultipleChoiceQuestionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.multiple_choice_game_layout);
+		//setContentView(R.layout.multiple_choice_game_layout);
 	}
 }

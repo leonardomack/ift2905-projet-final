@@ -47,7 +47,7 @@ import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
 import com.example.tasks.DownloadImagesTask;
 
-public class WhoAmIGameActivity extends Activity implements OnPageChangeListener, OnSharedPreferenceChangeListener{
+public class WhoAmIGameActivity extends Activity implements OnPageChangeListener,OnSharedPreferenceChangeListener{
 
 	private int score;
 	private final String TAG = "WhoAmIGameActivity";
@@ -89,10 +89,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		prefs.registerOnSharedPreferenceChangeListener(this);
 	}
 
-	@Override
+	//@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		//getMenuInflater().inflate(R.menu.main, menu);
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
 	@Override
@@ -413,7 +416,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	public void onPageSelected(int position) {
 	}
 
-	@Override
+//	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		// TODO Auto-generated method stub

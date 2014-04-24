@@ -22,6 +22,7 @@ public class MultipleChoiceGameAPI {
 	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private String erreur;
 	private final static int AMOUNT_OF_QUESTIONS = 5;
+	private final static int AMOUNT_OF_ANSWERS = 4;
 	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private final static String TAG = "MultipleChoiceGameAPI";
 
@@ -40,14 +41,11 @@ public class MultipleChoiceGameAPI {
 			Log.v(TAG,questionElement.toString());
 		}
 	}
- 
+
 	/**
 	 * @param questionNumber
 	 * @return
 	 */
-	
-	
-
 	private MultipleChoiceQuestion computeRandomQuestion(int questionNumber) {
 		ArrayList<Laureate> laureates = laureatesList.get(questionNumber-1); 
 
@@ -65,39 +63,38 @@ public class MultipleChoiceGameAPI {
 		switch(type){
 		case 1 :			
 			rightAnswers.add(laureate.getBornCity());
-			randomAnswers = randomBornCities(laureate, randomAnswers, laureates);
+			randomAnswers = distinctBornCities(laureate, laureates);
 			break;
-			
+
 		case 2 :
-			rightAnswers.add(prizes.get(0).getYear());
-			randomAnswers = randomYears(randomAnswers);
+			rightAnswers.add(String.valueOf(prizes.get(0).getYear()));
+			randomAnswers = distinctYears(laureate);
 			break;
-		
+
 		case 3 :
 			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
-			randomAnswers = randomLaureate(randomAnswers); 
-			
+			randomAnswers = distinctLaureates(laureates); 
 			break ;
 		}
-			
+
 		answersToPrint.addAll(randomAnswers);
 		//on ajoute une des reponses possibles au champ, toujours la première...
 		answersToPrint.add(rightAnswers.get(0));
 
 		MultipleChoiceQuestion question= null;
-		
+
 		switch(type){
 		case 1 :
 			String laureateName = laureate.getFirstname()+" "+laureate.getSurname() ;
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, laureateName);
 			break;
-			
+
 		case 2 :
 			String laureateName2 = laureate.getFirstname()+" "+laureate.getSurname() ;
 			String category = prizes.get(randomDifferentTypes(prizes.size())).getCategory();
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, laureateName2, category);
 			break;
-		
+
 		case 3 :
 			int i = randomDifferentTypes(prizes.size());
 			String category2 = prizes.get(i).getCategory();
@@ -105,14 +102,10 @@ public class MultipleChoiceGameAPI {
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, category2, year);
 			break;
 		}
-		
+
 		return question;
 	}
 
-
-// 	public void randomAnswers() prendrait dans toutes les villes 3 diff�rentes de laureate.getBornCity()
-	
-	
 	private int randomDifferentTypes(int i) {
 		return randomMinMax(1,i);
 	}
@@ -208,44 +201,29 @@ public class MultipleChoiceGameAPI {
 		}
 	}
 
-}
 
-final ArrayList<String> randomBornCities (Laureate laureate2, ArrayList<String> randomAnswers, ArrayList<Laureate> laureates) {
-	int i = 0; 
-	while (i < 3) {		
-		if ( // si c'est les m�mes objets ) {
-			break; 
-		}
-		else {
-			randomAnswers.add(laureates.get(i).getBornCity());
-			i++;
-		}				
+
+	private ArrayList<String> distinctBornCities (Laureate laureate, ArrayList<Laureate> laureates) {
+		ArrayList<String> distinctAnswers = new ArrayList<String>();
+		for(int i=0; i < laureates.size(); i++)
+			distinctAnswers.add(laureates.get(i).getBornCity());
+		return distinctAnswers ;
 	}
-	return randomAnswers ;
-}
 
-final ArrayList<String> randomYears(ArrayList<String> randomAnswers, Laureate laureate, ArrayList<String> prizes) {
-	int i = 0; 
-	while (i < 3) {
-			randomAnswers.add(laureate.getPrizes().get(0).getYear()+i);
-			i++;
-		}		
+	private ArrayList<String> distinctYears(Laureate laureate) {
+		ArrayList<String> distinctAnswers = new ArrayList<String>();
+		for(int i = 1 ; i < AMOUNT_OF_ANSWERS; i++ )
+			distinctAnswers.add(String.valueOf(laureate.getPrizes().get(0).getYear()+i));
+
+		return distinctAnswers ;
 	}
-	return randomAnswers ;
-}
 
-final ArrayList<String> randomLaureate (ArrayList<String> laureates, ArrayList<String> randomAnswers, Laureate laureate) {
-	int i = 0; 
-	while (i <3) {
-		if (laureate == laureates.get(i)) {
-		break;	
-		}
-		else {
-			randomAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
-			i++; 
-		}
+	final ArrayList<String> distinctLaureates (ArrayList<Laureate> laureates) {
+		ArrayList<String> distinctAnswers = new ArrayList<String>();
+		for(int i = 1 ; i < laureates.size();i++)
+			distinctAnswers.add(laureates.get(i).getFirstname()+" "+laureates.get(i).getSurname());
+
+		return distinctAnswers;
 	}
-	return randomAnswers;
-
 }
 

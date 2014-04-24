@@ -39,9 +39,9 @@ public final class R {
         public static final int unknownquestion=0x7f020008;
     }
     public static final class id {
-        public static final int Button01=0x7f0a0011;
-        public static final int Button02=0x7f0a0012;
-        public static final int Button03=0x7f0a0013;
+        public static final int Button01=0x7f0a0013;
+        public static final int Button02=0x7f0a0010;
+        public static final int Button03=0x7f0a0012;
         public static final int ButtonTrueFalseGame_False=0x7f0a0022;
         public static final int ButtonTrueFalseGame_True=0x7f0a0023;
         public static final int ButtonWhoAmIGame_button1=0x7f0a0028;
@@ -64,7 +64,7 @@ public final class R {
         public static final int activity_main_description_winner=0x7f0a0002;
         public static final int activity_main_image_winner=0x7f0a0000;
         public static final int activity_main_name_winner=0x7f0a0001;
-        public static final int button1=0x7f0a0010;
+        public static final int button1=0x7f0a0011;
         public static final int container=0x7f0a0015;
         public static final int dateSearch=0x7f0a0017;
         public static final int fieldSearch=0x7f0a0018;
@@ -93,7 +93,7 @@ public final class R {
         public static final int laureate_detail_layout=0x7f030002;
         public static final int laureate_details_prizes_listview=0x7f030003;
         public static final int menu_game_layout=0x7f030004;
-        public static final int multiple_choice_game_layout=0x7f030005;
+        public static final int multiple_choice_question_layout=0x7f030005;
         public static final int search_activity=0x7f030006;
         public static final int search_list_view=0x7f030007;
         public static final int search_list_view2=0x7f030008;

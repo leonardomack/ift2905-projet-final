@@ -21,75 +21,71 @@ public class MultipleChoiceQuestion {
 	public String questionString;
 	public int questionNumber;
 	public int type;
+
+	//specific questions
 	private String laureateName; 
 	private String category ; 
 	private int year; 
-	
+
+
+	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers){
+		this.questionNumber = questionNumber;
+		this.type = typeQuestion;
+		this.printedAnswers=printedAnswers;
+		this.rightAnswers=rightAnswers;						
+		this.isAnswered=false;
+		this.isAnsweredCorrectly=false;
+		generateQuestionDependingType(typeQuestion);
+
+	}
 	// Born city
-		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
-			this.laureateName = laureateName ;
-			this.questionNumber = questionNumber;
-			this.type = typeQuestion;
-			this.printedAnswers=printedAnswers;
-			this.rightAnswers=rightAnswers;						
-			this.isAnswered=false;
-			this.isAnsweredCorrectly=false;
-		}
+	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
+		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
+		this.laureateName= laureateName;
+	}
 
-		// Category of Nobel Prize
-		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName, String category){
-			this(questionNumber, typeQuestion, printedAnswers, rightAnswers, laureateName);
-			this.category = category;
-			this.questionNumber = questionNumber;
-			this.type = typeQuestion;
-			this.printedAnswers=printedAnswers;
-			this.rightAnswers=rightAnswers;						
-			this.isAnswered=false;
-			this.isAnsweredCorrectly=false;
-		}
+	// Category of Nobel Prize
+	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName, String category){
+		this(questionNumber, typeQuestion, printedAnswers, rightAnswers, laureateName);
+		this.category = category;
+	}
 
-		//Laureate who won
-		public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String category, int year){
-			this(questionNumber, typeQuestion, printedAnswers, rightAnswers, "", category);
-			this.year = year;
-			this.questionNumber = questionNumber;
-			this.type = typeQuestion;
-			this.printedAnswers=printedAnswers;
-			this.rightAnswers=rightAnswers;						
-			this.isAnswered=false;
-			this.isAnsweredCorrectly=false;
-		}
+	//Laureate who won
+	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String category, int year){
+		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
+		this.category = category;
+		this.year = year;
+	}
 
 
 	/**
 	 * dans les descendants, i lfaudra overrider cette methode
 	 * @param typeQuestion
 	 */
-protected void generateQuestionDependingType(int typeQuestion) {
-	switch(typeQuestion){
-	case 1 :
-		this.questionString = laureateName + "'s born city was :";
-		break;
-	case 2 :
-		this.questionString = laureateName + "won his "+category+"Nobel prize in :" ; 
-		break;
-	case 3 :
-		this.questionString = "In"+year+","+category+"Nobel prize was discerned to :" ;
-		break;
-	}		
-		
+	protected void generateQuestionDependingType(int typeQuestion) {
+		switch(typeQuestion){
+		case 1 :
+			this.questionString = laureateName + "'s born city was :";
+			break;
+		case 2 :
+			this.questionString = laureateName + "won his "+category+"Nobel prize in :" ; 
+			break;
+		case 3 :
+			this.questionString = "In"+year+","+category+"Nobel prize was discerned to :" ;
+			break;
+		}		
 	}
 
-/**
- * on considère deux quqestions egales si elles sont du même type et si elles ont les mêmes réponses (dans le même ordre)
+	/**
+	 * on considère deux quqestions egales si elles sont du même type et si elles ont les mêmes réponses (dans le même ordre)
  Non testé... easy coder ^^
- */
+	 */
 	@Override
 	public boolean equals(Object o) {
 
 		if(o instanceof MultipleChoiceQuestion && 				
-						((MultipleChoiceQuestion)o).getType() ==  this.getType() 						
-						&& ((MultipleChoiceQuestion)o).getRightAnswers().equals(this.getRightAnswers()) 				)
+				((MultipleChoiceQuestion)o).getType() ==  this.getType() 						
+				&& ((MultipleChoiceQuestion)o).getRightAnswers().equals(this.getRightAnswers()) 				)
 		{
 			return true;
 		} else 
