@@ -63,12 +63,23 @@
     <string name="TrueFalseGame_QuestionNumber">Question #1 of 5</string>
     <string name="TrueFalseGame_RightAnswerToast">Right Answer!</string>
     <string name="TrueFalseGame_WrongAnswerToast">Wrong Answer!</string>
+    <string name="TrueFalseImageContentDescription">Image corresponding to response</string>
     <!-- ======TrueFalseGame====== -->
     
     
     
-     <!-- ======WhoAmIGame====== -->      
-    <!-- ======WhoAmIGame====== -->
+    
+     <!-- ======WhoAmIGame====== --> 
+     
+     <!-- ======WhoAmIGame====== --> 
+    
+     <!-- ======GeneralGame====== -->       
+    <string name="Question">Loading Question</string>
+    <string name="QuestionNumber">Question #1 of 5</string>
+    <string name="ImageContentDescription">Image corresponding to response</string>    
+    <string name="RightAnswerToast">Right Answer!</string>
+    <string name="WrongAnswerToast">Wrong Answer!</string>
+    <!-- ======GeneralGame====== -->
     
     
      <!-- ======MenuGame====== -->

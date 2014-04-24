@@ -1,121 +1,120 @@
 package com.example.nobelAPI;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.example.nobelobjects.Laureate;
+import com.example.nobelobjects.MultipleChoiceQuestion;
 import com.example.nobelobjects.Prize;
-import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
-import com.example.nobelprize.SearchLaureateAPI;
-import com.example.tasks.DownloadLaureateTask;
-/**
- * 2types de questions = "qui suis je" et "quel prix nobel ai-je gagné"
- * rq : on utilisera pas forcémenet tout les candidats dans l'arraylist
- * @author locust
- *
- */
 
-public class WhoAmIGameAPI {
+public class MultipleChoiceGameAPI {
+
 	private String prizeURL;
 	private String laureateURL;
-	private ArrayList<WhoAmIQuestion> questions;
+	private ArrayList<MultipleChoiceQuestion> questions;
 
 	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private String erreur;
 	private final static int AMOUNT_OF_QUESTIONS = 5;
 	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
-	private final static String TAG = "WhoAmIAPI";
+	private final static String TAG = "MultipleChoiceGameAPI";
 
 	/**
 	 * créé les questions à partir de la list de laureats donnée
 	 * @param laureates
 	 */
-	public WhoAmIGameAPI(ArrayList<ArrayList<Laureate>> laureatesList){
+	public MultipleChoiceGameAPI(ArrayList<ArrayList<Laureate>> laureatesList){
 		this.laureatesList = laureatesList;
-		questions = new ArrayList<WhoAmIQuestion>();
+		questions = new ArrayList<MultipleChoiceQuestion>();
 		erreur = null;
 
 		for(int questionNumber = 1 ; questionNumber <= AMOUNT_OF_QUESTIONS ; questionNumber++){
-			WhoAmIQuestion questionElement = computeRandomQuestion(questionNumber);
+			MultipleChoiceQuestion questionElement = computeRandomQuestion(questionNumber);
 			questions.add(questionElement);
-
 			Log.v(TAG,questionElement.toString());
 		}
 	}
-
+ 
 	/**
 	 * @param questionNumber
 	 * @return
 	 */
-	private WhoAmIQuestion computeRandomQuestion(int questionNumber) {
+	
+	
+
+	private MultipleChoiceQuestion computeRandomQuestion(int questionNumber) {
 		ArrayList<Laureate> laureates = laureatesList.get(questionNumber-1); 
 
 		//bonne reponse
-		Laureate laureate = laureates.get(0);		
+		Laureate laureate = laureates.get(0);
+		List<Prize> prizes = laureate.getPrizes();
 
 		ArrayList<String> randomAnswers = new ArrayList<String>();
 		ArrayList<String> rightAnswers = new ArrayList<String>();
 		ArrayList<String> answersToPrint = new ArrayList<String>();
 
-		//on choisit l'un des deux types de question
-		int type = randomDifferentTypes(2);
+		//on choisit l'un des trois types de question
+		int type = randomDifferentTypes(3);
 
 		switch(type){
 		case 1 :			
-			rightAnswers=getCategoriesWon(laureate);
-			randomAnswers=fetchRandomCategories(rightAnswers.get(0));
+			rightAnswers.add(laureate.getBornCity());
+			randomAnswers = randomBornCities(laureate, randomAnswers, laureates);
 			break;
+			
 		case 2 :
-			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
-			randomAnswers =fetchRandomNames(laureates);
+			rightAnswers.add(prizes.get(0).getYear());
+			randomAnswers = randomYears(randomAnswers);
 			break;
+		
+		case 3 :
+			rightAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
+			randomAnswers = randomLaureate(randomAnswers); 
+			
+			break ;
 		}
-
+			
 		answersToPrint.addAll(randomAnswers);
 		//on ajoute une des reponses possibles au champ, toujours la première...
 		answersToPrint.add(rightAnswers.get(0));
 
-		WhoAmIQuestion question= null;
-		try {
-			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,laureate.getImageUrl(laureate));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//on a un laureat avec une image nulle... pas bon du tout... on ne paut pas gérer ce cas à ce niveau...
-			//on peut mettre une url basic vers une photo anonyme qui est signe dde bug... pour renseigner l'utilisateur
-			Log.v(TAG,"Laureate avec PHOTO NULL !!!! Nothing we can do for now");
-			e.printStackTrace();
-			question = new WhoAmIQuestion(questionNumber, type, answersToPrint, rightAnswers,"pas d image");
+		MultipleChoiceQuestion question= null;
+		
+		switch(type){
+		case 1 :
+			String laureateName = laureate.getFirstname()+" "+laureate.getSurname() ;
+			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, laureateName);
+			break;
+			
+		case 2 :
+			String laureateName2 = laureate.getFirstname()+" "+laureate.getSurname() ;
+			String category = prizes.get(randomDifferentTypes(prizes.size())).getCategory();
+			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, laureateName2, category);
+			break;
+		
+		case 3 :
+			int i = randomDifferentTypes(prizes.size());
+			String category2 = prizes.get(i).getCategory();
+			int year = prizes.get(i).getYear();
+			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, category2, year);
+			break;
 		}
-
+		
 		return question;
 	}
 
 
+// 	public void randomAnswers() prendrait dans toutes les villes 3 diff�rentes de laureate.getBornCity()
+	
+	
 	private int randomDifferentTypes(int i) {
-
 		return randomMinMax(1,i);
-
 	}
 
 	private ArrayList<String> getCategoriesWon(Laureate laureate) {
@@ -190,7 +189,7 @@ public class WhoAmIGameAPI {
 		return year;
 	}
 
-	public ArrayList<WhoAmIQuestion> getQuestions() {
+	public ArrayList<MultipleChoiceQuestion> getQuestions() {
 		return questions;
 	}
 
@@ -202,12 +201,51 @@ public class WhoAmIGameAPI {
 		return rand.nextInt((max-min)+1)+min;
 	}
 
-
 	public void shuffleQuestions(){
-		for(WhoAmIQuestion q : questions){
+		for(MultipleChoiceQuestion q : questions){
 			if (q != null)
 				Collections.shuffle(q.getPrintedAnswers());
 		}
 	}
 
 }
+
+final ArrayList<String> randomBornCities (Laureate laureate2, ArrayList<String> randomAnswers, ArrayList<Laureate> laureates) {
+	int i = 0; 
+	while (i < 3) {		
+		if ( // si c'est les m�mes objets ) {
+			break; 
+		}
+		else {
+			randomAnswers.add(laureates.get(i).getBornCity());
+			i++;
+		}				
+	}
+	return randomAnswers ;
+}
+
+final ArrayList<String> randomYears(ArrayList<String> randomAnswers, Laureate laureate, ArrayList<String> prizes) {
+	int i = 0; 
+	while (i < 3) {
+			randomAnswers.add(laureate.getPrizes().get(0).getYear()+i);
+			i++;
+		}		
+	}
+	return randomAnswers ;
+}
+
+final ArrayList<String> randomLaureate (ArrayList<String> laureates, ArrayList<String> randomAnswers, Laureate laureate) {
+	int i = 0; 
+	while (i <3) {
+		if (laureate == laureates.get(i)) {
+		break;	
+		}
+		else {
+			randomAnswers.add(laureate.getFirstname()+" "+laureate.getSurname());
+			i++; 
+		}
+	}
+	return randomAnswers;
+
+}
+
