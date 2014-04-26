@@ -91,14 +91,13 @@ public class MultipleChoiceGameAPI {
 
 		case 2 :
 			String laureateName2 = laureate.getFirstname()+" "+laureate.getSurname() ;
-			String category = prizes.get(randomDifferentTypes(prizes.size())).getCategory();
+			String category = prizes.get(randomMinMax(0, prizes.size()-1)).getCategory();
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, laureateName2, category);
 			break;
 
 		case 3 :
-			int i = randomDifferentTypes(prizes.size());
-			String category2 = prizes.get(i).getCategory();
-			int year = prizes.get(i).getYear();
+			String category2 = prizes.get(0).getCategory();
+			int year = prizes.get(0).getYear();
 			question = new MultipleChoiceQuestion(questionNumber, type , answersToPrint, rightAnswers, category2, year);
 			break;
 		}
@@ -205,8 +204,20 @@ public class MultipleChoiceGameAPI {
 
 	private ArrayList<String> distinctBornCities (Laureate laureate, ArrayList<Laureate> laureates) {
 		ArrayList<String> distinctAnswers = new ArrayList<String>();
-		for(int i=0; i < laureates.size(); i++)
-			distinctAnswers.add(laureates.get(i).getBornCity());
+		for(int i=1; i < laureates.size(); i++){
+			if(!laureates.get(i).getBornCity().equals(laureate.getBornCity())  && !distinctAnswers.contains(laureates.get(i).getBornCity()))
+				distinctAnswers.add(laureates.get(i).getBornCity());
+		}
+		
+		if(distinctAnswers.size()<AMOUNT_OF_ANSWERS-1)
+			distinctAnswers.add("Mantes-la-jolie");
+
+		if(distinctAnswers.size()<AMOUNT_OF_ANSWERS-1)
+			distinctAnswers.add("Clermont-Ferrand");
+
+		if(distinctAnswers.size()<AMOUNT_OF_ANSWERS-1)
+			distinctAnswers.add("Digne-les-bains");
+		
 		return distinctAnswers ;
 	}
 

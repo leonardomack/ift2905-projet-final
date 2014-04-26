@@ -42,12 +42,15 @@ public class MultipleChoiceQuestion {
 	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
 		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
 		this.laureateName= laureateName;
+		generateQuestionDependingType(typeQuestion);
 	}
 
 	// Category of Nobel Prize
 	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName, String category){
 		this(questionNumber, typeQuestion, printedAnswers, rightAnswers, laureateName);
 		this.category = category;
+
+		generateQuestionDependingType(typeQuestion);
 	}
 
 	//Laureate who won
@@ -55,6 +58,8 @@ public class MultipleChoiceQuestion {
 		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
 		this.category = category;
 		this.year = year;
+
+		generateQuestionDependingType(typeQuestion);
 	}
 
 
@@ -65,13 +70,13 @@ public class MultipleChoiceQuestion {
 	protected void generateQuestionDependingType(int typeQuestion) {
 		switch(typeQuestion){
 		case 1 :
-			this.questionString = laureateName + "'s born city was :";
+			this.questionString = laureateName + "'s city of birth was :";
 			break;
 		case 2 :
-			this.questionString = laureateName + "won his "+category+"Nobel prize in :" ; 
+			this.questionString = laureateName + " won his "+category+"Nobel prize in :" ; 
 			break;
 		case 3 :
-			this.questionString = "In"+year+","+category+"Nobel prize was discerned to :" ;
+			this.questionString = "In "+year+", "+category+" Nobel prize was discerned to :" ;
 			break;
 		}		
 	}
