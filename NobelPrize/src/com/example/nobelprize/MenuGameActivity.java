@@ -72,6 +72,7 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 	{
 		Intent intentJouerMCQ = new Intent(getApplicationContext(), MultipleChoiceQuestionActivity.class);
 		startActivity(intentJouerMCQ);
+		//finish();
 	}
 
 
@@ -92,4 +93,14 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 			String key) {
 		//Do nothing
 	}	
+	
+	
+	/*// 2.0 and above
+	@Override
+	public void onBackPressed() {
+		//revient au menu supérieur
+		//ou il faut aussi supprimer l'ancienne activité de jeu
+		Intent intentMenuPrincipal = new Intent
+		startActivity(intent
+	}*/
 }

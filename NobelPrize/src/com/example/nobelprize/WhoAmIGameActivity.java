@@ -400,6 +400,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScorePicture(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
+					//finish();
 					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
 					startActivity(goBackToGameMenu);
 				}
