@@ -3,76 +3,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+    
     <TextView
-        android:id="@+id/TextViewTrueFalse_QNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:text="@string/TrueFalseGame_QuestionNumber"
-        android:textSize="20sp" />
-
-    <ImageView
-        android:id="@+id/ImageFeedbackQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/TextViewTrueFalse_QNumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="28dp"
-        android:contentDescription="@string/TrueFalseImageContentDescription"
-        android:src="@drawable/unknownquestion" />
-
-    <Button
-        android:id="@+id/Button02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ImageFeedbackQuestion"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_marginBottom="19dp"
-        android:layout_toLeftOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked3" />
-
-    <Button
-        android:id="@+id/Button03"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/Button02"
-        android:layout_alignBottom="@+id/Button02"
-        android:layout_alignRight="@+id/Button01"
-        android:layout_toRightOf="@+id/ImageFeedbackQuestion"
-        android:text="clicked4" />
-
-    <TextView
-        android:id="@+id/TextViewTrueFalse_Question"
+        android:id="@+id/TextViewMultipleChoice_Question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/Button01"
+        android:layout_below="@id/TextViewMultipleChoice_Question"
         android:layout_margin="20dp"
         android:layout_marginTop="52dp"
         android:text="@string/TrueFalseGame_Question"
         android:textSize="24sp" />
+    
+    <TextView
+        android:id="@+id/TextViewMultipleChoice_QNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"        
+        android:layout_above="@id/TextViewMultipleChoice_Question"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="@string/QuestionNumber"
+        android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/button1"
+    <ImageView
+        android:id="@+id/MultipleChoiceGameImageFeedbackQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/Button02"
-        android:layout_alignLeft="@+id/TextViewTrueFalse_QNumber"
-        android:layout_marginBottom="40dp"
-        android:layout_toLeftOf="@+id/ImageFeedbackQuestion"
+        android:layout_alignBottom="@+id/TextViewMultipleChoice_QNumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:contentDescription="@string/ImageContentDescription"
+        android:src="@drawable/unknownquestion" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:layout_marginBottom="101dp"
+        android:layout_toLeftOf="@+id/MultipleChoiceGameImageFeedbackQuestion"
         android:text="clicked1" />
 
     <Button
-        android:id="@+id/Button01"
+        android:id="@+id/ButtonMultipleChoiceGame_button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignRight="@+id/TextViewTrueFalse_QNumber"
-        android:layout_toRightOf="@+id/ImageFeedbackQuestion"
+        android:layout_alignTop="@+id/ButtonMultipleChoiceGame_button3"
+        android:layout_below="@+id/ButtonMultipleChoiceGame_button2"
+        android:layout_toRightOf="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:text="clicked4" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ButtonMultipleChoiceGame_button1"
+        android:layout_alignBottom="@+id/ButtonMultipleChoiceGame_button1"
+        android:layout_alignLeft="@+id/ButtonMultipleChoiceGame_button4"
         android:text="clicked2" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ButtonMultipleChoiceGame_button2"
+        android:layout_marginTop="26dp"
+        android:layout_toLeftOf="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:text="clicked3" />
 
 </RelativeLayout>
