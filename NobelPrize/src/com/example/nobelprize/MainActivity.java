@@ -17,11 +17,12 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nobelAPI.WhoAmIGameAPI;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
 import com.example.nobelobjects.Prize.PrizeCategories;
@@ -47,8 +48,14 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		// Cacher la ActionBar et faire la reference a l'actionbar correcte
+		// Remove title bar
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Remove notification bar
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.activity_main);
-		
+
 		// Loading a random winner
 		loadRandomWinner();
 

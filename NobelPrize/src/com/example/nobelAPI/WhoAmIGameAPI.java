@@ -27,6 +27,7 @@ import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
 import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
+import com.example.nobelprize.GlobalConstants;
 import com.example.nobelprize.SearchLaureateAPI;
 import com.example.tasks.DownloadLaureateTask;
 /**
@@ -36,15 +37,12 @@ import com.example.tasks.DownloadLaureateTask;
  *
  */
 
-public class WhoAmIGameAPI {
+public class WhoAmIGameAPI implements GlobalConstants{
 	private String prizeURL;
 	private String laureateURL;
 	private ArrayList<WhoAmIQuestion> questions;
-
 	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private String erreur;
-	private final static int AMOUNT_OF_QUESTIONS = 5;
-	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private final static String TAG = "WhoAmIAPI";
 
 	/**
@@ -113,9 +111,7 @@ public class WhoAmIGameAPI {
 
 
 	private int randomDifferentTypes(int i) {
-
 		return randomMinMax(1,i);
-
 	}
 
 	private ArrayList<String> getCategoriesWon(Laureate laureate) {
@@ -194,6 +190,9 @@ public class WhoAmIGameAPI {
 		return questions;
 	}
 
+	
+
+	
 	/*
 	 * Méthodes aléatoires
 	 */

@@ -59,18 +59,19 @@ import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
 import com.example.tasks.DownloadImagesTask;
 
-public class WhoAmIGameActivity extends Activity implements OnPageChangeListener,OnSharedPreferenceChangeListener{
+public class WhoAmIGameActivity extends Activity implements OnPageChangeListener,OnSharedPreferenceChangeListener,GlobalConstants{
 
 	private int score;
 	private final String TAG = "WhoAmIGameActivity";
 	private WhoAmIGameAPI questionsGenerator=null;
 	private ArrayList <WhoAmIQuestion> questions;
-	private WhoAmIQuestion currentQuestion;
 	private ArrayList<ArrayList<Laureate>> laureatesList ;
 	private boolean finishedLoading;
 	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
 
+	//pas vraiment courante = meme objet utilisé pour question instantiated...
+	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
 	public enum buttonState {CLICKABLE,CLICKEDTRUE,DISABLED,CLICKEDFALSE}
@@ -132,23 +133,22 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		//intilaiser les tbleaux pour indices, recupere ces valeurs d'une interface qu'on fera plus tard
 		//tout a false par defaut
 		cluesGiven = new boolean [5];	
-
 		Arrays.fill (cluesGiven, false);
-		buttonStateTab = new buttonState [5][4];
-		for(int i = 0 ; i < 5 ; i++)
-			for(int j = 0 ; j < 4 ; j++)
+
+		buttonStateTab = new buttonState [AMOUNT_OF_QUESTIONS][AMOUNT_OF_ANSWERS];
+		for(int i = 0 ; i < AMOUNT_OF_QUESTIONS ; i++)
+			for(int j = 0 ; j < AMOUNT_OF_ANSWERS ; j++)
 				buttonStateTab[i][j]= buttonState.CLICKABLE;
 	}
 
 	//@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.main, menu);
-
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -158,7 +158,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		}
 		return true;
 	}
-
 
 	//Laureats utilisés dans les quesitons...	
 	class SendRequestForNobelPrizeQuestions extends AsyncTask<String, Integer, String>
@@ -176,15 +175,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				gender="all";
 				category="all";
 				api = new SearchLaureateAPI(name, year, gender, category);
-
-
-
-
-
-
-
-
-
 				return "Worked";
 			}
 			catch (Exception e)
@@ -203,11 +193,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		@Override
 		protected void onPostExecute(String result)
 		{
-
 			laureatesList = new ArrayList<ArrayList<Laureate>>();
-			int number_of_questions = 5;
-			int number_of_different_random_laureates = 4;
-			// super.onPostExecute(result);
 			arrayOfLaureates = new SparseArray<Laureate>();
 			arrayOfLaureates = api.getFinalArray();
 			int key = 0;
@@ -234,7 +220,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 						continue;
 					}
 
-
 					first = false;
 					if (!laureates.contains(l) 
 							&& l != null 
@@ -248,41 +233,39 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					}	
 
 				}
-				while(laureates.size() < number_of_different_random_laureates);
-
+				while(laureates.size() < AMOUNT_OF_ANSWERS);
 				laureatesList.add(laureates);
 
 			}
-			while(laureatesList.size()<number_of_questions);
+			while(laureatesList.size()<AMOUNT_OF_QUESTIONS);
+
 
 			questionsGenerator = new WhoAmIGameAPI(laureatesList);	
-
-			finishedLoading=true;
-
 			questionsGenerator.shuffleQuestions();
 			questions = questionsGenerator.getQuestions();
 
+
+			finishedLoading=true;
 
 			viewPager=(ViewPager)findViewById(R.id.who_am_i_game_pager);
 			monAdapter = new MonPagerAdapter();
 			viewPager.setAdapter(monAdapter);
 			viewPager.setOnPageChangeListener((OnPageChangeListener) ctx);
 
-
-			//doit on mettre ça a la toute fin ??
+			//freeze...
 			setProgressBarIndeterminateVisibility(false);
 		}
 
 	}
 
 	class MonPagerAdapter extends PagerAdapter implements OnClickListener{
-		private TextView currentQuestionNumber;
+		private TextView instantiatedQuestionNumberTextView;
 		private ImageView responseImage;
 
-
 		LayoutInflater inflater;
-
 		View layout;
+		View currentLayout;
+
 		MonPagerAdapter() {
 			// on va utiliser les services d'un "inflater"
 			inflater= (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -293,7 +276,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		 */
 		@Override
 		public int getCount() {
-			return WhoAmIGameAPI.getAmountOfQuestion();
+			return AMOUNT_OF_QUESTIONS;
 		}
 
 		@Override
@@ -304,11 +287,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			Log.v(TAG,"instantiate item"+ position);
 
 			layout=(View)inflater.inflate(R.layout.who_am_i_game_layout_page, null);
-
-
 			//VINCENT
 			currentQuestion = questions.get(position);
-
 
 			TextView question = (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_Question);
 			TextView questionNumber = (TextView)layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);
@@ -337,18 +317,17 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 			question.setText(questions.get(position).getQuestionString());
 			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
-			currentQuestionNumber= (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);			
+			instantiatedQuestionNumberTextView= (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_QNumber);			
 			responseImage = (ImageView)layout.findViewById(R.id.WhoAmIGameImageFeedbackQuestion);
-
 
 			if(currentQuestion.isAnswered){
 				if(currentQuestion.isAnsweredCorrectly){
 					responseImage.setImageResource(R.drawable.truequestion);
-					currentQuestionNumber.setTextColor(Color.GREEN);
+					instantiatedQuestionNumberTextView.setTextColor(Color.GREEN);
 				}
 				else{
 					responseImage.setImageResource(R.drawable.falsequestion);
-					currentQuestionNumber.setTextColor(Color.RED);
+					instantiatedQuestionNumberTextView.setTextColor(Color.RED);
 				}
 			}
 			else{
@@ -358,8 +337,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				b4.setOnClickListener(this);
 			}
 
-			printButtons();
-
+			printButtons(position, layout);
 			((ViewPager)container).addView(layout,0);
 
 			return layout;
@@ -368,8 +346,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		@Override
 		public void setPrimaryItem(ViewGroup container, int position,
 				Object object) {
+			Log.v(TAG,"on est dans SET PRIMARY ITEM, de pos "+ position);
 			View currentView = (View)object;
-			currentQuestionNumber= (TextView) currentView.findViewById(R.id.TextViewWhoAmIGame_QNumber);
+			currentLayout = currentView;
+			instantiatedQuestionNumberTextView= (TextView) currentView.findViewById(R.id.TextViewWhoAmIGame_QNumber);
 			responseImage = (ImageView)currentView.findViewById(R.id.WhoAmIGameImageFeedbackQuestion);
 			super.setPrimaryItem(container, position, object);
 		}
@@ -390,6 +370,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		@Override
 		public void startUpdate(View arg0) {}
+		
 		@Override
 		public void onClick(View v) {
 			if(finishedLoading){
@@ -410,9 +391,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			}
 		}
 
-		public void printButtons() {
+		public void printButtons(int indQuestion, View layout) {
 			Button b=null;  
-			for(int i = 0 ; i < 4  ; i++)
+			for(int i = 0 ; i < AMOUNT_OF_ANSWERS  ; i++)
 			{
 				switch (i) {
 				case 0:
@@ -430,16 +411,17 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				default:
 					break;
 				}
-				printOneButton(b, i);
+				printOneButton(b,indQuestion, i);
 
-				Log.v(TAG, "on a colorié un bouton (de numero) !!"+i);
+				Log.v(TAG, "on a colorié un bouton (de numero) !!"+i+" et on est dans la question D'indice " + currentQuestionNumber);
 			}
 
 			return;
 		}
-		private void printOneButton(Button b, int i){
 
-			buttonState state = buttonStateTab[viewPager.getCurrentItem()][i];
+		/** temop, réfléchir pour montrer avec autre chose que couleur = contrastes, formes etc..		 */
+		private void printOneButton(Button b, int indQuestion,int i){
+			buttonState state = buttonStateTab[indQuestion][i];
 			switch (state) {
 			case CLICKABLE:	//on ne fait rien par défaut
 				break;
@@ -464,20 +446,22 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 
 		private void computeClue() {
-			if (cluesGiven[WhoAmIGameActivity.this.currentQuestionNumber]==false){
+			if (cluesGiven[currentQuestionNumber]==false){
+				WhoAmIQuestion printedQuestion = questions.get(currentQuestionNumber);
 				//on donne l'indice en mettant un bouton en gcris
-				cluesGiven[WhoAmIGameActivity.this.currentQuestionNumber]=true;
-				int i =0;
+				cluesGiven[currentQuestionNumber]=true;
+				int randInt =0;
 				Random r = new Random();
 				do{
-					i = r.nextInt(currentQuestion.getPrintedAnswers().size());
-				}while(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(i)));
+					randInt = r.nextInt(printedQuestion.getPrintedAnswers().size());
+				}while(printedQuestion.getRightAnswers().contains(printedQuestion.getPrintedAnswers().get(randInt)));
+				//on ne selectionne pas les bonnes réponses...
 
-				//choisir un bouton parmi ltes 4 qui est faux est qu
-				buttonStateTab[currentQuestion.getQuestionNumber()-1][i] = buttonState.DISABLED;
+				//choisir un bouton parmi ltes 4 qui est faux
+				buttonStateTab[currentQuestionNumber][randInt] = buttonState.DISABLED;
 				Log.v(TAG,"indice de question :"+(currentQuestion.getQuestionNumber()-1));
 				//
-				monAdapter.printButtons();
+				monAdapter.printButtons(currentQuestionNumber, currentLayout);
 			}
 			else{
 				//make toast = vous n'avex plus droit aux indices !
@@ -486,59 +470,47 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		}
 
 		public void handleClick(int answer){
-			int pos = viewPager.getCurrentItem();
-			currentQuestion = questions.get(pos);
-			//TextView currentQuestionNumber = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
+			//on met a jour toutes les constantes
+			currentQuestionNumber = viewPager.getCurrentItem();			
+			currentQuestion = questions.get(currentQuestionNumber);
+			
+			Log.v(TAG,"on est dans la question d'indice:"+currentQuestionNumber+" :"+currentQuestion.toString());
+
 			if(!currentQuestion.isAnswered){
 				currentQuestion.setAnswered(true);
 
-				//on grise tous les boutons
-				for(int i = 0 ; i < 4 ; i++)
-					buttonStateTab[pos][i] = buttonState.DISABLED;
+				//on grise tous les boutons, on repasse apr pour plus spécifique
+				for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++)
+					buttonStateTab[currentQuestionNumber][i] = buttonState.DISABLED;
 
 				if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer-1))){
+					//pas besoin de mettre QUE ca en vert = on affiche toutes les bonnes reposnes en vert apres
+					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDTRUE;
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
-					//update database
-					//on garde ça ???
-					//ICI
+
 					responseImage.setImageResource(R.drawable.truequestion);
-					currentQuestionNumber.setTextColor(Color.GREEN);
+					instantiatedQuestionNumberTextView.setTextColor(Color.GREEN);
 					Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
-
-					buttonStateTab[pos][answer-1] = buttonState.CLICKEDTRUE;
-
 				}
 				else{
 					Log.d(TAG, "Answered wrongly");
 					currentQuestion.setAnsweredCorrectly(false);
 					if(prefs.getBoolean("vibrate", true))
 						vib.vibrate(500);
-					//update database
 					responseImage.setImageResource(R.drawable.falsequestion);
-					currentQuestionNumber.setTextColor(Color.RED);
+					instantiatedQuestionNumberTextView.setTextColor(Color.RED);
 					Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 
-					//on grise tous les boutons en mettant le faux en rouge
-					buttonStateTab[pos][answer-1] = buttonState.CLICKEDFALSE;
+					//on met le faux en rouge
+					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDFALSE;
 
-					//et on met le bon en vert
+				}
 
-					ArrayList<Integer> indexRightAnswers = new ArrayList<Integer>();
-					for(int i = 0 ; i < 4 ; i++){
-						if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(i))){
-							indexRightAnswers.add(i);
-						}
-					}
-					
-					for(Integer i : indexRightAnswers){
-						buttonStateTab[pos][i] = buttonState.CLICKEDTRUE;
-					}
-
-
-					buttonStateTab[pos][answer-1] = buttonState.CLICKEDTRUE;
-
+				//on affiche toutes les bonnes réponses
+				for(Integer i : currentQuestion.getIndexRightAnswersInPrinted()){
+					buttonStateTab[currentQuestionNumber][i] = buttonState.CLICKEDTRUE;
 				}
 
 				int j = 0;
@@ -557,14 +529,28 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					finish();
 				}
 
-				printButtons();
+				printButtons(currentQuestionNumber, currentLayout);
 			}
-
-
 
 		}
 
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -578,7 +564,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 	@Override
 	public void onPageSelected(int position) {
-		currentQuestionNumber = position;
+		Log.v(TAG,"PAGE SELECTED : de num "+ position);
+		currentQuestionNumber=position;
+		return;
 	}
 
 	//	@Override
@@ -615,7 +603,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					// Setting up the last shake time
 					lastShake.setTime(new Date());
 				}
-
 			}
 		}
 
@@ -625,8 +612,5 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		}
 	};
-
-
-
 
 }

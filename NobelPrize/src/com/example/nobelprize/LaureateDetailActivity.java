@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,6 +28,12 @@ public class LaureateDetailActivity extends Activity
 	{
 		TAG = "LaureateDetailActivity";
 		super.onCreate(savedInstanceState);
+		// Cacher la ActionBar et faire la reference a l'actionbar correcte
+		// Remove title bar
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Remove notification bar
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.laureate_detail_layout);
 
 		// Retrieve Id from intent
