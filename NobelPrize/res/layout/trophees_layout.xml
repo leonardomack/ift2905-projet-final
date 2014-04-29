@@ -6,43 +6,60 @@
 
     <TextView
         android:id="@+id/TextViewTrophees_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/MesTrophées_title"
-        android:textAppearance="?android:attr/textAppearanceLarge"
          />
-    
     <TextView
-        android:id="@+id/TextViewTrophees_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="@string/MesTrophées_1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#C60800"
-         />
-
+	    android:id="@+id/TextViewTrophees_1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	    android:text="@string/MesTrophées_1"
+	    android:textSize="24sp"
+	    android:background="@drawable/back"
+	    android:layout_margin="2dp"
+	    android:drawableRight="@android:drawable/btn_star_big_off"/>
     <TextView
-        android:id="@+id/TextViewTrophees_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/MesTrophées_2"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+	    android:id="@+id/TextViewTrophees_2"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	    android:text="@string/MesTrophées_2"
+	    android:textSize="24sp"
+	    android:background="@drawable/back"
+	    android:layout_margin="2dp"
+	    android:drawableRight="@android:drawable/btn_star_big_off"/>
     <TextView
-        android:id="@+id/TextViewTrophees_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/MesTrophées_3"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+	    android:id="@+id/TextViewTrophees_3"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	    android:text="@string/MesTrophées_3"
+	    android:textSize="24sp"
+	    android:background="@drawable/back"
+	    android:layout_margin="2dp"
+	    android:drawableRight="@android:drawable/btn_star_big_off"/>
     <TextView
-        android:id="@+id/TextViewTrophees_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/MesTrophées_4"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+	    android:id="@+id/TextViewTrophees_4"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	    android:text="@string/MesTrophées_4"
+	    android:textSize="24sp"
+	    android:background="@drawable/back"
+	    android:layout_margin="2dp"
+	    android:drawableRight="@android:drawable/btn_star_big_off"/>
+    <TextView
+	    android:id="@+id/TextViewTrophees_5"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	    android:text="@string/MesTrophées_5"
+	    android:textSize="24sp"
+	    android:background="@drawable/back"
+	    android:layout_margin="2dp"
+	    android:drawableRight="@android:drawable/btn_star_big_off"/>
 
 </LinearLayout>

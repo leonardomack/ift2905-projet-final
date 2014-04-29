@@ -6,7 +6,14 @@ public class Trophy {
 	
 	public Trophy(String trophyName){
 		this.trophyName=trophyName;
-		boolean hasIt = false;
+		this.hasIt = false;
+	}
+	public Trophy(String trophyName, int hasIt){
+		this.trophyName=trophyName;
+		if(hasIt==1)
+			this.hasIt = true;
+		else
+			this.hasIt=false;
 	}
 	
 	public String getTrophyName(){
