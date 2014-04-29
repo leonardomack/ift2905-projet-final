@@ -74,7 +74,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
-	public enum buttonState {CLICKABLE,CLICKEDTRUE,DISABLED,CLICKEDFALSE}
 
 	//initialiser ça de manière dynamique plutôt
 	private boolean [] cluesGiven ;
@@ -444,8 +443,11 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			return;
 		}
 
-
 		private void computeClue() {
+			if(currentQuestion.isAnswered){
+				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			if (cluesGiven[currentQuestionNumber]==false){
 				WhoAmIQuestion printedQuestion = questions.get(currentQuestionNumber);
 				//on donne l'indice en mettant un bouton en gcris
@@ -462,6 +464,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				Log.v(TAG,"indice de question :"+(currentQuestion.getQuestionNumber()-1));
 				//
 				monAdapter.printButtons(currentQuestionNumber, currentLayout);
+
+				Toast.makeText(getApplicationContext(), "You used a clue !", Toast.LENGTH_SHORT).show();
+				//printButtons(currentQuestionNumber, currentLayout);
 			}
 			else{
 				//make toast = vous n'avex plus droit aux indices !

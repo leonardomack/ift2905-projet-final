@@ -2,9 +2,10 @@ package com.example.nobelobjects;
 
 import java.util.ArrayList;
 
+import com.example.nobelprize.GlobalConstants;
 import com.example.nobelprize.R;
 
-public class MultipleChoiceQuestion {
+public class MultipleChoiceQuestion implements GlobalConstants{
 
 	/**
 	 * il faudra les shuffler pour l'affichage
@@ -165,8 +166,17 @@ public class MultipleChoiceQuestion {
 		this.questionNumber = questionNumber;
 	}
 
-
-
+public ArrayList<Integer> getIndexRightAnswersInPrinted(){
+		
+		ArrayList<Integer> indexRightAnswers = new ArrayList<Integer>();
+		
+		for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++){
+			if(this.getRightAnswers().contains(getPrintedAnswers().get(i))){
+				indexRightAnswers.add(i);
+			}
+		}
+		return indexRightAnswers;
+	}
 
 	public int getType() {
 		return type;
