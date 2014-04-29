@@ -143,6 +143,7 @@ public class Player {
 	public String toString(){
 		return username + " : " + getScoreTrueFalse()+"/"+getTotalTrueFalse() + " | "
 								+ getScoreQCM()+"/"+getTotalQCM() + " | "
-								+ getScorePicture()+"/"+getTotalPicture();
+								+ getScorePicture()+"/"+getTotalPicture()
+								+getScoreGames()+"/"+getTotalGames();
 	}
 }

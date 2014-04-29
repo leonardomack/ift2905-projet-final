@@ -59,6 +59,7 @@
                 android:layout_alignLeft="@+id/TextViewMenuGame_Mon_Score"
                 android:layout_below="@+id/TextViewMenuGame_MesTrophees"
                 android:text="@string/MenuGame_MonScore_value" />
+            
         </RelativeLayout>
     </RelativeLayout>
 

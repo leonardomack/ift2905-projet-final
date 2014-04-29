@@ -62,10 +62,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
-	public enum buttonState
-	{
-		CLICKABLE, CLICKEDTRUE, DISABLED, CLICKEDFALSE
-	}
+
+	private int totalConsecutiveCorrect;
+
 
 	// initialiser ça de manière dynamique plutôt
 	private boolean[] cluesGiven;
@@ -522,9 +521,11 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
 
+					totalConsecutiveCorrect++;
+
 					responseImage.setImageResource(R.drawable.truequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.GREEN);
-				//	Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
+					//	Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -534,8 +535,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 						vib.vibrate(500);
 					responseImage.setImageResource(R.drawable.falsequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.RED);
-				//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
+					//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 
+					totalConsecutiveCorrect=0;
 					// on met le faux en rouge
 					buttonStateTab[currentQuestionNumber][answer - 1] = buttonState.CLICKEDFALSE;
 
@@ -562,6 +564,25 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					Log.d(TAG, "player score was : " + player.toString());
 					player.addScorePicture(score, questions.size());
 					Log.d(TAG, "player score is now : " + player.toString());
+
+					//si on répond juste à 3 questions d'affilée
+					if(totalConsecutiveCorrect>=3)
+						player.activateTrophy3Consecutive();
+					
+					//on utilise qu'un seul tip ?
+					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+						if(cluesGiven[i]==true){
+							player.activateTrophyUseATips();
+							break;
+						}
+					
+					//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
+					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+						if(cluesGiven[i]==false){
+							player.activateTrophyNoTips();
+							break;
+						}
+
 
 					Handler handlerNewPage = new Handler();
 					handlerNewPage.postDelayed(new Runnable()

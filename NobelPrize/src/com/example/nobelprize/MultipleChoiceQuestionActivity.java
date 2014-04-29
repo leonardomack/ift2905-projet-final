@@ -64,6 +64,8 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 	private int currentQuestionNumber;
 
 
+	private int totalConsecutiveCorrect;
+	
 	//initialiser ça de manière dynamique plutôt
 	private boolean [] cluesGiven ;
 	private buttonState [][] buttonStateTab ;
@@ -469,6 +471,8 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
+
+					totalConsecutiveCorrect++;
 					//update database
 					//on garde ça ???
 					//ICI
@@ -487,6 +491,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 					
 
+					totalConsecutiveCorrect=0;
 					//on met le faux en rouge
 					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDFALSE;
 
@@ -512,7 +517,24 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					player.addScoreQCM(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
 										
-
+					//si on répond juste à 3 questions d'affilée
+					if(totalConsecutiveCorrect>=3)
+						player.activateTrophy3Consecutive();
+					
+					//on utilise qu'un seul tip ?
+					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+						if(cluesGiven[i]==true){
+							player.activateTrophyUseATips();
+							break;
+						}
+					
+					//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
+					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+						if(cluesGiven[i]==false){
+							player.activateTrophyNoTips();
+							break;
+						}
+					
 					Handler handlerNewPage = new Handler();
 					handlerNewPage.postDelayed(new Runnable()
 					{

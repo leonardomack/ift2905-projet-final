@@ -10,6 +10,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
@@ -262,7 +263,19 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					if(totalConsecutiveCorrect>=3)
 						player.activateTrophy3Consecutive();
 					//on finish l'Activity ici...
-					finish();
+					
+					//rajouté par r.b.
+					Handler handlerNewPage = new Handler();
+					handlerNewPage.postDelayed(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							finish();
+						}
+
+					}, 2000);
+
 				}
 
 				//if(pos<questions.size())
