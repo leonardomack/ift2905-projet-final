@@ -1,19 +1,30 @@
 package com.example.nobelprize;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import android.R.bool;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -22,6 +33,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -59,6 +71,14 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
 
+	private int currentQuestionNumber;
+
+	public enum buttonState {CLICKABLE,CLICKEDTRUE,DISABLED,CLICKEDFALSE}
+
+	//initialiser ça de manière dynamique plutôt
+	private boolean [] cluesGiven ;
+	private buttonState [][] buttonStateTab ;
+
 	Context ctx;
 
 	//pour la requete des laureats = on peut affiner pour faire des quizzs thematiques
@@ -70,6 +90,16 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 	private Vibrator vib;
 	private SharedPreferences prefs;
+
+
+
+	// Shake sensor - From:
+	// http://stackoverflow.com/questions/2317428/android-i-want-to-shake-it
+	private SensorManager mSensorManager;
+	private float mAccel; // acceleration apart from gravity
+	private float mAccelCurrent; // current acceleration including gravity
+	private float mAccelLast; // last acceleration including gravity
+	private Calendar lastShake;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +114,30 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		new SendRequestForNobelPrizeQuestions().execute();
 
+		//feedback when wrong
 		vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+		//menu preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
+
+		// Activating the Shake Sensor
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+		mAccel = 0.00f;
+		mAccelCurrent = SensorManager.GRAVITY_EARTH;
+		mAccelLast = SensorManager.GRAVITY_EARTH;
+		lastShake = Calendar.getInstance();
+
+		//intilaiser les tbleaux pour indices, recupere ces valeurs d'une interface qu'on fera plus tard
+		//tout a false par defaut
+		cluesGiven = new boolean [5];	
+
+		Arrays.fill (cluesGiven, false);
+		buttonStateTab = new buttonState [5][4];
+		for(int i = 0 ; i < 5 ; i++)
+			for(int j = 0 ; j < 4 ; j++)
+				buttonStateTab[i][j]= buttonState.CLICKABLE;
 	}
 
 	//@Override
@@ -231,6 +282,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		LayoutInflater inflater;
 
+		View layout;
 		MonPagerAdapter() {
 			// on va utiliser les services d'un "inflater"
 			inflater= (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -251,7 +303,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		public Object instantiateItem(View container, int position) {
 			Log.v(TAG,"instantiate item"+ position);
 
-			View layout;
 			layout=(View)inflater.inflate(R.layout.who_am_i_game_layout_page, null);
 
 
@@ -305,7 +356,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				b2.setOnClickListener(this);
 				b3.setOnClickListener(this);
 				b4.setOnClickListener(this);
-			}		
+			}
+
+			printButtons();
 
 			((ViewPager)container).addView(layout,0);
 
@@ -357,6 +410,80 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			}
 		}
 
+		public void printButtons() {
+			Button b=null;  
+			for(int i = 0 ; i < 4  ; i++)
+			{
+				switch (i) {
+				case 0:
+					b = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button1);
+					break;
+				case 1:
+					b = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button2);		
+					break;
+				case 2:
+					b = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button3);
+					break;
+				case 3:
+					b = (Button)layout.findViewById(R.id.ButtonWhoAmIGame_button4);
+					break;
+				default:
+					break;
+				}
+				printOneButton(b, i);
+
+				Log.v(TAG, "on a colorié un bouton (de numero) !!"+i);
+			}
+
+			return;
+		}
+		private void printOneButton(Button b, int i){
+
+			buttonState state = buttonStateTab[viewPager.getCurrentItem()][i];
+			switch (state) {
+			case CLICKABLE:	//on ne fait rien par défaut
+				break;
+			case CLICKEDFALSE:	
+				//on le met en rouge et non clickable
+				b.setEnabled(false);
+				b.setTextColor(Color.RED);
+				break;
+			case CLICKEDTRUE:		
+				b.setEnabled(false);
+				b.setTextColor(Color.GREEN);
+				break;
+			case DISABLED:		
+				b.setEnabled(false);
+				break;
+
+			default:
+				break;
+			}
+			return;
+		}
+
+
+		private void computeClue() {
+			if (cluesGiven[WhoAmIGameActivity.this.currentQuestionNumber]==false){
+				//on donne l'indice en mettant un bouton en gcris
+				cluesGiven[WhoAmIGameActivity.this.currentQuestionNumber]=true;
+				int i =0;
+				Random r = new Random();
+				do{
+					i = r.nextInt(currentQuestion.getPrintedAnswers().size());
+				}while(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(i)));
+
+				//choisir un bouton parmi ltes 4 qui est faux est qu
+				buttonStateTab[currentQuestion.getQuestionNumber()-1][i] = buttonState.DISABLED;
+				Log.v(TAG,"indice de question :"+(currentQuestion.getQuestionNumber()-1));
+				//
+				monAdapter.printButtons();
+			}
+			else{
+				//make toast = vous n'avex plus droit aux indices !
+				Toast.makeText(getApplicationContext(), "Clue already used !", Toast.LENGTH_SHORT).show();
+			}
+		}
 
 		public void handleClick(int answer){
 			int pos = viewPager.getCurrentItem();
@@ -364,6 +491,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			//TextView currentQuestionNumber = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
 			if(!currentQuestion.isAnswered){
 				currentQuestion.setAnswered(true);
+
+				//on grise tous les boutons
+				for(int i = 0 ; i < 4 ; i++)
+					buttonStateTab[pos][i] = buttonState.DISABLED;
 
 				if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer-1))){
 					Log.d(TAG, "Answered correctly");
@@ -375,6 +506,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					responseImage.setImageResource(R.drawable.truequestion);
 					currentQuestionNumber.setTextColor(Color.GREEN);
 					Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
+
+					buttonStateTab[pos][answer-1] = buttonState.CLICKEDTRUE;
+
 				}
 				else{
 					Log.d(TAG, "Answered wrongly");
@@ -385,6 +519,26 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					responseImage.setImageResource(R.drawable.falsequestion);
 					currentQuestionNumber.setTextColor(Color.RED);
 					Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
+
+					//on grise tous les boutons en mettant le faux en rouge
+					buttonStateTab[pos][answer-1] = buttonState.CLICKEDFALSE;
+
+					//et on met le bon en vert
+
+					ArrayList<Integer> indexRightAnswers = new ArrayList<Integer>();
+					for(int i = 0 ; i < 4 ; i++){
+						if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(i))){
+							indexRightAnswers.add(i);
+						}
+					}
+					
+					for(Integer i : indexRightAnswers){
+						buttonStateTab[pos][i] = buttonState.CLICKEDTRUE;
+					}
+
+
+					buttonStateTab[pos][answer-1] = buttonState.CLICKEDTRUE;
+
 				}
 
 				int j = 0;
@@ -400,14 +554,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScorePicture(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
-					//finish();
-					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
-					startActivity(goBackToGameMenu);
+					finish();
 				}
 
-				//	if(pos<questions.size())
-				//	viewPager.setCurrentItem(pos+1);
+				printButtons();
 			}
+
+
 
 		}
 
@@ -425,6 +578,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 	@Override
 	public void onPageSelected(int position) {
+		currentQuestionNumber = position;
 	}
 
 	//	@Override
@@ -433,5 +587,46 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		// TODO Auto-generated method stub
 
 	}
+
+	private final SensorEventListener mSensorListener = new SensorEventListener()
+	{
+		@Override
+		public void onSensorChanged(SensorEvent event)
+		{
+			float x = event.values[0];
+			float y = event.values[1];
+			float z = event.values[2];
+			mAccelLast = mAccelCurrent;
+			mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+			float delta = mAccelCurrent - mAccelLast;
+			mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+
+			if (mAccel > 20.0f)
+			{
+				Calendar now = Calendar.getInstance();
+				now.setTime(new Date());
+
+				long diff = now.getTimeInMillis() - lastShake.getTimeInMillis();
+				if (diff >= 750)
+				{
+					Log.d("MainActivity", "Shake event { mAccel: " + mAccel + "}");
+					monAdapter.computeClue();
+
+					// Setting up the last shake time
+					lastShake.setTime(new Date());
+				}
+
+			}
+		}
+
+		@Override
+		public void onAccuracyChanged(Sensor sensor, int accuracy)
+		{
+
+		}
+	};
+
+
+
 
 }

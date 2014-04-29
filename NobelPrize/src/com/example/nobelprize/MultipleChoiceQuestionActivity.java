@@ -149,7 +149,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				do{
 					key = r.nextInt(arrayOfLaureates.size());
 					Laureate l = arrayOfLaureates.get(key);	
-				
+
 					if (!laureates.contains(l) 
 							&& l != null 
 							&& l.getFirstname() != null && !l.getFirstname().equals("") 
@@ -359,8 +359,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreQCM(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
-					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
-					startActivity(goBackToGameMenu);
+					finish();
 				}
 
 				//	if(pos<questions.size())

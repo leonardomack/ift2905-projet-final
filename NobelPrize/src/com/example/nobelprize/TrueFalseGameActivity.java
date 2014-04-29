@@ -32,7 +32,7 @@ import com.example.nobelobjects.Player;
 import com.example.nobelobjects.TrueFalseQuestion;
 
 public class TrueFalseGameActivity extends Activity implements OnSharedPreferenceChangeListener{
-	
+
 	private int score;
 	private final String TAG = "TrueFalseGameActivity";
 	private ArrayList<TrueFalseQuestion> questions;
@@ -41,9 +41,9 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 	private boolean finishedLoading;
 	private Vibrator vib;
 	private SharedPreferences prefs;
-    TrueFalseGamePagerAdapter pagerAdapter;
-    ViewPager viewPager;
-	
+	TrueFalseGamePagerAdapter pagerAdapter;
+	ViewPager viewPager;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,9 +56,9 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -73,11 +73,11 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 		switch(item.getItemId()){
 		case R.id.itemPrefs:
 			startActivity(new Intent(this, PreferencesActivity.class));
-		break;
+			break;
 		}
 		return true;
 	}
-	
+
 	class sendRequestForQuestions extends AsyncTask<String, Integer, String>
 	{
 		@Override
@@ -121,7 +121,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			String key) {
 		//Do nothing
 	}
-	
+
 	private class TrueFalseGamePagerAdapter extends PagerAdapter implements OnClickListener{
 		private TextView currentQuestionNumber;
 		private ImageView responseImage;
@@ -130,10 +130,10 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			return TrueFalseGameAPI.getAmountOfQuestion();
 		}
 
-	    @Override
-	    public boolean isViewFromObject(View arg0, Object arg1) {
-	    	return arg0 == ((View) arg1);
-	    }
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == ((View) arg1);
+		}
 
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
@@ -162,8 +162,8 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				trueButton.setOnClickListener(this);
 				falseButton.setOnClickListener(this);
 			}
-	        ((ViewPager) container).addView(layout, 0);
-	        return layout;
+			((ViewPager) container).addView(layout, 0);
+			return layout;
 		}
 
 		@Override
@@ -171,8 +171,8 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			((ViewPager) container).removeView((View) object);
 		}
 
-		
-		
+
+
 		@Override
 		public void setPrimaryItem(ViewGroup container, int position,
 				Object object) {
@@ -195,7 +195,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				}
 			}
 		}	
-		
+
 		public void handleClick(boolean answer){
 			Log.d(TAG, "currentQuestionNumberView is : " + currentQuestionNumber.getText());
 			int pos = viewPager.getCurrentItem();
@@ -220,13 +220,13 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					responseImage.setImageResource(R.drawable.falsequestion);
 					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				int j = 0;
 				for(int i=0; i < questions.size(); i++){
 					if(questions.get(i).isAnswered)
 						j++;
 				}
-				
+
 				if(j==questions.size()){
 					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
 					String playerName = prefs.getString("username", "");
@@ -235,16 +235,16 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreTrueFalse(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
-					Intent goBackToGameMenu = new Intent(getApplicationContext(), MenuGameActivity.class);
-					startActivity(goBackToGameMenu);
+					//on finish l'Activity ici...
+					finish();
 				}
-				
+
 				//if(pos<questions.size())
-					//viewPager.setCurrentItem(pos+1);
+				//viewPager.setCurrentItem(pos+1);
 			}
-				
+
 		}
-		
+
 	}
-		
+
 }
