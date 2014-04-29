@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class SplashScreen extends Activity
 {
@@ -15,11 +17,15 @@ public class SplashScreen extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash_screen);
 
 		// Cacher la ActionBar et faire la reference a l'actionbar correcte
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// setContentView(R.layout.activity_splash_screen);
+		// Remove title bar
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Remove notification bar
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+		// set content view AFTER ABOVE sequence (to avoid crash)
+		this.setContentView(R.layout.activity_splash_screen);
 
 		Handler handlerNewPage = new Handler();
 		handlerNewPage.postDelayed(new Runnable()
@@ -35,7 +41,7 @@ public class SplashScreen extends Activity
 				finish();
 			}
 
-		}, 100);// The waiting time in miliseconds
+		}, 5000);// The waiting time in miliseconds
 	}
 
 	@Override
