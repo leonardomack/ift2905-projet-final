@@ -101,12 +101,4 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 	}	
 	
 	
-	/*// 2.0 and above
-	@Override
-	public void onBackPressed() {
-		//revient au menu supérieur
-		//ou il faut aussi supprimer l'ancienne activité de jeu
-		Intent intentMenuPrincipal = new Intent
-		startActivity(intent
-	}*/
 }
