@@ -44,6 +44,8 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 	TrueFalseGamePagerAdapter pagerAdapter;
 	ViewPager viewPager;
 	private int totalConsecutiveCorrect;
+	private Button buttonTrue;
+	private Button buttonFalse;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +183,8 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			View currentView = (View)object;
 			currentQuestionNumber= (TextView) currentView.findViewById(R.id.TextViewTrueFalse_QNumber);
 			responseImage = (ImageView)currentView.findViewById(R.id.ImageFeedbackQuestion);
+			buttonTrue = (Button) currentView.findViewById(R.id.ButtonTrueFalseGame_True);
+			buttonFalse = (Button) currentView.findViewById(R.id.ButtonTrueFalseGame_False);
 			super.setPrimaryItem(container, position, object);
 		}
 
@@ -212,7 +216,15 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					score++;
 					currentQuestionNumber.setTextColor(Color.parseColor("#7cfc00"));;
 					responseImage.setImageResource(R.drawable.truequestion);
-					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
+					if(answer){
+						buttonTrue.setEnabled(false);
+						buttonTrue.setTextColor(Color.GREEN);
+					}
+					else{
+						buttonFalse.setEnabled(false);
+						buttonFalse.setTextColor(Color.GREEN);
+					}
+					//Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else{
 					Log.d(TAG, "Answered wrongly");
@@ -222,7 +234,15 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 						vib.vibrate(500);
 					currentQuestionNumber.setTextColor(Color.parseColor("#ff0000"));
 					responseImage.setImageResource(R.drawable.falsequestion);
-					Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
+					if(answer){
+						buttonTrue.setEnabled(false);
+						buttonTrue.setTextColor(Color.RED);
+					}
+					else{
+						buttonFalse.setEnabled(false);
+						buttonFalse.setTextColor(Color.RED);
+					}
+					//Toast.makeText(getApplicationContext(), R.string.TrueFalseGame_WrongAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 
 				int j = 0;
