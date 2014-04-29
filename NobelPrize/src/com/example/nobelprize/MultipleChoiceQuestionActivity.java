@@ -60,6 +60,8 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 	Context ctx;
 
+	private boolean first = true;
+
 	private MultipleChoiceQuestion currentQuestion;
 	private int currentQuestionNumber;
 
@@ -265,10 +267,21 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			layout=(View)inflater.inflate(R.layout.multiple_choice_question_layout_page, null);
 
 
-			//VINCENT
+			//on affiche ça que sur la toute première page...
+			if(first){
+				first = false;
+				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast
+				if (player.getTotalPicture()==0)
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+
+				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi = 1/reponse sur 4, => on en enleve une 66% d'echec
+				else if((double)player.getScorePicture()/player.getTotalPicture() < 0.25){
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+				}
+			}			
+			
 			currentQuestion = questions.get(position);
-
-
 			TextView question = (TextView) layout.findViewById(R.id.TextViewMultipleChoice_Question);
 			TextView questionNumber = (TextView)layout.findViewById(R.id.TextViewMultipleChoice_QNumber);
 			question.setText(currentQuestion.getQuestionString());

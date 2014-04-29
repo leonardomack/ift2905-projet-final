@@ -41,16 +41,6 @@
         android:adjustViewBounds="true"
         android:src="@drawable/empty_user" />
 
-    <ImageView
-        android:id="@+id/WhoAmIGameImageFeedbackQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ImageViewWhoAmIGame_laureate_photo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="28dp"
-        android:contentDescription="@string/ImageContentDescription"
-        android:src="@drawable/unknownquestion" />
-
     <Button
         android:id="@+id/ButtonWhoAmIGame_button4"
         android:layout_width="wrap_content"
@@ -92,5 +82,14 @@
         android:maxLines="1"
         android:text="Button"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/WhoAmIGameImageFeedbackQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/ImageContentDescription"
+        android:src="@drawable/unknownquestion" />
 
 </RelativeLayout>

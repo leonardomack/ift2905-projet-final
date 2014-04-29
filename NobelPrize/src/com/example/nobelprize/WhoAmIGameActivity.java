@@ -62,7 +62,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
-
+	private boolean first = true;
 	private int totalConsecutiveCorrect;
 
 
@@ -288,7 +288,22 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			Log.v(TAG, "instantiate item" + position);
 
 			layout = (View) inflater.inflate(R.layout.who_am_i_game_layout_page, null);
-			// VINCENT
+
+			//on affiche ça que sur la toute première page...
+			if(first){
+				first = false;
+				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
+				if (player.getTotalPicture()==0)
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+
+				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
+				else if((double)player.getScorePicture()/player.getTotalPicture() < 0.25){
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+				}
+			}
+
+
 			currentQuestion = questions.get(position);
 
 			TextView question = (TextView) layout.findViewById(R.id.TextViewWhoAmIGame_Question);
@@ -568,14 +583,14 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					//si on répond juste à 3 questions d'affilée
 					if(totalConsecutiveCorrect>=3)
 						player.activateTrophy3Consecutive();
-					
+
 					//on utilise qu'un seul tip ?
 					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
 						if(cluesGiven[i]==true){
 							player.activateTrophyUseATips();
 							break;
 						}
-					
+
 					//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
 					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
 						if(cluesGiven[i]==false){
