@@ -80,7 +80,6 @@
         android:layout_alignLeft="@+id/ButtonWhoAmIGame_button3"
         android:layout_weight="10"
         android:text="Button"
-        android:textColor="@android:color/primary_text_holo_light"
         android:textSize="20sp" />
 
     <Button
@@ -92,7 +91,6 @@
         android:layout_weight="10"
         android:maxLines="1"
         android:text="Button"
-        android:textColor="@android:color/primary_text_holo_light"
         android:textSize="20sp" />
 
 </RelativeLayout>
