@@ -25,6 +25,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -473,7 +474,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					//ICI
 					responseImage.setImageResource(R.drawable.truequestion);
 					currentQuestionNumberTextView.setTextColor(Color.GREEN);
-					Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else{
 					Log.d(TAG, "Answered wrongly");
@@ -483,7 +484,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					//update database
 					responseImage.setImageResource(R.drawable.falsequestion);
 					currentQuestionNumberTextView.setTextColor(Color.RED);
-					Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
+				//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 					
 
 					//on met le faux en rouge
@@ -510,7 +511,18 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreQCM(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
-					finish();
+										
+
+					Handler handlerNewPage = new Handler();
+					handlerNewPage.postDelayed(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							finish();
+						}
+
+					}, 2000);
 				}
 				
 

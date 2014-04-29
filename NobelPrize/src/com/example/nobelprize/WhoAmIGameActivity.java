@@ -62,6 +62,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
+	public enum buttonState
 	{
 		CLICKABLE, CLICKEDTRUE, DISABLED, CLICKEDFALSE
 	}
@@ -146,9 +147,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	{
 		switch (item.getItemId())
 		{
-			case R.id.itemPrefs:
-				startActivity(new Intent(this, PreferencesActivity.class));
-				break;
+		case R.id.itemPrefs:
+			startActivity(new Intent(this, PreferencesActivity.class));
+			break;
 		}
 		return true;
 	}
@@ -391,18 +392,18 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			{
 				switch (v.getId())
 				{
-					case R.id.ButtonWhoAmIGame_button1:
-						handleClick(1);
-						break;
-					case R.id.ButtonWhoAmIGame_button2:
-						handleClick(2);
-						break;
-					case R.id.ButtonWhoAmIGame_button3:
-						handleClick(3);
-						break;
-					case R.id.ButtonWhoAmIGame_button4:
-						handleClick(4);
-						break;
+				case R.id.ButtonWhoAmIGame_button1:
+					handleClick(1);
+					break;
+				case R.id.ButtonWhoAmIGame_button2:
+					handleClick(2);
+					break;
+				case R.id.ButtonWhoAmIGame_button3:
+					handleClick(3);
+					break;
+				case R.id.ButtonWhoAmIGame_button4:
+					handleClick(4);
+					break;
 				}
 			}
 		}
@@ -414,20 +415,20 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			{
 				switch (i)
 				{
-					case 0:
-						b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button1);
-						break;
-					case 1:
-						b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button2);
-						break;
-					case 2:
-						b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button3);
-						break;
-					case 3:
-						b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button4);
-						break;
-					default:
-						break;
+				case 0:
+					b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button1);
+					break;
+				case 1:
+					b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button2);
+					break;
+				case 2:
+					b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button3);
+					break;
+				case 3:
+					b = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button4);
+					break;
+				default:
+					break;
 				}
 				printOneButton(b, indQuestion, i);
 
@@ -446,32 +447,31 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			buttonState state = buttonStateTab[indQuestion][i];
 			switch (state)
 			{
-				case CLICKABLE: // on ne fait rien par défaut
-					break;
-				case CLICKEDFALSE:
-					// on le met en rouge et non clickable
-					b.setEnabled(false);
-					b.setTextColor(Color.RED);
-					break;
-				case CLICKEDTRUE:
-					b.setEnabled(false);
-					b.setTextColor(Color.GREEN);
-					break;
-				case DISABLED:
-					b.setEnabled(false);
-					break;
+			case CLICKABLE: // on ne fait rien par défaut
+				break;
+			case CLICKEDFALSE:
+				// on le met en rouge et non clickable
+				b.setEnabled(false);
+				b.setTextColor(Color.RED);
+				break;
+			case CLICKEDTRUE:
+				b.setEnabled(false);
+				b.setTextColor(Color.GREEN);
+				break;
+			case DISABLED:
+				b.setEnabled(false);
+				break;
 
-				default:
-					break;
+			default:
+				break;
 			}
 			return;
 		}
 
+		private void computeClue()
 		{
-			if(currentQuestion.isAnswered){
-				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
-				return;
-			}
+			if (cluesGiven[currentQuestionNumber] == false)
+			{
 				WhoAmIQuestion printedQuestion = questions.get(currentQuestionNumber);
 				// on donne l'indice en mettant un bouton en gcris
 				cluesGiven[currentQuestionNumber] = true;
@@ -488,9 +488,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				Log.v(TAG, "indice de question :" + (currentQuestion.getQuestionNumber() - 1));
 				//
 				monAdapter.printButtons(currentQuestionNumber, currentLayout);
-
-				Toast.makeText(getApplicationContext(), "You used a clue !", Toast.LENGTH_SHORT).show();
-				//printButtons(currentQuestionNumber, currentLayout);
 			}
 			else
 			{
@@ -527,7 +524,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 					responseImage.setImageResource(R.drawable.truequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.GREEN);
-					Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
+				//	Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -537,7 +534,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 						vib.vibrate(500);
 					responseImage.setImageResource(R.drawable.falsequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.RED);
-					Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
+				//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 
 					// on met le faux en rouge
 					buttonStateTab[currentQuestionNumber][answer - 1] = buttonState.CLICKEDFALSE;
