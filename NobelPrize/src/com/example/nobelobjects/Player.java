@@ -129,6 +129,17 @@ public class Player {
 		return dbHelper.getTrophies(this.username);
 	}
 	
+	
+	public int getTotalGames(){
+		return getTotalPicture()+getTotalQCM()+getTotalTrueFalse();
+	}
+	
+	public int getScoreGames(){
+		return getScorePicture()+getScoreQCM()+getScoreTrueFalse();
+	}
+	
+	
+	
 	public String toString(){
 		return username + " : " + getScoreTrueFalse()+"/"+getTotalTrueFalse() + " | "
 								+ getScoreQCM()+"/"+getTotalQCM() + " | "

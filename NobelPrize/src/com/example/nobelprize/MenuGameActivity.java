@@ -23,15 +23,16 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 	private TextView trueFalseStat;
 	private TextView whoAmIStat;
 	private Player player;
+	private TextView scoreTotal;
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
-			case R.id.itemPrefs:
-				startActivity(new Intent(this, PreferencesActivity.class));
-				break;
+		case R.id.itemPrefs:
+			startActivity(new Intent(this, PreferencesActivity.class));
+			break;
 		}
 		return true;
 	}
@@ -60,6 +61,10 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		trueFalseStat.setText(player.getScoreTrueFalse() + "/" + player.getTotalTrueFalse());
 		whoAmIStat = (TextView) findViewById(R.id.activity_main_WhoAmI_Stats);
 		whoAmIStat.setText(player.getScorePicture() + "/" + player.getTotalPicture());
+
+
+		scoreTotal = (TextView) findViewById(R.id.TextViewMenuGame_Mon_score_value);
+		scoreTotal.setText(player.getScoreGames() + "/" + player.getTotalGames());
 	}
 
 	@Override
