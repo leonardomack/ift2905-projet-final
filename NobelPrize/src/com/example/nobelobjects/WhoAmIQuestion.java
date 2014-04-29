@@ -9,7 +9,7 @@ import com.example.nobelprize.GlobalConstants;
  * @author locust
  *
  */
-public class WhoAmIQuestion extends MultipleChoiceQuestion implements GlobalConstants{
+public class WhoAmIQuestion extends MultipleChoiceQuestion {
 	private String urlImage;
 
 	/**
@@ -49,17 +49,6 @@ public class WhoAmIQuestion extends MultipleChoiceQuestion implements GlobalCons
 		this.urlImage = urlImage;
 	}	
 	
-public ArrayList<Integer> getIndexRightAnswersInPrinted(){
-		
-		ArrayList<Integer> indexRightAnswers = new ArrayList<Integer>();
-		
-		for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++){
-			if(this.getRightAnswers().contains(getPrintedAnswers().get(i))){
-				indexRightAnswers.add(i);
-			}
-		}
-		return indexRightAnswers;
-	}
 
 	/**
 	 * on considère deux quqestions egales si elles sont du même type et si elles ont les mêmes réponses (dans le même ordre)
