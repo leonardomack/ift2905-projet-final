@@ -2,12 +2,14 @@ package com.example.nobelobjects;
 
 import java.util.ArrayList;
 
+import com.example.nobelprize.GlobalConstants;
+
 /**
  * variante de QCM, réfléchir à les faire hériter d'un ancêtre commun
  * @author locust
  *
  */
-public class WhoAmIQuestion extends MultipleChoiceQuestion{
+public class WhoAmIQuestion extends MultipleChoiceQuestion implements GlobalConstants{
 	private String urlImage;
 
 	/**
@@ -39,13 +41,24 @@ public class WhoAmIQuestion extends MultipleChoiceQuestion{
 		}		
 	}
 
-
 	public String getUrlImage() {
 		return urlImage;
 	}
 
 	public void setUrlImage(String urlImage) {
 		this.urlImage = urlImage;
+	}	
+	
+public ArrayList<Integer> getIndexRightAnswersInPrinted(){
+		
+		ArrayList<Integer> indexRightAnswers = new ArrayList<Integer>();
+		
+		for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++){
+			if(this.getRightAnswers().contains(getPrintedAnswers().get(i))){
+				indexRightAnswers.add(i);
+			}
+		}
+		return indexRightAnswers;
 	}
 
 	/**
@@ -68,4 +81,5 @@ public class WhoAmIQuestion extends MultipleChoiceQuestion{
 			return false;
 		}
 	}
+	
 }
