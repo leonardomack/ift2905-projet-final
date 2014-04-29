@@ -42,6 +42,7 @@ public class MultipleChoiceQuestion {
 	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
 		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
 		this.laureateName= laureateName;
+		//on refait parce que la généraion de queqstion dépend de ces aguments.. conception moyenne
 		generateQuestionDependingType(typeQuestion);
 	}
 

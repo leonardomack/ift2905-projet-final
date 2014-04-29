@@ -87,6 +87,12 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		Intent intentJouerWhoAmI = new Intent(getApplicationContext(), WhoAmIGameActivity.class);
 		startActivity(intentJouerWhoAmI);
 	}
+	
+	public void buttonMenuGameTropheClick(View view)
+	{
+		Intent intentTrophees = new Intent(getApplicationContext(), TropheesActivity.class);
+		startActivity(intentTrophees);
+	}	
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

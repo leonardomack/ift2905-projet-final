@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/TextViewTrophees_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/MesTrophées_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+         />
+    
+    <TextView
+        android:id="@+id/TextViewTrophees_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:text="@string/MesTrophées_1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#C60800"
+         />
+
+    <TextView
+        android:id="@+id/TextViewTrophees_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/MesTrophées_2"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/TextViewTrophees_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/MesTrophées_3"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/TextViewTrophees_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/MesTrophées_4"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
