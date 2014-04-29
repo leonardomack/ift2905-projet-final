@@ -43,6 +43,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 	private SharedPreferences prefs;
 	TrueFalseGamePagerAdapter pagerAdapter;
 	ViewPager viewPager;
+	private int totalConsecutiveCorrect;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 		finishedLoading = false;
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
+		totalConsecutiveCorrect=0;
 	}
 
 
@@ -206,6 +208,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				if(currentQuestion.getAnswer() == answer){
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
+					totalConsecutiveCorrect++;
 					score++;
 					currentQuestionNumber.setTextColor(Color.parseColor("#7cfc00"));;
 					responseImage.setImageResource(R.drawable.truequestion);
@@ -214,6 +217,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				else{
 					Log.d(TAG, "Answered wrongly");
 					currentQuestion.setAnsweredCorrectly(false);
+					totalConsecutiveCorrect=0;
 					if(prefs.getBoolean("vibrate", true))
 						vib.vibrate(500);
 					currentQuestionNumber.setTextColor(Color.parseColor("#ff0000"));
@@ -235,6 +239,8 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreTrueFalse(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
+					if(totalConsecutiveCorrect>=3)
+						player.activateTrophy3Consecutive();
 					//on finish l'Activity ici...
 					finish();
 				}

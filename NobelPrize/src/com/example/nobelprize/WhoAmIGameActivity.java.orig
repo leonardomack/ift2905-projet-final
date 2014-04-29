@@ -62,9 +62,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
+<<<<<<< HEAD
+=======
+	public enum buttonState
 	{
 		CLICKABLE, CLICKEDTRUE, DISABLED, CLICKEDFALSE
 	}
+>>>>>>> af9dec40c1db91097eafc7c74055ec5fe8749405
 
 	// initialiser ça de manière dynamique plutôt
 	private boolean[] cluesGiven;
@@ -467,11 +471,19 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			return;
 		}
 
-		{
+<<<<<<< HEAD
+		private void computeClue() {
 			if(currentQuestion.isAnswered){
 				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
 				return;
 			}
+			if (cluesGiven[currentQuestionNumber]==false){
+=======
+		private void computeClue()
+		{
+			if (cluesGiven[currentQuestionNumber] == false)
+			{
+>>>>>>> af9dec40c1db91097eafc7c74055ec5fe8749405
 				WhoAmIQuestion printedQuestion = questions.get(currentQuestionNumber);
 				// on donne l'indice en mettant un bouton en gcris
 				cluesGiven[currentQuestionNumber] = true;

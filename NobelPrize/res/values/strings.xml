@@ -97,11 +97,13 @@
 
 
     <!-- ======Mes Trophées====== -->
-    <string name="MesTrophées_title">Mes Trophées</string>
-    <string name="MesTrophées_1">Answering a question without using any clues</string>
-    <string name="MesTrophées_2">3 correct answers in a row</string>
-    <string name="MesTrophées_3">at least 1 correct answer to all the games</string>
-    <string name="MesTrophées_4">Nobel Prize : you won the game</string>
+    <string name="MesTrophées_title">My Trophies</string>
+    <string name="MesTrophées_1">Use a tip to solve a question</string>
+    <string name="MesTrophées_2">Answer correctly a question without using a tip</string>
+    <string name="MesTrophées_3">Answer 3 question correctly consecutively</string>
+    <string name="MesTrophées_4">Answer correctly 5 questions from each game</string>
+    <string name="MesTrophées_5">Your own Nobel Prize (Obtain every other trophies)</string>
+    <string name="trophyImageDescription">Trophy</string>
     <!-- ======Mes Trophées====== -->
 
 
