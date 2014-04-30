@@ -153,14 +153,32 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 			currentQuestionNumber= (TextView) layout.findViewById(R.id.TextViewTrueFalse_QNumber);
 			responseImage = (ImageView)layout.findViewById(R.id.ImageFeedbackQuestion);
 			currentQuestion = questions.get(position);
+			buttonTrue = (Button) layout.findViewById(R.id.ButtonTrueFalseGame_True);
+			buttonFalse = (Button) layout.findViewById(R.id.ButtonTrueFalseGame_False);
 			if(currentQuestion.isAnswered){
 				if(currentQuestion.isAnsweredCorrectly){
 					responseImage.setImageResource(R.drawable.truequestion);
 					currentQuestionNumber.setTextColor(Color.GREEN);
+					if(currentQuestion.getAnswer()){
+						buttonTrue.setEnabled(false);
+						buttonTrue.setTextColor(Color.GREEN);
+					}
+					else{
+						buttonFalse.setEnabled(false);
+						buttonFalse.setTextColor(Color.GREEN);
+					}
 				}
 				else{
 					responseImage.setImageResource(R.drawable.falsequestion);
 					currentQuestionNumber.setTextColor(Color.RED);
+					if(currentQuestion.getAnswer()){
+						buttonTrue.setEnabled(false);
+						buttonTrue.setTextColor(Color.RED);
+					}
+					else{
+						buttonFalse.setEnabled(false);
+						buttonFalse.setTextColor(Color.RED);
+					}
 				}
 			}
 			else{
