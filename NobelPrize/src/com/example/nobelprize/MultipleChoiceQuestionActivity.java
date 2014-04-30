@@ -51,14 +51,15 @@ import android.widget.Toast;
 public class MultipleChoiceQuestionActivity extends Activity implements OnPageChangeListener,OnSharedPreferenceChangeListener,GlobalConstants{
 
 	private int score;
+	
 	private final String TAG = "MultipleChoiceGameActivity";
+	private ArrayList<ArrayList<Laureate>> laureatesList ;
 	private MultipleChoiceGameAPI questionsGenerator=null;
 	private ArrayList<MultipleChoiceQuestion> questions;
-	private ArrayList<ArrayList<Laureate>> laureatesList ;
 	private boolean finishedLoading;
+	
 	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
-
 	Context ctx;
 
 	private boolean first = true;
@@ -68,17 +69,10 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 
 	private int totalConsecutiveCorrect;
-	
 	//initialiser ça de manière dynamique plutôt
 	private boolean [] cluesGiven ;
 	private buttonState [][] buttonStateTab ;
 
-	//pour la requete des laureats = on peut affiner pour faire des quizzs thematiques
-	private String name;
-	private int year;
-	private String category;
-	private String gender;
-	SparseArray<Laureate> arrayOfLaureates;
 
 	private Vibrator vib;
 	private SharedPreferences prefs;
@@ -153,6 +147,13 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 	{
 		SearchLaureateAPI api;
 
+		//pour la requete des laureats = on peut affiner pour faire des quizzs thematiques
+		private String name;
+		private int year;
+		private String category;
+		private String gender;
+		SparseArray<Laureate> arrayOfLaureates;
+		
 		@Override
 		protected String doInBackground(String... params)
 		{
@@ -205,7 +206,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 							)
 					{
 						laureates.add(l);
-						Log.v(TAG, "added laureate #" + l.getId() + " : " + l.toString());
+						Log.d(TAG, "added laureate #" + l.getId() + " : " + l.toString());
 					}	
 
 				}
@@ -229,8 +230,6 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			viewPager.setAdapter(monAdapter);
 			viewPager.setOnPageChangeListener((OnPageChangeListener) ctx);
 
-
-			//doit on mettre ça a la toute fin ??
 			setProgressBarIndeterminateVisibility(false);
 		}
 
@@ -244,7 +243,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 		LayoutInflater inflater;
 		View layout;
 		View currentLayout;
-		
+
 		MonPagerAdapter() {
 			// on va utiliser les services d'un "inflater"
 			inflater= (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -263,25 +262,13 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 		@Override
 		public Object instantiateItem(View container, int position) {
-			Log.v(TAG,"instantiate item"+ position);
+			Log.d(TAG,"instantiate item"+ position);
 
 			layout=(View)inflater.inflate(R.layout.multiple_choice_question_layout_page, null);
 
 
-			//on affiche ça que sur la toute première page...
-			if(first){
-				first = false;
-				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
-				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast
-				if (player.getTotalPicture()==0)
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+			printToastClue();		
 
-				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi = 1/reponse sur 4, => on en enleve une 66% d'echec
-				else if((double)player.getScorePicture()/player.getTotalPicture() < 0.25){
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
-				}
-			}			
-			
 			currentQuestion = questions.get(position);
 			TextView question = (TextView) layout.findViewById(R.id.TextViewMultipleChoice_Question);
 			TextView questionNumber = (TextView)layout.findViewById(R.id.TextViewMultipleChoice_QNumber);
@@ -289,14 +276,10 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			questionNumber.setText("Question #"+(position+1)+" of "+questions.size());
 
 			ArrayList<String> printedAnswers = currentQuestion.getPrintedAnswers();
-
 			Button b1 = (Button)layout.findViewById(R.id.ButtonMultipleChoiceGame_button1);
 			Button b2 = (Button)layout.findViewById(R.id.ButtonMultipleChoiceGame_button2);
 			Button b3 = (Button)layout.findViewById(R.id.ButtonMultipleChoiceGame_button3);
 			Button b4 = (Button)layout.findViewById(R.id.ButtonMultipleChoiceGame_button4);
-
-
-			//on adapte le texteSize  selon la longueur du string ??
 			b1.setText(printedAnswers.get(0));
 			b2.setText(printedAnswers.get(1));
 			b3.setText(printedAnswers.get(2));
@@ -330,6 +313,22 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			((ViewPager)container).addView(layout,0);
 
 			return layout;
+		}
+
+		private void printToastClue() {
+			//on affiche ça que sur la toute première page...
+			if(first){
+				first = false; 
+				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast
+				if (player.getTotalQCM()==0)
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+
+				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi = 1/reponse sur 4, => on en enleve une 66% d'echec
+				else if((double)(player.getScoreQCM()/player.getTotalQCM()) < 0.24){
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+				}
+			}				
 		}
 
 		@Override
@@ -399,7 +398,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				}
 				printOneButton(b,indQuestion, i);
 
-				Log.v(TAG, "on a colorié un bouton (de numero) !!"+i+" et on est dans la question D'indice " + currentQuestionNumberTextView);
+				Log.d(TAG, "on a colorié un bouton (de numero) !!"+i+" et on est dans la question D'indice " + currentQuestionNumberTextView);
 			}
 
 			return;
@@ -441,76 +440,61 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				cluesGiven[currentQuestionNumber]=true;
 				int randInt =0;
 				Random r = new Random();
+
 				do{
 					randInt = r.nextInt(printedQuestion.getPrintedAnswers().size());
-				}while(printedQuestion.getRightAnswers().contains(printedQuestion.getPrintedAnswers().get(randInt)));
-				//on ne selectionne pas les bonnes réponses...
+				}
+				while(printedQuestion.getRightAnswers().contains(printedQuestion.getPrintedAnswers().get(randInt)));
+				//on ne selectionne pas les bonnes réponses quand on elimine une question...
 
-				//choisir un bouton parmi ltes 4 qui est faux
 				buttonStateTab[currentQuestionNumber][randInt] = buttonState.DISABLED;
 				Log.v(TAG,"indice de question :"+(currentQuestion.getQuestionNumber()-1));
 				//
 				monAdapter.printButtons(currentQuestionNumber, currentLayout);
 
 				Toast.makeText(getApplicationContext(), "You used a clue !", Toast.LENGTH_SHORT).show();
-				//printButtons(currentQuestionNumber, currentLayout);
 			}
 			else{
-				//make toast = vous n'avex plus droit aux indices !
 				Toast.makeText(getApplicationContext(), "Clue already used !", Toast.LENGTH_SHORT).show();
 			}
 		}
 
 
-		public void handleClick(int answer){
-
-			//on met a jour toutes les constantes
+		public void handleClick(int answer)
+		{
 			currentQuestionNumber = viewPager.getCurrentItem();			
 			currentQuestion = questions.get(currentQuestionNumber);
-			
-			//TextView currentQuestionNumber = (TextView) findViewById(R.id.TextViewTrueFalse_QNumber);
+
 			if(!currentQuestion.isAnswered){
 				currentQuestion.setAnswered(true);
 
-				
 
-				//on grise tous les boutons, on repasse apr pour plus spécifique
+				//on grise tous les boutons, on repasse après en détail pour plus spécifique
 				for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++)
 					buttonStateTab[currentQuestionNumber][i] = buttonState.DISABLED;
-				
+
 
 				if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer-1))){
-					//pas besoin de mettre QUE ca en vert = on affiche toutes les bonnes reposnes en vert apres
-					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDTRUE;
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
-
 					totalConsecutiveCorrect++;
-					//update database
-					//on garde ça ???
-					//ICI
+					
 					responseImage.setImageResource(R.drawable.truequestion);
 					currentQuestionNumberTextView.setTextColor(Color.GREEN);
-					//Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else{
 					Log.d(TAG, "Answered wrongly");
 					currentQuestion.setAnsweredCorrectly(false);
 					if(prefs.getBoolean("vibrate", true))
 						vib.vibrate(500);
-					//update database
 					responseImage.setImageResource(R.drawable.falsequestion);
 					currentQuestionNumberTextView.setTextColor(Color.RED);
-				//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
-					
-
 					totalConsecutiveCorrect=0;
+					
 					//on met le faux en rouge
 					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDFALSE;
-
 				}
-				
 
 				//on affiche toutes les bonnes réponses
 				for(Integer i : currentQuestion.getIndexRightAnswersInPrinted()){
@@ -530,25 +514,9 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreQCM(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
-										
-					//si on répond juste à 3 questions d'affilée
-					if(totalConsecutiveCorrect>=3)
-						player.activateTrophy3Consecutive();
-					
-					//on utilise qu'un seul tip ?
-					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
-						if(cluesGiven[i]==true){
-							player.activateTrophyUseATips();
-							break;
-						}
-					
-					//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
-					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
-						if(cluesGiven[i]==false){
-							player.activateTrophyNoTips();
-							break;
-						}
-					
+
+					updateTrophies(player);					
+
 					Handler handlerNewPage = new Handler();
 					handlerNewPage.postDelayed(new Runnable()
 					{
@@ -560,12 +528,31 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 					}, 2000);
 				}
-				
+
 
 				printButtons(currentQuestionNumber, currentLayout);
 
 			}
 
+		}
+		private void updateTrophies(Player player) {
+			//si on répond juste à 3 questions d'affilée
+			if(totalConsecutiveCorrect>=3)
+				player.activateTrophy3Consecutive();
+
+			//on utilise qu'un seul tip ?
+			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+				if(cluesGiven[i]==true){
+					player.activateTrophyUseATips();
+					break;
+				}
+
+			//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
+			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+				if(cluesGiven[i]==false){
+					player.activateTrophyNoTips();
+					break;
+				}
 		}
 
 	}
@@ -582,7 +569,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 	@Override
 	public void onPageSelected(int position) {
-		Log.v(TAG,"PAGE SELECTED : de num "+ position);
+		Log.d(TAG,"PAGE SELECTED : de num "+ position);
 		currentQuestionNumber=position;
 		return;
 	}

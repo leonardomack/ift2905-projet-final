@@ -190,7 +190,6 @@ public class WhoAmIGameAPI implements GlobalConstants{
 	}
 
 	
-
 	
 	/*
 	 * Méthodes aléatoires

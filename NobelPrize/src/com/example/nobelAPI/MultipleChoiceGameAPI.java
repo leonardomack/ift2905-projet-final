@@ -13,7 +13,7 @@ import com.example.nobelobjects.MultipleChoiceQuestion;
 import com.example.nobelobjects.Prize;
 import com.example.nobelobjects.WhoAmIQuestion;
 
-public class MultipleChoiceGameAPI {
+public class MultipleChoiceGameAPI implements GlobalConstants{
 
 	private String prizeURL;
 	private String laureateURL;
@@ -21,9 +21,6 @@ public class MultipleChoiceGameAPI {
 
 	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private String erreur;
-	private final static int AMOUNT_OF_QUESTIONS = 5;
-	private final static int AMOUNT_OF_ANSWERS = 4;
-	private final int LAST_LAUREATE = 896; //dernier lauréat de la liste répertorié Avril 2014
 	private final static String TAG = "MultipleChoiceGameAPI";
 
 	/**

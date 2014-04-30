@@ -51,35 +51,29 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 {
 
 	private int score;
+
 	private final String TAG = "WhoAmIGameActivity";
+	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private WhoAmIGameAPI questionsGenerator = null;
 	private ArrayList<WhoAmIQuestion> questions;
-	private ArrayList<ArrayList<Laureate>> laureatesList;
 	private boolean finishedLoading;
+
 	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
+	Context ctx;
 
-	// pas vraiment courante = meme objet utilisé pour question instantiated...
+	//pour l'afficahge des pages
 	private WhoAmIQuestion currentQuestion;
 	private int currentQuestionNumber;
 
+	//pour trophees
 	private boolean first = true;
 	private int totalConsecutiveCorrect;
 
 
-	// initialiser ça de manière dynamique plutôt
+	// pour trophees, les indices et la mémoire de l'affichage des boutons
 	private boolean[] cluesGiven;
 	private buttonState[][] buttonStateTab;
-
-	Context ctx;
-
-	// pour la requete des laureats = on peut affiner pour faire des quizzs
-	// thematiques
-	private String name;
-	private int year;
-	private String category;
-	private String gender;
-	SparseArray<Laureate> arrayOfLaureates;
 
 	private Vibrator vib;
 	private SharedPreferences prefs;
@@ -101,7 +95,6 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		setContentView(R.layout.who_am_i_game_layout);
 
 		ctx = this;
-
 		finishedLoading = false;
 
 		new SendRequestForNobelPrizeQuestions().execute();
@@ -158,6 +151,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	class SendRequestForNobelPrizeQuestions extends AsyncTask<String, Integer, String>
 	{
 		SearchLaureateAPI api;
+		// pour la requete des laureats = on peut affiner pour faire des quizzs
+		// thematiques
+		private String name;
+		private int year;
+		private String category;
+		private String gender;
+		SparseArray<Laureate> arrayOfLaureates;
 
 		@Override
 		protected String doInBackground(String... params)
@@ -212,7 +212,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					{
 						if (first && (l.getImageUrl(l) == null || l.getImageUrl(l).equals("")))
 						{
-							Log.v(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString() + " n' a PAS DE PHOTO");
+							Log.d(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString() + " n' a PAS DE PHOTO");
 							continue;
 						}
 					}
@@ -227,7 +227,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					if (!laureates.contains(l) && l != null && l.getFirstname() != null && !l.getFirstname().equals("") && l.getSurname() != null && !l.getSurname().equals("") && l.getPrizes() != null && l.getPrizes().size() != 0)
 					{
 						laureates.add(l);
-						Log.v(TAG, "added laureate #" + l.getId() + " : " + l.toString());
+						Log.d(TAG, "added laureate #" + l.getId() + " : " + l.toString());
 					}
 
 				} while (laureates.size() < AMOUNT_OF_ANSWERS);
@@ -286,24 +286,11 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		@Override
 		public Object instantiateItem(View container, int position)
 		{
-			Log.v(TAG, "instantiate item" + position);
+			Log.d(TAG, "instantiate item" + position);
 
 			layout = (View) inflater.inflate(R.layout.who_am_i_game_layout_page, null);
 
-			//on affiche ça que sur la toute première page...
-			if(first){
-				first = false;
-				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
-				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
-				if (player.getTotalPicture()==0)
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
-
-				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
-				else if((double)player.getScorePicture()/player.getTotalPicture() < 0.25){
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
-				}
-			}
-
+			printToastClue();	
 
 			currentQuestion = questions.get(position);
 
@@ -313,13 +300,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			questionNumber.setText("Question #" + (position + 1) + " of " + questions.size());
 
 			ArrayList<String> printedAnswers = currentQuestion.getPrintedAnswers();
-
 			Button b1 = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button1);
 			Button b2 = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button2);
 			Button b3 = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button3);
 			Button b4 = (Button) layout.findViewById(R.id.ButtonWhoAmIGame_button4);
-
-			// on adapte le texteSize selon la longueur du string ??
 			b1.setText(printedAnswers.get(0));
 			b2.setText(printedAnswers.get(1));
 			b3.setText(printedAnswers.get(2));
@@ -360,6 +344,22 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			((ViewPager) container).addView(layout, 0);
 
 			return layout;
+		}
+
+		private void printToastClue() {
+			//on affiche ça que sur la toute première page...
+			if(first){
+				first = false;
+				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
+				if (player.getTotalPicture()==0)
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+
+				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
+				else if((double)player.getScorePicture()/player.getTotalPicture() < 0.24){
+					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+				}
+			}			
 		}
 
 		@Override
@@ -447,7 +447,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				}
 				printOneButton(b, indQuestion, i);
 
-				Log.v(TAG, "on a colorié un bouton (de numero) !!" + i + " et on est dans la question D'indice " + currentQuestionNumber);
+				Log.d(TAG, "on a colorié un bouton (de numero) !!" + i + " et on est dans la question D'indice " + currentQuestionNumber);
 			}
 
 			return;
@@ -500,7 +500,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 				// choisir un bouton parmi ltes 4 qui est faux
 				buttonStateTab[currentQuestionNumber][randInt] = buttonState.DISABLED;
-				Log.v(TAG, "indice de question :" + (currentQuestion.getQuestionNumber() - 1));
+				Log.d(TAG, "indice de question :" + (currentQuestion.getQuestionNumber() - 1));
 				//
 				monAdapter.printButtons(currentQuestionNumber, currentLayout);
 			}
@@ -517,31 +517,25 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			currentQuestionNumber = viewPager.getCurrentItem();
 			currentQuestion = questions.get(currentQuestionNumber);
 
-			Log.v(TAG, "on est dans la question d'indice:" + currentQuestionNumber + " :" + currentQuestion.toString());
+			Log.d(TAG, "on est dans la question d'indice:" + currentQuestionNumber + " :" + currentQuestion.toString());
 
 			if (!currentQuestion.isAnswered)
 			{
 				currentQuestion.setAnswered(true);
 
-				// on grise tous les boutons, on repasse apr pour plus
-				// spécifique
+				// on grise tous les boutons, on repasse apr pour plus spécifique
 				for (int i = 0; i < AMOUNT_OF_ANSWERS; i++)
 					buttonStateTab[currentQuestionNumber][i] = buttonState.DISABLED;
 
 				if (currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer - 1)))
 				{
-					// pas besoin de mettre QUE ca en vert = on affiche toutes
-					// les bonnes reposnes en vert apres
-					buttonStateTab[currentQuestionNumber][answer - 1] = buttonState.CLICKEDTRUE;
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
-
 					totalConsecutiveCorrect++;
 
 					responseImage.setImageResource(R.drawable.truequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.GREEN);
-					//	Toast.makeText(getApplicationContext(), R.string.RightAnswerToast, Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -551,15 +545,15 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 						vib.vibrate(500);
 					responseImage.setImageResource(R.drawable.falsequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.RED);
-					//	Toast.makeText(getApplicationContext(), R.string.WrongAnswerToast, Toast.LENGTH_SHORT).show();
 
 					totalConsecutiveCorrect=0;
+
 					// on met le faux en rouge
 					buttonStateTab[currentQuestionNumber][answer - 1] = buttonState.CLICKEDFALSE;
 
 				}
 
-				// on affiche toutes les bonnes réponses
+				// on affiche toutes les bonnes réponses en vert
 				for (Integer i : currentQuestion.getIndexRightAnswersInPrinted())
 				{
 					buttonStateTab[currentQuestionNumber][i] = buttonState.CLICKEDTRUE;
@@ -581,25 +575,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					player.addScorePicture(score, questions.size());
 					Log.d(TAG, "player score is now : " + player.toString());
 
-					//si on répond juste à 3 questions d'affilée
-					if(totalConsecutiveCorrect>=3)
-						player.activateTrophy3Consecutive();
 
-					//on utilise qu'un seul tip ?
-					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
-						if(cluesGiven[i]==true){
-							player.activateTrophyUseATips();
-							break;
-						}
+					updateTrophies( player);
 
-					//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
-					for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
-						if(cluesGiven[i]==false){
-							player.activateTrophyNoTips();
-							break;
-						}
-
-
+					//on wait après la dernière question avant de retourner au menu supérieur
 					Handler handlerNewPage = new Handler();
 					handlerNewPage.postDelayed(new Runnable()
 					{
@@ -618,9 +597,28 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		}
 
-	}
+		private void updateTrophies(Player player) {
+			//on met à jour les trophées
+			//si on répond juste à 3 questions d'affilée
+			if(totalConsecutiveCorrect>=3)
+				player.activateTrophy3Consecutive();
 
-	// autres methodes
+			//on utilise qu'un seul tip ?
+			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+				if(cluesGiven[i]==true){
+					player.activateTrophyUseATips();
+					break;
+				}
+
+			//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
+			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
+				if(cluesGiven[i]==false){
+					player.activateTrophyNoTips();
+					break;
+				}
+		}
+
+	}
 
 	@Override
 	public void onPageScrollStateChanged(int arg0)
@@ -635,7 +633,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 	@Override
 	public void onPageSelected(int position)
 	{
-		Log.v(TAG, "PAGE SELECTED : de num " + position);
+		Log.d(TAG, "PAGE SELECTED : de num " + position);
 		currentQuestionNumber = position;
 		return;
 	}
@@ -647,6 +645,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 	}
 
+
+	//gère le shaker
 	private final SensorEventListener mSensorListener = new SensorEventListener()
 	{
 		@Override
