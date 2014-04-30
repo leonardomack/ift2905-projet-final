@@ -2,7 +2,7 @@ package com.example.nobelobjects;
 
 import java.util.ArrayList;
 
-import com.example.nobelprize.GlobalConstants;
+import com.example.nobelAPI.GlobalConstants;
 
 /**
  * variante de QCM, réfléchir à les faire hériter d'un ancêtre commun

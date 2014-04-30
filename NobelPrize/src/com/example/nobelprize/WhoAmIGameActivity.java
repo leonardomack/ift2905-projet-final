@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nobelAPI.GlobalConstants;
 import com.example.nobelAPI.WhoAmIGameAPI;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Player;

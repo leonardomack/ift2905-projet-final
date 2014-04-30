@@ -2,7 +2,7 @@ package com.example.nobelobjects;
 
 import java.util.ArrayList;
 
-import com.example.nobelprize.GlobalConstants;
+import com.example.nobelAPI.GlobalConstants;
 import com.example.nobelprize.R;
 
 public class MultipleChoiceQuestion implements GlobalConstants{

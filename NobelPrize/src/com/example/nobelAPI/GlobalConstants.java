@@ -1,4 +1,4 @@
-package com.example.nobelprize;
+package com.example.nobelAPI;
 
 public interface GlobalConstants {
 

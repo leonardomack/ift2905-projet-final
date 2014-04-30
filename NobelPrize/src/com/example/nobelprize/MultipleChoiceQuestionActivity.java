@@ -6,12 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import com.example.nobelAPI.GlobalConstants;
 import com.example.nobelAPI.MultipleChoiceGameAPI;
+import com.example.nobelAPI.GlobalConstants.buttonState;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.MultipleChoiceQuestion;
 import com.example.nobelobjects.Player;
 import com.example.nobelobjects.WhoAmIQuestion;
-import com.example.nobelprize.GlobalConstants.buttonState;
 
 import android.app.Activity;
 import android.content.Context;
