@@ -65,26 +65,53 @@
     <string name="TrueFalseGame_WrongAnswerToast">Wrong Answer!</string>
     <string name="TrueFalseImageContentDescription">Image corresponding to response</string>
     <!-- ======TrueFalseGame====== -->
-    
-    
-    
-     <!-- ======WhoAmIGame====== -->      
+
+
     <!-- ======WhoAmIGame====== -->
-    
-    
-     <!-- ======MenuGame====== -->
-    <string name="MenuGame_button_MCQGame">MCQ</string>    
-    <string name="MenuGame_button_TrueFalseGame">True or False</string>
-     <string name="MenuGame_button_WhoAmIGame">Who Am I</string>
-    
+
+
+    <!-- ======WhoAmIGame====== -->
+
+
+    <!-- ======GeneralGame====== -->
+    <string name="Question">Loading Question</string>
+    <string name="QuestionNumber">Question #1 of 5</string>
+    <string name="ImageContentDescription">Image corresponding to response</string>
+    <string name="RightAnswerToast">Right Answer!</string>
+    <string name="WrongAnswerToast">Wrong Answer!</string>
+    <!-- ======GeneralGame====== -->
+
+
     <!-- ======MenuGame====== -->
-    
+    <string name="MenuGame_button_MCQGame">MCQ</string>
+    <string name="MenuGame_button_TrueFalseGame">True or False</string>
+    <string name="MenuGame_button_WhoAmIGame">Who Am I</string>
+    <string name="MenuGame_Username">MyUsername</string>
+    <string name="MenuGame_MCQStat">0/0</string>
+    <string name="MenuGame_TrueFalseStat">0/0</string>
+    <string name="MenuGame_WhoAmIStat">0/0</string>
+    <string name="MenuGame_MonScore">Mon Score</string>
+    <string name="MenuGame_MonScore_value">0/0</string>
+    <string name="MenuGame_MesTrophees">Mes Trophées</string>
+    <!-- ======MenuGame====== -->
+
+
+    <!-- ======Mes Trophées====== -->
+    <string name="MesTrophées_title">My Trophies</string>
+    <string name="MesTrophées_1">Use a tip to solve a question</string>
+    <string name="MesTrophées_2">Answer correctly a question without using a tip</string>
+    <string name="MesTrophées_3">Answer 3 question correctly consecutively</string>
+    <string name="MesTrophées_4">Answer correctly 5 questions from each game</string>
+    <string name="MesTrophées_5">Your own Nobel Prize (Obtain every other trophies)</string>
+    <string name="trophyImageDescription">Trophy</string>
+    <!-- ======Mes Trophées====== -->
+
+
     <!-- ======Preferences====== -->
     <string name="PrefScreen_UsernameTitle">Your username</string>
     <string name="PrefScreen_UsernameDescription">The username is used to store your scores</string>
     <string name="PrefScreen_VibrateTitle">Activate or deactivate Vibration</string>
     <string name="PrefScreen_VibrateDescription">The phone vibrates when your answer is incorrect</string>
-    
     <string name="PrefMenu_titleMenu">Preferences</string>
     <string name="PrefMenu_titleMenuCondensed">Pref</string>
     <!-- ======Preferences====== -->

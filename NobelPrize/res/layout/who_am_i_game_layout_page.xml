@@ -1,51 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    
-    
-      <TextView
-        android:id="@+id/question"
-        android:layout_width="wrap_content"
+    android:orientation="vertical" 
+     android:weightSum="100">
+
+    <TextView
+        android:id="@+id/TextViewWhoAmIGame_Question"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-      
-      
+        android:layout_margin="0dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="top"
+        android:text="@string/Question"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TextViewWhoAmIGame_QNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:layout_above="@id/TextViewWhoAmIGame_Question"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="0dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="1/5"
+        android:textSize="15sp" />
+
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/ImageViewWhoAmIGame_laureate_photo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_above="@+id/TextViewWhoAmIGame_QNumber"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/TextViewWhoAmIGame_Question"
+        android:layout_toRightOf="@+id/multiple_choice_question_pager"
+        android:layout_weight="20"        
+        android:layout_marginRight="0dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher" />
-      
-      
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-    
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-    
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-    
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        android:src="@drawable/empty_user" />
 
-      
+    <Button
+        android:id="@+id/ButtonWhoAmIGame_button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TextViewWhoAmIGame_QNumber"
+        android:layout_alignLeft="@+id/TextViewWhoAmIGame_QNumber"
+        android:layout_weight="10"
+        android:gravity="bottom"
+        android:text="Button"
+        android:textSize="20sp" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/ButtonWhoAmIGame_button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ButtonWhoAmIGame_button4"
+        android:layout_alignLeft="@+id/ButtonWhoAmIGame_button4"
+        android:layout_weight="10"
+        android:text="Button"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/ButtonWhoAmIGame_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ButtonWhoAmIGame_button3"
+        android:layout_alignLeft="@+id/ButtonWhoAmIGame_button3"
+        android:layout_weight="10"
+        android:text="Button"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/ButtonWhoAmIGame_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ButtonWhoAmIGame_button2"
+        android:layout_alignLeft="@+id/ButtonWhoAmIGame_button2"
+        android:layout_weight="10"
+        android:maxLines="1"
+        android:text="Button"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/WhoAmIGameImageFeedbackQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/ImageContentDescription"
+        android:src="@drawable/unknownquestion" />
+
+</RelativeLayout>

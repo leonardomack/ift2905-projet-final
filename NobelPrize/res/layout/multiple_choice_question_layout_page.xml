@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/TextViewMultipleChoice_Question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/Button01"
+        android:layout_below="@id/TextViewMultipleChoice_Question"
+        android:layout_margin="20dp"
+        android:layout_marginTop="52dp"
+        android:text="@string/TrueFalseGame_Question"
+        android:textSize="24sp" />
+    
+    <TextView
+        android:id="@+id/TextViewMultipleChoice_QNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"        
+        android:layout_above="@id/TextViewMultipleChoice_Question"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="@string/QuestionNumber"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/TextViewMultipleChoice_QNumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:contentDescription="@string/ImageContentDescription"
+        android:src="@drawable/unknownquestion" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:layout_marginBottom="101dp"
+        android:layout_toLeftOf="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:text="clicked1" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ButtonMultipleChoiceGame_button3"
+        android:layout_below="@+id/ButtonMultipleChoiceGame_button2"
+        android:layout_toRightOf="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:text="clicked4" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ButtonMultipleChoiceGame_button1"
+        android:layout_alignBottom="@+id/ButtonMultipleChoiceGame_button1"
+        android:layout_alignLeft="@+id/ButtonMultipleChoiceGame_button4"
+        android:text="clicked2" />
+
+    <Button
+        android:id="@+id/ButtonMultipleChoiceGame_button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ButtonMultipleChoiceGame_button2"
+        android:layout_marginTop="26dp"
+        android:layout_toLeftOf="@+id/MultipleChoiceGameImageFeedbackQuestion"
+        android:text="clicked3" />
+
+</RelativeLayout>
