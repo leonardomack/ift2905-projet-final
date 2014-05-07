@@ -27,7 +27,6 @@ import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Prize;
 import com.example.nobelobjects.TrueFalseQuestion;
 import com.example.nobelobjects.WhoAmIQuestion;
-import com.example.nobelprize.SearchLaureateAPI;
 import com.example.tasks.DownloadLaureateTask;
 /**
  * 2types de questions = "qui suis je" et "quel prix nobel ai-je gagné"

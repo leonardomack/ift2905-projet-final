@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.nobelAPI.SearchLaureateAPI;
 import com.example.nobelobjects.Laureate;
 
 public class SearchActivity extends Activity
@@ -98,7 +99,7 @@ public class SearchActivity extends Activity
 
 	public void searchLaureates(View view)
 	{
-		// Cacher le clavier juste après appuyer sur search
+		// Cacher le clavier juste aprï¿½s appuyer sur search
 		// Get the components references
 		Button buttonSearch = (Button) findViewById(R.id.search_activity_buttonSearch);
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

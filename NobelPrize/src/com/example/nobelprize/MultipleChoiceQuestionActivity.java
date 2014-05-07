@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.example.nobelAPI.GlobalConstants;
 import com.example.nobelAPI.MultipleChoiceGameAPI;
+import com.example.nobelAPI.SearchLaureateAPI;
 import com.example.nobelAPI.GlobalConstants.buttonState;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.MultipleChoiceQuestion;

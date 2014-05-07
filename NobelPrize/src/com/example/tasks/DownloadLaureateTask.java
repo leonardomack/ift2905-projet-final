@@ -3,8 +3,8 @@ package com.example.tasks;
 import android.os.AsyncTask;
 import android.util.SparseArray;
 
+import com.example.nobelAPI.SearchLaureateAPI;
 import com.example.nobelobjects.Laureate;
-import com.example.nobelprize.SearchLaureateAPI;
 
 public class DownloadLaureateTask extends AsyncTask<Integer, Void, Laureate>
 {
