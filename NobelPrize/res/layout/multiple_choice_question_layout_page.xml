@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="28dp"
         android:contentDescription="@string/ImageContentDescription"
-        android:src="@drawable/unknownquestion" />
+        android:src="@drawable/btn_circle_disable" />
 
     <Button
         android:id="@+id/ButtonMultipleChoiceGame_button1"

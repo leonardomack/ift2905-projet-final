@@ -52,7 +52,9 @@
 	    android:layout_alignBottom="@+id/TextViewTrueFalse_QNumber"
 	    android:layout_centerHorizontal="true"
 	    android:layout_marginBottom="28dp"
+	    android:baselineAlignBottom="true"
 	    android:contentDescription="@string/TrueFalseImageContentDescription"
-	    android:src="@drawable/unknownquestion" />
+	    android:scaleType="centerInside"
+	    android:src="@drawable/btn_circle_disable" />
 
 </RelativeLayout>

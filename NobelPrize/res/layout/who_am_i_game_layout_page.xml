@@ -17,9 +17,9 @@
 
     <TextView
         android:id="@+id/TextViewWhoAmIGame_QNumber"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        
+        android:layout_centerHorizontal="true"
         android:layout_above="@id/TextViewWhoAmIGame_Question"
         android:layout_alignParentBottom="true"
         android:layout_margin="0dp"
@@ -35,6 +35,8 @@
         android:layout_above="@+id/TextViewWhoAmIGame_QNumber"
         android:layout_alignParentRight="true"
         android:layout_below="@id/TextViewWhoAmIGame_Question"
+        
+        
         android:layout_toRightOf="@+id/multiple_choice_question_pager"
         android:layout_weight="20"        
         android:layout_marginRight="0dp"
@@ -46,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/TextViewWhoAmIGame_QNumber"
-        android:layout_alignLeft="@+id/TextViewWhoAmIGame_QNumber"
+        android:layout_alignLeft="@+id/multiple_choice_question_pager"
         android:layout_weight="10"
         android:gravity="bottom"
         android:text="Button"
@@ -86,10 +88,14 @@
     <ImageView
         android:id="@+id/WhoAmIGameImageFeedbackQuestion"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"                
+                
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="0dp"
+        android:layout_marginTop="5dp"
+                
         android:contentDescription="@string/ImageContentDescription"
-        android:src="@drawable/unknownquestion" />
+        android:src="@drawable/btn_circle_disable" />
 
 </RelativeLayout>
