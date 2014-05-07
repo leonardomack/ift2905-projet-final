@@ -86,7 +86,9 @@ public class AchievementsAdapter extends BaseAdapter {
 			description.setText(data.description);					
 			description.setVisibility(View.VISIBLE);*/
 
-			trophy.setVisibility(View.VISIBLE);
+			//trophy.setVisibility(View.VISIBLE);
+
+			trophy.setVisibility(View.INVISIBLE);
 			star = _context.getResources().getDrawable(R.drawable.btn_star_big_on);			
 		}
 		else
