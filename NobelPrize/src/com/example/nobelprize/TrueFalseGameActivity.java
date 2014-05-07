@@ -275,7 +275,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" +playerName);
-					Player player = new Player(getApplicationContext(),prefs.getString("username", ""));
+					Player player = new Player(getApplicationContext(),prefs.getString("username", "Player1"));
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreTrueFalse(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());

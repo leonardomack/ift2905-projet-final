@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.example.nobelAPI.GlobalConstants;
 import com.example.nobelAPI.SearchLaureateAPI;
 import com.example.nobelAPI.WhoAmIGameAPI;
+import com.example.nobelAPI.GlobalConstants.buttonState;
 import com.example.nobelobjects.Laureate;
 import com.example.nobelobjects.Player;
 import com.example.nobelobjects.WhoAmIQuestion;
@@ -474,6 +475,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				b.setEnabled(false);
 				b.setTextColor(Color.GREEN);
 				break;
+			case TRUE:
+				b.setEnabled(false);
+				b.setTextColor(Color.CYAN);
+				break;
 			case DISABLED:
 				b.setEnabled(false);
 				break;
@@ -524,9 +529,15 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			{
 				currentQuestion.setAnswered(true);
 
-				// on grise tous les boutons, on repasse apr pour plus spécifique
-				for (int i = 0; i < AMOUNT_OF_ANSWERS; i++)
+				//on grise tous les boutons, on repasse après en détail pour plus spécifique
+				for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++)
 					buttonStateTab[currentQuestionNumber][i] = buttonState.DISABLED;
+				
+				// on affiche toutes les bonnes réponses en vert
+				for (Integer i : currentQuestion.getIndexRightAnswersInPrinted())
+				{
+					buttonStateTab[currentQuestionNumber][i] = buttonState.TRUE;
+				}
 
 				if (currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer - 1)))
 				{
@@ -534,6 +545,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
 					totalConsecutiveCorrect++;
+					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDTRUE;
 
 					responseImage.setImageResource(R.drawable.truequestion);
 					instantiatedQuestionNumberTextView.setTextColor(Color.GREEN);
@@ -554,11 +566,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 				}
 
-				// on affiche toutes les bonnes réponses en vert
-				for (Integer i : currentQuestion.getIndexRightAnswersInPrinted())
-				{
-					buttonStateTab[currentQuestionNumber][i] = buttonState.CLICKEDTRUE;
-				}
+
 
 				int j = 0;
 				for (int i = 0; i < questions.size(); i++)
@@ -571,7 +579,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					Toast.makeText(getApplicationContext(), "Completed : " + score + "/" + questions.size(), Toast.LENGTH_SHORT).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" + playerName);
-					Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+					Player player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
 					Log.d(TAG, "player score was : " + player.toString());
 					player.addScorePicture(score, questions.size());
 					Log.d(TAG, "player score is now : " + player.toString());
@@ -604,21 +612,28 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			if(totalConsecutiveCorrect>=3)
 				player.activateTrophy3Consecutive();
 
-			//on utilise qu'un seul tip ?
+			//on utilise au moins un tip 			
 			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
 				if(cluesGiven[i]==true){
 					player.activateTrophyUseATips();
 					break;
 				}
 
-			//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
-			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
-				if(cluesGiven[i]==false){
-					player.activateTrophyNoTips();
-					break;
+			//on utilise pas de tips pour une question a laquelle on a répondu vrai
+			boolean exit = false;
+			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS ;i++){
+				for(int j = 0 ; j < AMOUNT_OF_ANSWERS ; j++){
+					if(cluesGiven[i]==false && buttonStateTab[i][j]==buttonState.CLICKEDTRUE)
+					{
+						player.activateTrophyNoTips();
+						exit = true;
+						break;
+					}
 				}
+				if (exit)
+					break;
+			}
 		}
-
 	}
 
 	@Override

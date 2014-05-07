@@ -52,13 +52,13 @@ import android.widget.Toast;
 public class MultipleChoiceQuestionActivity extends Activity implements OnPageChangeListener,OnSharedPreferenceChangeListener,GlobalConstants{
 
 	private int score;
-	
+
 	private final String TAG = "MultipleChoiceGameActivity";
 	private ArrayList<ArrayList<Laureate>> laureatesList ;
 	private MultipleChoiceGameAPI questionsGenerator=null;
 	private ArrayList<MultipleChoiceQuestion> questions;
 	private boolean finishedLoading;
-	
+
 	ViewPager viewPager;
 	MonPagerAdapter monAdapter;
 	Context ctx;
@@ -154,7 +154,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 		private String category;
 		private String gender;
 		SparseArray<Laureate> arrayOfLaureates;
-		
+
 		@Override
 		protected String doInBackground(String... params)
 		{
@@ -420,6 +420,10 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				b.setEnabled(false);
 				b.setTextColor(Color.GREEN);
 				break;
+			case TRUE:
+				b.setEnabled(false);
+				b.setTextColor(Color.CYAN);
+				break;
 			case DISABLED:		
 				b.setEnabled(false);
 				break;
@@ -474,13 +478,18 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++)
 					buttonStateTab[currentQuestionNumber][i] = buttonState.DISABLED;
 
+				//on affiche toutes les bonnes réponses
+				for(Integer i : currentQuestion.getIndexRightAnswersInPrinted()){
+					buttonStateTab[currentQuestionNumber][i] = buttonState.TRUE;
+				}
 
 				if(currentQuestion.getRightAnswers().contains(currentQuestion.getPrintedAnswers().get(answer-1))){
 					Log.d(TAG, "Answered correctly");
 					currentQuestion.setAnsweredCorrectly(true);
 					score++;
 					totalConsecutiveCorrect++;
-					
+					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDTRUE;
+
 					responseImage.setImageResource(R.drawable.truequestion);
 					currentQuestionNumberTextView.setTextColor(Color.GREEN);
 				}
@@ -492,15 +501,11 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					responseImage.setImageResource(R.drawable.falsequestion);
 					currentQuestionNumberTextView.setTextColor(Color.RED);
 					totalConsecutiveCorrect=0;
-					
+
 					//on met le faux en rouge
 					buttonStateTab[currentQuestionNumber][answer-1] = buttonState.CLICKEDFALSE;
 				}
 
-				//on affiche toutes les bonnes réponses
-				for(Integer i : currentQuestion.getIndexRightAnswersInPrinted()){
-					buttonStateTab[currentQuestionNumber][i] = buttonState.CLICKEDTRUE;
-				}
 
 				int j = 0;
 				for(int i=0; i < questions.size(); i++){
@@ -511,7 +516,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" +playerName);
-					Player player = new Player(getApplicationContext(),prefs.getString("username", ""));
+					Player player = new Player(getApplicationContext(),prefs.getString("username", "Player1"));
 					Log.d(TAG, "player score was : "+player.toString());
 					player.addScoreQCM(score, questions.size());
 					Log.d(TAG, "player score is now : "+player.toString());
@@ -541,19 +546,28 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			if(totalConsecutiveCorrect>=3)
 				player.activateTrophy3Consecutive();
 
-			//on utilise qu'un seul tip ?
+			//on utilise au moins un tip
 			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
 				if(cluesGiven[i]==true){
 					player.activateTrophyUseATips();
 					break;
 				}
 
-			//on utilise pas de tips pour une seule quqestion, ou la totalité des questions d'un jeu ?
-			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS;i++)
-				if(cluesGiven[i]==false){
-					player.activateTrophyNoTips();
-					break;
+			//on utilise pas de tips pour une question a laquelle on a répondu vrai
+			boolean exit = false;
+			for(int i = 0 ; i < AMOUNT_OF_QUESTIONS ;i++){
+				for(int j = 0 ; j < AMOUNT_OF_ANSWERS ; j++){
+					if(cluesGiven[i]==false && buttonStateTab[i][j]==buttonState.CLICKEDTRUE)
+					{
+						player.activateTrophyNoTips();
+						exit = true;
+						break;
+					}
 				}
+				if (exit)
+					break;
+			}			
+
 		}
 
 	}
