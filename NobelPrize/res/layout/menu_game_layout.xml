@@ -33,7 +33,7 @@
                 android:text="@string/MenuGame_MesTrophees" />
 
             <ImageButton
-                android:id="@+id/imageButton_trophes"
+                android:id="@+id/imageButton_trophees"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/TextViewMenuGame_MesTrophees"

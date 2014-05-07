@@ -27,7 +27,7 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 	static final String C_SCOREGAME3_STAT = "score3";
 	static final String C_GAMEPLAYED3_STAT = "total3";
 
-	//on ajoute le boolean pour savoir s'il a débloqué de nouveaux trophées recemment qu'il n'a pas consulté
+	// pour savoir s'il a débloqué de nouveaux trophées recemment qu'il n'a pas consulté
 	static final String C_HASNEWTROPHIES = "has";
 
 	//Table trophy

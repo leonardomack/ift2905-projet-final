@@ -19,8 +19,6 @@ public class Laureate
 	private List<Prize> prizes;
 
 	private String imageUrl = null;
-	
-	private boolean hasNewTrophees = false;
 
 	public Laureate()
 	{

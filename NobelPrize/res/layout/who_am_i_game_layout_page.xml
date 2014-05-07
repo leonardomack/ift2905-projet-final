@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-     android:weightSum="100">
+    android:orientation="vertical"
+    android:weightSum="100" >
 
     <TextView
         android:id="@+id/TextViewWhoAmIGame_Question"
@@ -19,9 +19,9 @@
         android:id="@+id/TextViewWhoAmIGame_QNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_above="@id/TextViewWhoAmIGame_Question"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="0dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
@@ -35,11 +35,9 @@
         android:layout_above="@+id/TextViewWhoAmIGame_QNumber"
         android:layout_alignParentRight="true"
         android:layout_below="@id/TextViewWhoAmIGame_Question"
-        
-        
-        android:layout_toRightOf="@+id/multiple_choice_question_pager"
-        android:layout_weight="20"        
         android:layout_marginRight="0dp"
+        android:layout_toRightOf="@+id/multiple_choice_question_pager"
+        android:layout_weight="20"
         android:adjustViewBounds="true"
         android:src="@drawable/empty_user" />
 
@@ -51,6 +49,7 @@
         android:layout_alignLeft="@+id/multiple_choice_question_pager"
         android:layout_weight="10"
         android:gravity="bottom"
+        android:maxLines="1"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -61,6 +60,7 @@
         android:layout_above="@+id/ButtonWhoAmIGame_button4"
         android:layout_alignLeft="@+id/ButtonWhoAmIGame_button4"
         android:layout_weight="10"
+        android:maxLines="1"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -71,6 +71,7 @@
         android:layout_above="@+id/ButtonWhoAmIGame_button3"
         android:layout_alignLeft="@+id/ButtonWhoAmIGame_button3"
         android:layout_weight="10"
+        android:maxLines="1"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -88,13 +89,11 @@
     <ImageView
         android:id="@+id/WhoAmIGameImageFeedbackQuestion"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"                
-                
-        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="0dp"
         android:layout_marginTop="5dp"
-                
         android:contentDescription="@string/ImageContentDescription"
         android:src="@drawable/btn_circle_disable" />
 
