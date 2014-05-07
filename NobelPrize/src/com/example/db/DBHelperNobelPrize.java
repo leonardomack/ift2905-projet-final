@@ -13,12 +13,12 @@ import android.util.Log;
 public class DBHelperNobelPrize extends SQLiteOpenHelper{
 
 	static final int VERSION=3;
-	
+
 	static final String TAG = "DBHelperNobelPrize";
 
 	//Table statistic
 	static final String TABLE = "statistic";
-	
+
 	static final String C_USERNAME_STAT = "username";
 	static final String C_SCOREGAME1_STAT = "score1";
 	static final String C_GAMEPLAYED1_STAT = "total1";	
@@ -26,20 +26,22 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 	static final String C_GAMEPLAYED2_STAT = "total2";
 	static final String C_SCOREGAME3_STAT = "score3";
 	static final String C_GAMEPLAYED3_STAT = "total3";
-	
+
+	//on ajoute le boolean pour savoir s'il a débloqué de nouveaux trophées recemment qu'il n'a pas consulté
+	static final String C_HASNEWTROPHIES = "has";
+
 	//Table trophy
 	static final String TABLE2 = "trophy";
-	
+
 	static final String C_USERNAME_TROP = "username";
 	static final String C_TROPHY_NOTIPS_TROP = "trophy1";
 	static final String C_TROPHY_3CONSECUTIVE_TROP = "trophy2";
 	static final String C_TROPHY_USEATIP_TROP = "trophy3";
 	static final String C_TROPHY_5TRUEFROMEVERYGAME_TROP = "trophy4";
 	static final String C_TROPHY_MYNOBELPRIZE_TROP = "trophy5";
-	
-	
+
 	Context context;
-	
+
 	public DBHelperNobelPrize(Context context) {
 		super(context, "statistic.db", null, VERSION);
 		this.context=context;
@@ -47,8 +49,8 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Log.d(TAG, "Cr�ation BDD");
-		
+		Log.d(TAG, "Création BDD");
+
 		String sql = "create table " + TABLE + " ("
 				+ C_USERNAME_STAT +" text primary key, "
 				+ C_SCOREGAME1_STAT + " integer DEFAULT 0,"
@@ -56,9 +58,10 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 				+ C_SCOREGAME2_STAT + " integer DEFAULT 0,"
 				+ C_GAMEPLAYED2_STAT + " integer DEFAULT 0,"
 				+ C_SCOREGAME3_STAT + " integer DEFAULT 0,"
-				+ C_GAMEPLAYED3_STAT + " integer DEFAULT 0 )";
+				+ C_GAMEPLAYED3_STAT + " integer DEFAULT 0,"
+				+ C_HASNEWTROPHIES + " integer DEFAULT 0 )";
 		db.execSQL(sql);
-		
+
 		String sql2 = "create table " + TABLE2 + " ("
 				+ C_USERNAME_TROP +" text primary key, "
 				+ C_TROPHY_USEATIP_TROP + " integer DEFAULT 0,"
@@ -71,12 +74,12 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.d(TAG, "Mise � jour BDD");
+		Log.d(TAG, "Mise à jour BDD");
 		db.execSQL("drop table if exists "+TABLE);
 		db.execSQL("drop table if exists "+TABLE2);
 		onCreate(db);
 	}
-	
+
 	/*
 	 * Write methods
 	 */
@@ -131,6 +134,11 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 	public void modifyTotalPictureGame(String username, int total){
 		modifySingleItemFromDB(username, C_GAMEPLAYED3_STAT, total, TABLE);
 	}
+	//mettre à 0 = hasnot ou 1 = has
+	public void modifyHasNewTrophies(String username, int has){
+		modifySingleItemFromDB(username, C_HASNEWTROPHIES, has, TABLE);
+	}
+	
 	public void activateTrophyNoTips(String username){
 		modifySingleItemFromDB(username, C_TROPHY_NOTIPS_TROP, 1, TABLE2);
 	}
@@ -146,7 +154,8 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 	public void activateTrophyMyNobelPrize(String username){
 		modifySingleItemFromDB(username, C_TROPHY_MYNOBELPRIZE_TROP, 1, TABLE2);
 	}
-	
+
+
 	/*
 	 * Read methods
 	 */
@@ -191,6 +200,15 @@ public class DBHelperNobelPrize extends SQLiteOpenHelper{
 		total = getSingleItemFromDB(username, C_GAMEPLAYED3_STAT, TABLE);
 		return total;
 	}
+
+
+	//mettre à 0 = hasnot ou 1 = has
+	public int getHasNewTrophiesFromDB(String username){
+		int has = 0;
+		has = getSingleItemFromDB(username, C_HASNEWTROPHIES, TABLE);
+		return has;
+	}
+
 	public boolean playerExists(String username){
 		boolean exists = false;
 		SQLiteDatabase db = this.getReadableDatabase();

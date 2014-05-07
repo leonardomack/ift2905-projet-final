@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.nobelobjects.Player;
@@ -24,8 +25,9 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 	private TextView trueFalseStat;
 	private TextView whoAmIStat;
 	private Player player;
-	
+
 	private TextView scoreTotal;
+	private ImageButton trophees;
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
@@ -65,6 +67,12 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		whoAmIStat.setText(player.getScorePicture() + "/" + player.getTotalPicture());
 		scoreTotal = (TextView) findViewById(R.id.TextViewMenuGame_Mon_score_value);
 		scoreTotal.setText(player.getScoreGames() + "/" + player.getTotalGames());
+
+		//bouton trophee
+		trophees = (ImageButton) findViewById(R.id.imageButton_trophees);
+		//par défaut à on
+		if (player.getHasNewTrophies()==0)
+			trophees.setImageResource(R.drawable.btn_star_big_off);
 		
 	}
 
@@ -77,6 +85,9 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		trueFalseStat.setText(player.getScoreTrueFalse() + "/" + player.getTotalTrueFalse());
 		whoAmIStat.setText(player.getScorePicture() + "/" + player.getTotalPicture());
 		scoreTotal.setText(player.getScoreGames() + "/" + player.getTotalGames());
+
+		if (player.getHasNewTrophies()==0)
+			trophees.setImageResource(R.drawable.btn_star_big_off);
 	}
 
 	public void buttonMCQGameClick(View view)

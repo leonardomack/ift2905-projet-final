@@ -30,7 +30,7 @@ public class TropheesActivity extends Activity implements OnSharedPreferenceChan
 	private Drawable completedTrophy;
 	private Player player;
 	private Achievements trophies;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,6 +38,8 @@ public class TropheesActivity extends Activity implements OnSharedPreferenceChan
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
 		player = new Player(getApplicationContext(),prefs.getString("username", ""));
+		player.resetHasNewTrophies();
+
 		trophies = player.getTrophies();
 		trophy1 = (TextView) findViewById(R.id.TextViewTrophees_1);
 		trophy2 = (TextView) findViewById(R.id.TextViewTrophees_2);
@@ -57,17 +59,17 @@ public class TropheesActivity extends Activity implements OnSharedPreferenceChan
 		if(trophies.get(4).hasTrophy())
 			trophy5.setCompoundDrawables(null, null, starOn, null);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 		case R.id.itemPrefs:
 			startActivity(new Intent(this, PreferencesActivity.class));
-		break;
+			break;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -79,8 +81,8 @@ public class TropheesActivity extends Activity implements OnSharedPreferenceChan
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 
 }
