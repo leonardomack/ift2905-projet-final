@@ -212,7 +212,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 					// photo vide, alors on ne l'ajoute pas
 					try
 					{
-						if (first && (l.getImageUrl(l) == null || l.getImageUrl(l).equals("")))
+						if (first && (l.getImageUrlBis(l) == null || l.getImageUrlBis(l).equals("")))
 						{
 							Log.d(TAG, "NON-added laureate #" + l.getId() + " : " + l.toString() + " n' a PAS DE PHOTO");
 							continue;
@@ -477,7 +477,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				break;
 			case TRUE:
 				b.setEnabled(false);
-				b.setTextColor(Color.CYAN);
+				b.setTextColor(Color.GREEN);
 				break;
 			case DISABLED:
 				b.setEnabled(false);

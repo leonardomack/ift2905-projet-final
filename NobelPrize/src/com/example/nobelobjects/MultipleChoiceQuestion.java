@@ -41,23 +41,39 @@ public class MultipleChoiceQuestion implements GlobalConstants{
 	}
 	// Born city
 	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName){
-		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
+		this.questionNumber = questionNumber;
+		this.type = typeQuestion;
+		this.printedAnswers=printedAnswers;
+		this.rightAnswers=rightAnswers;						
+		this.isAnswered=false;
+		this.isAnsweredCorrectly=false;	
+		
 		this.laureateName= laureateName;
-		//on refait parce que la génération de queqstion dépend de ces arguments juste passés.. conception moyenne
 		generateQuestionDependingType(typeQuestion);
 	}
 
 	// Category of Nobel Prize
 	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String laureateName, String category){
-		this(questionNumber, typeQuestion, printedAnswers, rightAnswers, laureateName);
+		this.questionNumber = questionNumber;
+		this.type = typeQuestion;
+		this.printedAnswers=printedAnswers;
+		this.rightAnswers=rightAnswers;						
+		this.isAnswered=false;
+		this.isAnsweredCorrectly=false;		
+		
 		this.category = category;
-
 		generateQuestionDependingType(typeQuestion);
 	}
 
 	//Laureate who won
 	public MultipleChoiceQuestion (int questionNumber,int typeQuestion,ArrayList<String> printedAnswers, ArrayList<String> rightAnswers, String category, int year){
-		this(questionNumber, typeQuestion, printedAnswers, rightAnswers);
+		this.questionNumber = questionNumber;
+		this.type = typeQuestion;
+		this.printedAnswers=printedAnswers;
+		this.rightAnswers=rightAnswers;						
+		this.isAnswered=false;
+		this.isAnsweredCorrectly=false;		
+		
 		this.category = category;
 		this.year = year;
 

@@ -422,7 +422,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 				break;
 			case TRUE:
 				b.setEnabled(false);
-				b.setTextColor(Color.CYAN);
+				b.setTextColor(Color.GREEN);
 				break;
 			case DISABLED:		
 				b.setEnabled(false);

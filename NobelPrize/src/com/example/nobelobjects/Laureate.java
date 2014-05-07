@@ -213,4 +213,85 @@ public class Laureate
 		this.imageUrl = winnerImageUrl;
 		return winnerImageUrl;
 	}
+	public String getImageUrlBis(Laureate laureate) throws InterruptedException, ExecutionException
+	{
+		//pour éviter les calculs et appels a l'API redondants
+		if(imageUrl != null && !imageUrl.equals(""))
+			return imageUrl;
+
+		// Find the laureate and his prizes
+		//l'ancienne version était redondante...
+		Laureate laureateSearch = this;
+		List<Prize> prizes = this.getPrizes();
+
+		// Build the url from default pattern
+		String htmlToDownload = "http://www.nobelprize.org/nobel_prizes/" + prizes.get(0).getCategory() + "/laureates/" + prizes.get(0).getYear() + "/";// "http://www.nobelprize.org/nobel_prizes/physics/laureates/2012/"
+		String winnerImageUrl = "";
+		try
+		{
+			String htmlResult = new DownloadHtmlPageTask().execute(htmlToDownload).get().toLowerCase();
+
+			if (htmlResult.equals("") == false)
+			{
+				List<String> imageHtmls = new ArrayList<String>();
+
+				int divPrizeWrapperEnd = 0;
+				String divPrizeWrapper = "";
+
+				// Getting just the html that have image urls
+				// Start html part = <div class=\"prize_wrapper\">
+				divPrizeWrapper = htmlResult.substring(htmlResult.indexOf("<div class=\"prize_wrapper\">"));
+
+				// End html part = <div style=\"clear:both;\"></div>
+				divPrizeWrapperEnd = divPrizeWrapper.indexOf("<div style=\"clear:both;\"></div>");
+
+				// Just the html that contais all image urls
+				divPrizeWrapper = divPrizeWrapper.substring(0, divPrizeWrapperEnd);
+
+				// Getting all the urls in divPrizeWrapper
+				int imgStart = divPrizeWrapper.indexOf("<img src=\"");
+				int imgEnd = 0;
+
+				while (imgStart != -1)
+				{
+					String imageUrlTemp = "";
+
+					imgStart += 10;
+					imageUrlTemp = divPrizeWrapper.substring(imgStart);
+					imgEnd = imageUrlTemp.indexOf("border=\"0\"></a>");
+					imageUrlTemp = imageUrlTemp.substring(0, imgEnd);
+					imageHtmls.add(imageUrlTemp);
+
+					divPrizeWrapper = divPrizeWrapper.substring(imgStart + imgEnd);
+
+					imgStart = divPrizeWrapper.indexOf("<img src=\"");
+				}
+
+				// Need to check if the URL contains laureate's name
+				String finalImageUrl = "";
+				for (String url : imageHtmls)
+				{
+					if (url.contains(laureateSearch.getFirstname().toLowerCase()))
+					{
+						// We found the good url
+						finalImageUrl = url;
+
+						// Removing alt attribute
+						finalImageUrl = finalImageUrl.substring(0, finalImageUrl.indexOf("\" alt=\""));
+
+						// Replacing with a bigger image
+						finalImageUrl = finalImageUrl.replace(".jpg", "_postcard.jpg");
+					}
+				}
+
+				winnerImageUrl = finalImageUrl;
+			}
+		}
+		catch (Exception e)
+		{
+		}
+		
+		this.imageUrl = winnerImageUrl;
+		return winnerImageUrl;
+	}
 }
