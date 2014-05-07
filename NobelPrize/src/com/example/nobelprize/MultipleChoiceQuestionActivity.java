@@ -36,6 +36,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -321,15 +322,21 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			if(first){
 				first = false; 
 				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
-				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast
-				if (player.getTotalQCM()==0)
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
+				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast				
+				if (player.getTotalQCM()==0 || 
+						// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
+						((double)player.getScoreQCM()/player.getTotalQCM() < 0.24))
+				{
+					View view = inflater.inflate(R.layout.custom_toast_shake_games,(ViewGroup) findViewById(R.id.relativeLayoutCustomToastGames));
+					Toast toast = new Toast(getApplicationContext());
+					toast.setView(view);
+					toast.setDuration(Toast.LENGTH_LONG);
+					//toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 1, 1);
+					toast.show();
 
-				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi = 1/reponse sur 4, => on en enleve une 66% d'echec
-				else if((double)(player.getScoreQCM()/player.getTotalQCM()) < 0.24){
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
-				}
-			}				
+
+				}				
+			}
 		}
 
 		@Override

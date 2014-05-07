@@ -27,6 +27,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -354,14 +355,19 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				first = false;
 				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
 				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
-				if (player.getTotalPicture()==0)
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
-
-				// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
-				else if((double)player.getScorePicture()/player.getTotalPicture() < 0.24){
-					Toast.makeText(getApplicationContext(), "Clue given, if thy phone thou shake !", Toast.LENGTH_LONG).show();
-				}
-			}			
+				Object View;
+				if (player.getTotalPicture()==0 || 
+						// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
+						((double)player.getScorePicture()/player.getTotalPicture() < 0.24)){
+					
+					View view = inflater.inflate(R.layout.custom_toast_shake_games,(ViewGroup) findViewById(R.id.relativeLayoutCustomToastGames));
+					Toast toast = new Toast(getApplicationContext());
+					toast.setView(view);
+					toast.setDuration(Toast.LENGTH_LONG);
+				//	toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 1, 1);
+					toast.show();
+				}			
+			}
 		}
 
 		@Override
@@ -532,7 +538,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				//on grise tous les boutons, on repasse après en détail pour plus spécifique
 				for(int i = 0 ; i < AMOUNT_OF_ANSWERS ; i++)
 					buttonStateTab[currentQuestionNumber][i] = buttonState.DISABLED;
-				
+
 				// on affiche toutes les bonnes réponses en vert
 				for (Integer i : currentQuestion.getIndexRightAnswersInPrinted())
 				{

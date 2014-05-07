@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/Button01"
-        android:layout_below="@id/TextViewMultipleChoice_Question"
         android:layout_margin="20dp"
         android:layout_marginTop="52dp"
         android:text="@string/TrueFalseGame_Question"

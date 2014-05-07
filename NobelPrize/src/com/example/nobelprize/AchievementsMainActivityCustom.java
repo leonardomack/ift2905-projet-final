@@ -35,7 +35,6 @@ public class AchievementsMainActivityCustom extends Activity implements OnShared
 	{
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-
 		}
 	}
 
@@ -48,8 +47,6 @@ public class AchievementsMainActivityCustom extends Activity implements OnShared
 			"Answer correctly 5 questions from each game",
 			"Your own Nobel Prize (Obtain every other trophies)"
 	};
-
-
 
 	private String[] trophiesDescription={
 			"a",

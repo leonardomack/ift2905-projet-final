@@ -16,7 +16,8 @@
     <string name="MainActivity__image_winner_description"></string>
     <string name="MainActivity_button_chercher">Search</string>
     <string name="MainActivity_button_jouer">Play</string>
-    <string name="MainActivity_toast_sortir">Press back to exit</string>
+    <string name="MainActivity_toast_sortir">Press back to exit</string>    
+    <string name="ShakeToast">\? </string>
     <!-- ======MainActivity====== -->
 
 
@@ -78,7 +79,8 @@
     <string name="QuestionNumber">Question #1 of 5</string>
     <string name="ImageContentDescription">Image corresponding to response</string>
     <string name="RightAnswerToast">Right Answer!</string>
-    <string name="WrongAnswerToast">Wrong Answer!</string>
+    <string name="WrongAnswerToast">Wrong Answer!</string>    
+    <string name="ClueShakeToast">Clue given, if thy phone thou shake !</string>
     <!-- ======GeneralGame====== -->
 
 

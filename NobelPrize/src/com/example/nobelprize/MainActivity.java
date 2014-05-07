@@ -15,8 +15,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -114,6 +117,16 @@ public class MainActivity extends Activity
 		{
 
 		}
+		
+		//affiche le toast pour dire qu'on peut shaker
+
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.custom_toast_shake_main,(ViewGroup) findViewById(R.id.relativeLayoutCustomToastMain));
+		Toast toast = new Toast(getApplicationContext());
+		toast.setView(view);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.TOP|Gravity.RIGHT, 20, 10);
+		toast.show();
 
 	}
 
