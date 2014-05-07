@@ -71,7 +71,7 @@ public class AchievementsMainActivityCustom extends Activity implements OnShared
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
-		player = new Player(getApplicationContext(),prefs.getString("username", ""));
+		player = new Player(getApplicationContext(),prefs.getString("username", "Player1"));
 		player.resetHasNewTrophies();
 		trophies = player.getTrophies();
 

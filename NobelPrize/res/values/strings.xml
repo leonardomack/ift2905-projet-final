@@ -90,9 +90,9 @@
     <string name="MenuGame_MCQStat">0/0</string>
     <string name="MenuGame_TrueFalseStat">0/0</string>
     <string name="MenuGame_WhoAmIStat">0/0</string>
-    <string name="MenuGame_MonScore">Mon Score</string>
+    <string name="MenuGame_MonScore">My Score</string>
     <string name="MenuGame_MonScore_value">0/0</string>
-    <string name="MenuGame_MesTrophees">Mes Trophées</string>
+    <string name="MenuGame_MesTrophees">My Trophies</string>
     <!-- ======MenuGame====== -->
 
 

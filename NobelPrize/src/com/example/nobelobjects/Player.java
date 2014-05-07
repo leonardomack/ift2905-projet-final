@@ -142,7 +142,9 @@ public class Player {
 				trophies.get(3).hasTrophy()){
 			activateTrophyMyNobelPrize();
 		}
-		return dbHelper.getTrophies(this.username);
+		
+		 this.trophies = dbHelper.getTrophies(this.username);
+		 return trophies;
 	}
 
 

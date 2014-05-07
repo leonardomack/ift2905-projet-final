@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nobelobjects.Player;
 
@@ -56,7 +57,7 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		setContentView(R.layout.menu_game_layout);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
-		player = new Player(getApplicationContext(), prefs.getString("username", ""));
+		player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
 		usernameView = (TextView) findViewById(R.id.activity_main_username);
 		usernameView.setText(player.getUsername());
 		mcqStat = (TextView) findViewById(R.id.activity_main_MCQ_Stats);
@@ -71,9 +72,14 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		//bouton trophee
 		trophees = (ImageButton) findViewById(R.id.imageButton_trophees);
 		//par défaut à on
-		if (player.getHasNewTrophies()==0)
+		player.getTrophies();
+		if (player.getHasNewTrophies()==0){
 			trophees.setImageResource(R.drawable.btn_star_big_off);
-		
+		}
+		else{
+			trophees.setImageResource(R.drawable.btn_star_big_on);
+			Toast.makeText(getApplicationContext(), "New Trophies unlocked!", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
@@ -86,8 +92,13 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 		whoAmIStat.setText(player.getScorePicture() + "/" + player.getTotalPicture());
 		scoreTotal.setText(player.getScoreGames() + "/" + player.getTotalGames());
 
-		if (player.getHasNewTrophies()==0)
-			trophees.setImageResource(R.drawable.btn_star_big_off);
+		player.getTrophies();
+		if (player.getHasNewTrophies()==0){
+			trophees.setImageResource(R.drawable.btn_star_big_off);}
+		else{
+			trophees.setImageResource(R.drawable.btn_star_big_on);
+			Toast.makeText(getApplicationContext(), "New Trophies unlocked!", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void buttonMCQGameClick(View view)
