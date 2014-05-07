@@ -2,8 +2,6 @@ package com.example.nobelprize;
 
 import com.example.nobelobjects.Achievements;
 import com.example.nobelobjects.Player;
-import com.example.nobelprize.TrueFalseGameActivity.sendRequestForQuestions;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

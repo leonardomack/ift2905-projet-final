@@ -111,7 +111,8 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 
 	public void buttonMenuGameTropheClick(View view)
 	{
-		Intent intentTrophees = new Intent(getApplicationContext(), TropheesActivity.class);
+		//Intent intentTrophees = new Intent(getApplicationContext(), TropheesActivity.class);
+		Intent intentTrophees = new Intent(getApplicationContext(), AchievementsMainActivityCustom.class);
 		startActivity(intentTrophees);
 	}
 

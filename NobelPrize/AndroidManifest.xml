@@ -52,6 +52,9 @@
         
         <activity android:name="com.example.nobelprize.TropheesActivity" >
         </activity>
+        
+        <activity android:name="com.example.nobelprize.AchievementsMainActivityCustom" >
+        </activity>
     </application>
 
 </manifest>
