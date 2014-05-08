@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeLayoutCustomToastGames"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="#AAAAAAAA">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imageViewShake"
@@ -23,6 +22,6 @@
         android:gravity="center"
         android:text="@string/ClueShakeToast"
         android:textColor="@android:color/white"
-        android:textSize="14dp" />
+        />
 
 </RelativeLayout>
