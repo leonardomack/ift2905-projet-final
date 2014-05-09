@@ -22,7 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +38,7 @@ public class MainActivity extends Activity
 {
 
 	// Le button pour conmpter la quantite de fois que le button retour a ete
-	// appuy�
+	// appuyé
 	private Integer exitCounter = 0;
 
 	// Shake sensor - From:
@@ -117,15 +119,14 @@ public class MainActivity extends Activity
 		{
 
 		}
-		
-		//affiche le toast pour dire qu'on peut shaker
 
+		//affiche le toast pour dire qu'on peut shaker
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.custom_toast_shake_main,(ViewGroup) findViewById(R.id.relativeLayoutCustomToastMain));
+		View view = inflater.inflate(R.layout.custom_toast_shake_main,(ViewGroup) findViewById(R.id.LinearLayoutCustomToastMain));
 		Toast toast = new Toast(getApplicationContext());
 		toast.setView(view);
 		toast.setDuration(Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.TOP|Gravity.RIGHT, 20, 10);
+		toast.setGravity(Gravity.TOP|Gravity.LEFT, 10, 50);
 		toast.show();
 
 	}
@@ -142,6 +143,17 @@ public class MainActivity extends Activity
 		// MainActivity.class);
 		Intent intentJouer = new Intent(getApplicationContext(), MenuGameActivity.class);
 		startActivity(intentJouer);
+	}
+	
+	/**
+	 * simule le shaker pour avd
+	 * n'est pas fait pour être accessible à partir d'un telephone normal, mais adapté pour un click de souris
+	 * pas dans la version "finie" normalement, sert aux tests ()c'Est pour ça que les symboles "refresh" sont redondants.
+	 * @param view
+	 */
+	public void shakeSimulate(View view)
+	{
+		loadRandomWinner();
 	}
 
 	@Override
