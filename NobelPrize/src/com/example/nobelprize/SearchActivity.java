@@ -35,7 +35,7 @@ public class SearchActivity extends Activity
 	private String gender;
 	private ListView mainList;
 	private ArrayAdapter<String> arrayAdapter;
-	private String TAG;
+	private String TAG="SearchActivity";
 	ArrayList<String> items;
 	SparseArray<Laureate> arrayOfLaureates;
 
@@ -118,12 +118,19 @@ public class SearchActivity extends Activity
 		Spinner genderSpinner = (Spinner) findViewById(R.id.genderSearch);
 		
 		category = categorySpinner.getSelectedItem().toString();
-		if (Pattern.matches("all*",category))
+		
+		Log.d(TAG, "category "+category);
+		if (Pattern.matches("all.*",category))
 			category = "all";
 
+		Log.d(TAG, "category "+category);
+
 		gender = genderSpinner.getSelectedItem().toString();
-		if (Pattern.matches("all*",gender))
+
+		Log.d(TAG, "gender "+gender);
+		if (Pattern.matches("all.*",gender))
 			gender = "all";
+		Log.d(TAG, "gender "+gender);
 			
 		new SendRequestForNobelPrize().execute();
 		// mainList.invalidateViews();
