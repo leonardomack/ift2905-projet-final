@@ -321,7 +321,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			//on affiche ça que sur la toute première page...
 			if(first){
 				first = false; 
-				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				Player player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
 				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast	
 				double percent = (double)player.getScoreQCM()/player.getTotalQCM();
 				Log.d(TAG,"percentage"+percent);

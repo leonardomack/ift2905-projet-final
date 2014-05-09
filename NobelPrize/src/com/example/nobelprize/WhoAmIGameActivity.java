@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -353,7 +354,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			//on affiche ça que sur la toute première page...
 			if(first){
 				first = false;
-				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				Player player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
 				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
 				Object View;
 				if (player.getTotalPicture()==0){
@@ -468,13 +469,13 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			buttonState state = buttonStateTab[indQuestion][i];
 			switch (state)
 			{
-			case CLICKABLE: // on ne fait rien par défaut
+			case CLICKABLE: 
+			//	b.setShadowLayer(1, 1, 1, Color.WHITE);//pas nécessaire dans la très grande majorité des cas
 				break;
 			case CLICKEDFALSE:
 				// on le met en rouge et non clickable
 				b.setEnabled(false);
 				b.setTextColor(Color.RED);
-				//b.setShadowLayer(1, 1, 1, Color.BLACK);
 				break;
 			case CLICKEDTRUE:
 				b.setEnabled(false);
@@ -489,6 +490,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				break;
 			case DISABLED:
 				b.setEnabled(false);
+				//b.setTextColor(Color.argb(200, 100, 100, 100));
 				break;
 
 			default:
