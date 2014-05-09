@@ -474,14 +474,18 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				// on le met en rouge et non clickable
 				b.setEnabled(false);
 				b.setTextColor(Color.RED);
+				//b.setShadowLayer(1, 1, 1, Color.BLACK);
 				break;
 			case CLICKEDTRUE:
 				b.setEnabled(false);
 				b.setTextColor(Color.GREEN);
+				b.setShadowLayer(1, 1, 1, Color.BLACK);
+				
 				break;
 			case TRUE:
 				b.setEnabled(false);
 				b.setTextColor(Color.GREEN);
+				b.setShadowLayer(1, 1, 1, Color.BLACK);
 				break;
 			case DISABLED:
 				b.setEnabled(false);
