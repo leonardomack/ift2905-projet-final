@@ -322,10 +322,10 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 			if(first){
 				first = false; 
 				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
-				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast				
-				if (player.getTotalQCM()==0 || 
-						// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
-						((double)player.getScoreQCM()/player.getTotalQCM() < 0.24))
+				// si c'Es la premiere fois que le joueur faie ce jeu on affiche un toast	
+				double percent = (double)player.getScoreQCM()/player.getTotalQCM();
+				Log.d(TAG,"percentage"+percent);
+				if (player.getTotalQCM()==0)
 				{
 					View view = inflater.inflate(R.layout.custom_toast_shake_games,(ViewGroup) findViewById(R.id.relativeLayoutCustomToastGames));
 					Toast toast = new Toast(getApplicationContext());
@@ -639,4 +639,14 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 		}
 	};
+	/**
+	 * simule le shaker pour avd
+	 * n'est pas fait pour être accessible à partir d'un telephone normal, mais adapté pour un click de souris
+	 * pas dans la version "finie" normalement, sert aux tests ()c'Est pour ça que les symboles "refresh" sont redondants.
+	 * @param view
+	 */
+	public void shakeSimulate(View view)
+	{
+		monAdapter.computeClue();
+	}
 }

@@ -356,9 +356,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
 				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
 				Object View;
-				if (player.getTotalPicture()==0 || 
-						// sinon s'il a plus de 75% de taux d'erreur on l'affiche aussi
-						((double)player.getScorePicture()/player.getTotalPicture() < 0.24)){
+				if (player.getTotalPicture()==0){
 					
 					View view = inflater.inflate(R.layout.custom_toast_shake_games,(ViewGroup) findViewById(R.id.relativeLayoutCustomToastGames));
 					Toast toast = new Toast(getApplicationContext());
@@ -497,6 +495,10 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		private void computeClue()
 		{
+			if(currentQuestion.isAnswered){
+				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			if (cluesGiven[currentQuestionNumber] == false)
 			{
 				WhoAmIQuestion printedQuestion = questions.get(currentQuestionNumber);
@@ -515,6 +517,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				Log.d(TAG, "indice de question :" + (currentQuestion.getQuestionNumber() - 1));
 				//
 				monAdapter.printButtons(currentQuestionNumber, currentLayout);
+
+				Toast.makeText(getApplicationContext(), "You used a clue !", Toast.LENGTH_SHORT).show();
 			}
 			else
 			{
@@ -705,5 +709,15 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 
 		}
 	};
+	/**
+	 * simule le shaker pour avd
+	 * n'est pas fait pour être accessible à partir d'un telephone normal, mais adapté pour un click de souris
+	 * pas dans la version "finie" normalement, sert aux tests ()c'Est pour ça que les symboles "refresh" sont redondants.
+	 * @param view
+	 */
+	public void shakeSimulate(View view)
+	{
+		monAdapter.computeClue();
+	}
 
 }

@@ -71,6 +71,16 @@ public class MainActivity extends Activity
 		mAccelCurrent = SensorManager.GRAVITY_EARTH;
 		mAccelLast = SensorManager.GRAVITY_EARTH;
 		lastShake = Calendar.getInstance();
+
+		//affiche le toast pour dire qu'on peut shaker
+		//on ne l'affiche qu'à l'initialisation car trop encombrant => trop de redondance serait genant
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.custom_toast_shake_main,(ViewGroup) findViewById(R.id.LinearLayoutCustomToastMain));
+		Toast toast = new Toast(getApplicationContext());
+		toast.setView(view);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.TOP|Gravity.LEFT, 10, 50);
+		toast.show();
 	}
 
 	private void loadRandomWinner()
@@ -120,15 +130,6 @@ public class MainActivity extends Activity
 
 		}
 
-		//affiche le toast pour dire qu'on peut shaker
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.custom_toast_shake_main,(ViewGroup) findViewById(R.id.LinearLayoutCustomToastMain));
-		Toast toast = new Toast(getApplicationContext());
-		toast.setView(view);
-		toast.setDuration(Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.TOP|Gravity.LEFT, 10, 50);
-		toast.show();
-
 	}
 
 	public void buttonChercherClick(View view)
@@ -144,7 +145,7 @@ public class MainActivity extends Activity
 		Intent intentJouer = new Intent(getApplicationContext(), MenuGameActivity.class);
 		startActivity(intentJouer);
 	}
-	
+
 	/**
 	 * simule le shaker pour avd
 	 * n'est pas fait pour être accessible à partir d'un telephone normal, mais adapté pour un click de souris

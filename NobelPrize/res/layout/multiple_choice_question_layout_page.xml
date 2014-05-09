@@ -74,4 +74,17 @@
         android:maxLines="2"
         android:text="clicked3" />
 
+    <ImageButton
+        android:id="@+id/shakesimulateClueMCQ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="0dp"
+        android:clickable="true"
+        android:onClick="shakeSimulate"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:src="@drawable/icon_shake_final_small" />
+
 </RelativeLayout>

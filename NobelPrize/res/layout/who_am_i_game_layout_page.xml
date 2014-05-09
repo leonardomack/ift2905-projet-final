@@ -97,4 +97,17 @@
         android:contentDescription="@string/ImageContentDescription"
         android:src="@drawable/btn_circle_disable" />
 
+    <ImageButton
+        android:id="@+id/shakesimulateClueWhoAmI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="0dp"
+        android:clickable="true"
+        android:onClick="shakeSimulate"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:src="@drawable/icon_shake_final_small" />
+
 </RelativeLayout>

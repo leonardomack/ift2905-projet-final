@@ -59,8 +59,9 @@ public class MultipleChoiceQuestion implements GlobalConstants{
 		this.printedAnswers=printedAnswers;
 		this.rightAnswers=rightAnswers;						
 		this.isAnswered=false;
-		this.isAnsweredCorrectly=false;		
+		this.isAnsweredCorrectly=false;	
 		
+		this.laureateName= laureateName;
 		this.category = category;
 		generateQuestionDependingType(typeQuestion);
 	}
