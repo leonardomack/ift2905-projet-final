@@ -79,7 +79,7 @@ public class MainActivity extends Activity
 		Toast toast = new Toast(getApplicationContext());
 		toast.setView(view);
 		toast.setDuration(Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.TOP|Gravity.LEFT, 10, 50);
+		toast.setGravity(Gravity.TOP|Gravity.LEFT, 10, 55);
 		toast.show();
 	}
 

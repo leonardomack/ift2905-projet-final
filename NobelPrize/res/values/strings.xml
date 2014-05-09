@@ -31,7 +31,7 @@
 
     <!-- ======SearchActivity====== -->
     <string-array name="fieldArray">
-        <item>all</item>
+        <item>all&lt;categories&gt;</item>
         <item>physics</item>
         <item>chemistry</item>
         <item>medicine</item>
@@ -43,7 +43,7 @@
     <string name="genderPrompt">Please choose a gender</string>
 
     <string-array name="genderArray">
-        <item>all</item>
+        <item>all&lt;gender/organization&gt;</item>
         <item>female</item>
         <item>male</item>
         <item>organization</item>

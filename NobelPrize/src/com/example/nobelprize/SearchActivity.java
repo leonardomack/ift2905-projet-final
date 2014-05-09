@@ -1,6 +1,7 @@
 package com.example.nobelprize;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -115,8 +116,15 @@ public class SearchActivity extends Activity
 			year = Integer.parseInt(yearString);
 		Spinner categorySpinner = (Spinner) findViewById(R.id.fieldSearch);
 		Spinner genderSpinner = (Spinner) findViewById(R.id.genderSearch);
+		
 		category = categorySpinner.getSelectedItem().toString();
+		if (Pattern.matches("all*",category))
+			category = "all";
+
 		gender = genderSpinner.getSelectedItem().toString();
+		if (Pattern.matches("all*",gender))
+			gender = "all";
+			
 		new SendRequestForNobelPrize().execute();
 		// mainList.invalidateViews();
 		// mainAdapter.notifyDataSetChanged();
