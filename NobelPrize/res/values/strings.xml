@@ -31,7 +31,7 @@
 
     <!-- ======SearchActivity====== -->
     <string-array name="fieldArray">
-        <item>all</item>
+        <item>all &lt;categories&gt;</item>
         <item>physics</item>
         <item>chemistry</item>
         <item>medicine</item>
@@ -43,7 +43,7 @@
     <string name="genderPrompt">Please choose a gender</string>
 
     <string-array name="genderArray">
-        <item>all</item>
+        <item>all &lt;gender/organization&gt;</item>
         <item>female</item>
         <item>male</item>
         <item>organization</item>
@@ -80,7 +80,7 @@
     <string name="ImageContentDescription">Image corresponding to response</string>
     <string name="RightAnswerToast">Right Answer!</string>
     <string name="WrongAnswerToast">Wrong Answer!</string>    
-    <string name="ClueShakeToast">Clue given, if thy phone thou shake !</string>
+    <string name="ClueShakeToast">Shake it, get a clue !</string>
     <!-- ======GeneralGame====== -->
 
 
@@ -112,7 +112,7 @@
     <!-- ======Preferences====== -->
     <string name="PrefScreen_UsernameTitle">Your username</string>
     <string name="PrefScreen_UsernameDescription">The username is used to store your scores</string>
-    <string name="PrefScreen_VibrateTitle">Activate or deactivate Vibration</string>
+    <string name="PrefScreen_VibrateTitle">Activate/deactivate Vibration</string>
     <string name="PrefScreen_VibrateDescription">The phone vibrates when your answer is incorrect</string>
     <string name="PrefMenu_titleMenu">Preferences</string>
     <string name="PrefMenu_titleMenuCondensed">Pref</string>

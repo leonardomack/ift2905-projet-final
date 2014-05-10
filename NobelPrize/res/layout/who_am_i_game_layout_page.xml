@@ -37,7 +37,7 @@
         android:layout_below="@id/TextViewWhoAmIGame_Question"
         android:layout_marginRight="0dp"
         android:layout_toRightOf="@+id/multiple_choice_question_pager"
-        android:layout_weight="20"
+        android:layout_weight="28"
         android:adjustViewBounds="true"
         android:src="@drawable/empty_user" />
 
@@ -47,9 +47,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/TextViewWhoAmIGame_QNumber"
         android:layout_alignLeft="@+id/multiple_choice_question_pager"
-        android:layout_weight="10"
-        android:gravity="bottom"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="8"
         android:maxLines="1"
+        android:minHeight="1dip"
+        android:minWidth="1dip"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -59,8 +64,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ButtonWhoAmIGame_button4"
         android:layout_alignLeft="@+id/ButtonWhoAmIGame_button4"
-        android:layout_weight="10"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="8"
         android:maxLines="1"
+        android:minHeight="1dip"
+        android:minWidth="1dip"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -70,8 +81,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ButtonWhoAmIGame_button3"
         android:layout_alignLeft="@+id/ButtonWhoAmIGame_button3"
-        android:layout_weight="10"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="8"
         android:maxLines="1"
+        android:minHeight="1dip"
+        android:minWidth="1dip"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -81,8 +98,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ButtonWhoAmIGame_button2"
         android:layout_alignLeft="@+id/ButtonWhoAmIGame_button2"
-        android:layout_weight="10"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="8"
         android:maxLines="1"
+        android:minHeight="1dip"
+        android:minWidth="1dip"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:text="Button"
         android:textSize="20sp" />
 
@@ -102,8 +125,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_margin="0dp"
+        android:layout_toLeftOf="@+id/WhoAmIGameImageFeedbackQuestion"
         android:clickable="true"
         android:onClick="shakeSimulate"
         android:paddingBottom="0dp"

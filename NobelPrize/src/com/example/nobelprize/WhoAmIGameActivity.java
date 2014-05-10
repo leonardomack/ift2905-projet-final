@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -353,7 +354,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			//on affiche ça que sur la toute première page...
 			if(first){
 				first = false;
-				Player player = new Player(getApplicationContext(), prefs.getString("username", ""));
+				Player player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
 				// si c'Es la premiere fois que le joueur faie ce jeu o naffiche un toast
 				Object View;
 				if (player.getTotalPicture()==0){
@@ -468,7 +469,9 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			buttonState state = buttonStateTab[indQuestion][i];
 			switch (state)
 			{
-			case CLICKABLE: // on ne fait rien par défaut
+			case CLICKABLE: 
+				//contour almost white
+				b.setShadowLayer(1, 1, 1, Color.argb(100, 255, 255, 255));//pas nécessaire dans la très grande majorité des cas
 				break;
 			case CLICKEDFALSE:
 				// on le met en rouge et non clickable
@@ -478,13 +481,17 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			case CLICKEDTRUE:
 				b.setEnabled(false);
 				b.setTextColor(Color.GREEN);
+				b.setShadowLayer(1, 1, 1, Color.BLACK);
+				
 				break;
 			case TRUE:
 				b.setEnabled(false);
 				b.setTextColor(Color.GREEN);
+				b.setShadowLayer(1, 1, 1, Color.BLACK);
 				break;
 			case DISABLED:
 				b.setEnabled(false);
+				//b.setTextColor(Color.argb(200, 100, 100, 100));
 				break;
 
 			default:
@@ -496,7 +503,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		private void computeClue()
 		{
 			if(currentQuestion.isAnswered){
-				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Question answered, no more clues to give !", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (cluesGiven[currentQuestionNumber] == false)
@@ -586,7 +593,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				}
 				if (j == questions.size())
 				{
-					Toast.makeText(getApplicationContext(), "Completed : " + score + "/" + questions.size(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "Completed : " + score + "/" + questions.size(), Toast.LENGTH_LONG).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" + playerName);
 					Player player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
@@ -607,7 +614,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 							finish();
 						}
 
-					}, 2000);
+					}, 3500);
 
 				}
 

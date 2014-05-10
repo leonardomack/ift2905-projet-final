@@ -1,6 +1,7 @@
 package com.example.nobelprize;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,7 +35,7 @@ public class SearchActivity extends Activity
 	private String gender;
 	private ListView mainList;
 	private ArrayAdapter<String> arrayAdapter;
-	private String TAG;
+	private String TAG="SearchActivity";
 	ArrayList<String> items;
 	SparseArray<Laureate> arrayOfLaureates;
 
@@ -115,8 +116,22 @@ public class SearchActivity extends Activity
 			year = Integer.parseInt(yearString);
 		Spinner categorySpinner = (Spinner) findViewById(R.id.fieldSearch);
 		Spinner genderSpinner = (Spinner) findViewById(R.id.genderSearch);
+		
 		category = categorySpinner.getSelectedItem().toString();
+		
+		Log.d(TAG, "category "+category);
+		if (Pattern.matches("all.*",category))
+			category = "all";
+
+		Log.d(TAG, "category "+category);
+
 		gender = genderSpinner.getSelectedItem().toString();
+
+		Log.d(TAG, "gender "+gender);
+		if (Pattern.matches("all.*",gender))
+			gender = "all";
+		Log.d(TAG, "gender "+gender);
+			
 		new SendRequestForNobelPrize().execute();
 		// mainList.invalidateViews();
 		// mainAdapter.notifyDataSetChanged();

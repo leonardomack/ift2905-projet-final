@@ -272,7 +272,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 				}
 
 				if(j==questions.size()){
-					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_LONG).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" +playerName);
 					Player player = new Player(getApplicationContext(),prefs.getString("username", "Player1"));
@@ -283,7 +283,6 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 						player.activateTrophy3Consecutive();
 					//on finish l'Activity ici...
 					
-					//rajouté par r.b.
 					Handler handlerNewPage = new Handler();
 					handlerNewPage.postDelayed(new Runnable()
 					{
@@ -293,7 +292,7 @@ public class TrueFalseGameActivity extends Activity implements OnSharedPreferenc
 							finish();
 						}
 
-					}, 2000);
+					}, 3500);
 
 				}
 
