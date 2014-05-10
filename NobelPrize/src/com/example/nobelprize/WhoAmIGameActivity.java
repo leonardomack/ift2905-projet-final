@@ -470,7 +470,8 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 			switch (state)
 			{
 			case CLICKABLE: 
-			//	b.setShadowLayer(1, 1, 1, Color.WHITE);//pas nécessaire dans la très grande majorité des cas
+				//contour almost white
+				b.setShadowLayer(1, 1, 1, Color.argb(100, 255, 255, 255));//pas nécessaire dans la très grande majorité des cas
 				break;
 			case CLICKEDFALSE:
 				// on le met en rouge et non clickable
@@ -502,7 +503,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 		private void computeClue()
 		{
 			if(currentQuestion.isAnswered){
-				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Question answered, no more clues to give !", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (cluesGiven[currentQuestionNumber] == false)
@@ -592,7 +593,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 				}
 				if (j == questions.size())
 				{
-					Toast.makeText(getApplicationContext(), "Completed : " + score + "/" + questions.size(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "Completed : " + score + "/" + questions.size(), Toast.LENGTH_LONG).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" + playerName);
 					Player player = new Player(getApplicationContext(), prefs.getString("username", "Player1"));
@@ -613,7 +614,7 @@ public class WhoAmIGameActivity extends Activity implements OnPageChangeListener
 							finish();
 						}
 
-					}, 2000);
+					}, 3500);
 
 				}
 

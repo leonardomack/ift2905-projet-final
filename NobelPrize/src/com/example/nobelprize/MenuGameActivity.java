@@ -97,7 +97,7 @@ public class MenuGameActivity extends Activity implements OnSharedPreferenceChan
 			trophees.setImageResource(R.drawable.btn_star_big_off);}
 		else{
 			trophees.setImageResource(R.drawable.btn_star_big_on);
-			Toast.makeText(getApplicationContext(), "New Trophies unlocked!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "New Trophies unchecked!", Toast.LENGTH_SHORT).show();
 		}
 	}
 

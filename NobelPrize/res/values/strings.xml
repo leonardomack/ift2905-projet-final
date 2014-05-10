@@ -80,7 +80,7 @@
     <string name="ImageContentDescription">Image corresponding to response</string>
     <string name="RightAnswerToast">Right Answer!</string>
     <string name="WrongAnswerToast">Wrong Answer!</string>    
-    <string name="ClueShakeToast">Clue given, if thy phone thou shake !</string>
+    <string name="ClueShakeToast">Shake it, get a clue !</string>
     <!-- ======GeneralGame====== -->
 
 

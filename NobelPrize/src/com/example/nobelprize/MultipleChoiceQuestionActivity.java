@@ -446,7 +446,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 
 		private void computeClue() {
 			if(currentQuestion.isAnswered){
-				Toast.makeText(getApplicationContext(), "Stop shaking this thing ! It's over !", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Question answered, no more clues to give !", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (cluesGiven[currentQuestionNumber]==false){
@@ -523,7 +523,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 						j++;
 				}
 				if(j==questions.size()){
-					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "Completed : "+score+"/"+questions.size(), Toast.LENGTH_LONG).show();
 					String playerName = prefs.getString("username", "");
 					Log.d(TAG, "Player name is :" +playerName);
 					Player player = new Player(getApplicationContext(),prefs.getString("username", "Player1"));
@@ -542,7 +542,7 @@ public class MultipleChoiceQuestionActivity extends Activity implements OnPageCh
 							finish();
 						}
 
-					}, 2000);
+					}, 3500);
 				}
 
 
